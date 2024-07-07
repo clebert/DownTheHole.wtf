@@ -1,6 +1,5 @@
 import { type ReadonlySignal, useSignal } from "@preact/signals";
 import type { FunctionComponent } from "preact";
-import { useAutoFocus } from "../hooks/use-auto-focus.js";
 import { useAutoScroll } from "../hooks/use-auto-scroll.js";
 import { textAreaStyle } from "../styles.js";
 import { tw } from "../utils/tw.js";
@@ -13,7 +12,6 @@ export interface TextViewProps {
 export const TextView: FunctionComponent<TextViewProps> = ({ $content, title }) => {
   const $element = useSignal<HTMLDivElement | undefined>(undefined);
 
-  useAutoFocus({ $element });
   useAutoScroll({ $content, $element });
 
   return (

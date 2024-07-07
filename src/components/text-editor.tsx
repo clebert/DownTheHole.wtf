@@ -1,7 +1,6 @@
-import { type Signal, useSignal } from "@preact/signals";
+import { type Signal, useSignal, useSignalEffect } from "@preact/signals";
 import type { FunctionComponent } from "preact/compat";
 import { useMemo } from "preact/hooks";
-import { useAutoFocus } from "../hooks/use-auto-focus.js";
 import { useContentObserver } from "../hooks/use-content-observer.js";
 import { textAreaStyle } from "../styles.js";
 import { setCaret } from "../utils/set-caret.js";
@@ -15,7 +14,10 @@ export interface TextEditorProps {
 export const TextEditor: FunctionComponent<TextEditorProps> = ({ $content, title }) => {
   const $element = useSignal<HTMLDivElement | undefined>(undefined);
 
-  useAutoFocus({ $element });
+  useSignalEffect(() => {
+    $element.value?.focus();
+  });
+
   useContentObserver({ $content, $element });
 
   return useMemo(

@@ -1,6 +1,6 @@
 import { type ReadonlySignal, useSignalEffect } from "@preact/signals";
 import { useRef } from "preact/hooks";
-import { type VerticalBounds, getLastLineBounds } from "../utils/get-last-line-bounds.js";
+import { VerticalBounds } from "../utils/vertical-bounds.js";
 import { useStableSignals } from "./use-stable-signals.js";
 
 export interface UseAutoScrollProps {
@@ -21,27 +21,22 @@ export function useAutoScroll({ $content, $element }: UseAutoScrollProps): void 
       return;
     }
 
-    const viewport = window.visualViewport;
-    const lastLineBounds = element.lastChild ? getLastLineBounds(element.lastChild) : undefined;
+    const lastLineBounds = element.lastChild
+      ? VerticalBounds.ofLastLine(element.lastChild)
+      : undefined;
+
     const prevLastLineBounds = prevLastLineBoundsRef.current;
 
     prevLastLineBoundsRef.current = lastLineBounds;
 
-    if (!viewport || !lastLineBounds) {
-      return;
-    }
-
-    const prevLastLineIsPartlyVisible =
-      !prevLastLineBounds ||
-      (prevLastLineBounds.bottom > window.scrollY &&
-        prevLastLineBounds.top < window.scrollY + viewport.height);
-
-    const lastLineIsFullyVisible =
-      lastLineBounds.top >= window.scrollY &&
-      lastLineBounds.bottom < window.scrollY + viewport.height;
-
-    if (prevLastLineIsPartlyVisible && !lastLineIsFullyVisible) {
-      window.scrollTo({ top: lastLineBounds.top, behavior: "instant" });
+    if (
+      lastLineBounds &&
+      !lastLineBounds.isFullyVisible &&
+      (!prevLastLineBounds || prevLastLineBounds.isPartlyVisible)
+    ) {
+      // TODO: Detect high scroll momentum when viewport width is small and text flows fast.
+      //       Allow user to scroll up and escape auto-scrolling in such cases.
+      lastLineBounds.scrollIntoView();
     }
   });
 }
