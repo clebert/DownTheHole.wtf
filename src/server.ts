@@ -4,7 +4,7 @@ import { createServer } from "node:http";
 import { extname } from "node:path";
 
 const server = createServer((req, res) => {
-  const path = req.url === "/" ? "dist/index.html" : req.url!.replace(/^\/static\//, "dist/");
+  const path = req.url === "/" ? "dist/index.html" : req.url!.replace(/^\//, "dist/");
 
   serveFile(res, path).catch((error) => console.error(error));
 });

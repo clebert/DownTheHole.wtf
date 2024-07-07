@@ -46,7 +46,7 @@ const buildOptions = {
   minify: !dev,
   outdir,
   plugins: [style, html],
-  publicPath: "/static",
+  publicPath: "/",
   sourcemap: dev,
   target: "es2022",
   treeShaking: true,
