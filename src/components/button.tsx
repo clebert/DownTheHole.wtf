@@ -3,6 +3,7 @@ import { buttonStyle, defaultButtonStyle } from "../styles.js";
 import { tw } from "../utils/tw.js";
 
 export interface ButtonProps {
+  readonly class?: string | undefined;
   readonly default?: boolean | undefined;
   readonly disabled?: boolean | undefined;
   readonly title: string;
@@ -11,6 +12,7 @@ export interface ButtonProps {
 
 export const Button: FunctionComponent<ButtonProps> = ({
   children,
+  class: className,
   default: isDefault,
   disabled,
   title,
@@ -20,6 +22,7 @@ export const Button: FunctionComponent<ButtonProps> = ({
     <button
       aria-label={title}
       class={tw([
+        className,
         tw`select-none whitespace-nowrap px-2 disabled:opacity-25`,
         isDefault ? defaultButtonStyle : buttonStyle,
       ])}

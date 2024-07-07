@@ -10,7 +10,7 @@ export const SvgIcon: FunctionComponent<SvgIconProps> = ({ class: className, dat
   return (
     <div class={tw`inline-block h-5 align-middle`}>
       <svg
-        class={tw([tw`size-4`, className])}
+        class={tw([className, tw`size-4`])}
         fill="none"
         stroke-width="1.5"
         stroke="currentColor"

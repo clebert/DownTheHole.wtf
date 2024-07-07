@@ -4,6 +4,7 @@ import { placeholderStyle, textAreaStyle } from "../styles.js";
 import { tw } from "../utils/tw.js";
 
 export interface TextFieldProps {
+  readonly class?: string | undefined;
   readonly id?: string | undefined;
   readonly title: string;
   readonly type?: "password" | "text" | "url" | undefined;
@@ -13,6 +14,7 @@ export interface TextFieldProps {
 }
 
 export const TextField: FunctionComponent<TextFieldProps> = ({
+  class: className,
   id,
   title,
   type = "text",
@@ -32,7 +34,12 @@ export const TextField: FunctionComponent<TextFieldProps> = ({
       autocapitalize="off"
       autocomplete="off"
       autocorrect="off"
-      class={tw([tw`w-full rounded-none px-2 font-mono`, placeholderStyle, textAreaStyle])}
+      class={tw([
+        className,
+        tw`w-full rounded-none px-2 font-mono`,
+        placeholderStyle,
+        textAreaStyle,
+      ])}
       id={id}
       placeholder={title}
       spellcheck={false}
