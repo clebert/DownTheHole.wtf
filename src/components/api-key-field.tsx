@@ -1,7 +1,7 @@
 import type { FunctionComponent } from "preact";
 import { useCallback, useContext } from "preact/hooks";
 import { ApiKey } from "../contexts/api-key.js";
-import { TextField } from "./core/text-field.js";
+import { TextField } from "./text-field.js";
 
 export const ApiKeyField: FunctionComponent = () => {
   const $apiKey = useContext(ApiKey);

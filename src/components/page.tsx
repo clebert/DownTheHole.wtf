@@ -1,5 +1,5 @@
 import type { FunctionComponent } from "preact";
-import { tw } from "../../utils/tw.js";
+import { tw } from "../utils/tw.js";
 
 export const Page: FunctionComponent = ({ children }) => {
   return (

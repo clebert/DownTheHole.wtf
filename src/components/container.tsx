@@ -1,5 +1,5 @@
 import type { FunctionComponent } from "preact";
-import { tw } from "../../utils/tw.js";
+import { tw } from "../utils/tw.js";
 
 export interface ContainerProps {
   readonly col?: boolean | undefined;

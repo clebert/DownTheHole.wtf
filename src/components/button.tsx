@@ -1,6 +1,6 @@
 import type { FunctionComponent } from "preact";
-import { buttonStyle, defaultButtonStyle } from "../../styles.js";
-import { tw } from "../../utils/tw.js";
+import { buttonStyle, defaultButtonStyle } from "../styles.js";
+import { tw } from "../utils/tw.js";
 
 export interface ButtonProps {
   readonly default?: boolean | undefined;

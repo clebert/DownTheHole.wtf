@@ -2,8 +2,8 @@ import { batch } from "@preact/signals";
 import type { FunctionComponent } from "preact";
 import { useCallback, useContext } from "preact/hooks";
 import { type AssistantMessage, Chat } from "../contexts/chat.js";
-import { Button } from "./core/button.js";
-import { ArrowPathIcon } from "./core/svg-icon.js";
+import { Button } from "./button.js";
+import { ArrowPathIcon } from "./svg-icon.js";
 
 export interface ResendButtonProps {
   readonly message: AssistantMessage;

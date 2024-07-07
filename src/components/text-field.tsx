@@ -1,7 +1,7 @@
 import type { FunctionComponent } from "preact";
 import { useCallback } from "preact/hooks";
-import { placeholderStyle, textAreaStyle } from "../../styles.js";
-import { tw } from "../../utils/tw.js";
+import { placeholderStyle, textAreaStyle } from "../styles.js";
+import { tw } from "../utils/tw.js";
 
 export interface TextFieldProps {
   readonly id?: string | undefined;

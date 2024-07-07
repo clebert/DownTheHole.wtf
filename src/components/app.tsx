@@ -8,9 +8,9 @@ import { useLastAssistantMessage } from "../hooks/use-last-assistant-message.js"
 import { useLastUserMessage } from "../hooks/use-last-user-message.js";
 import { createMessage } from "../utils/create-message.js";
 import { ApiKeyField } from "./api-key-field.js";
-import { Container } from "./core/container.js";
-import { Page } from "./core/page.js";
+import { Container } from "./container.js";
 import { MessageView } from "./message-view.js";
+import { Page } from "./page.js";
 import { ResetButton } from "./reset-button.js";
 
 export const App: FunctionComponent = () => {

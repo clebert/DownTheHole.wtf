@@ -4,7 +4,7 @@ import { useContext } from "preact/hooks";
 import { Chat, type Message } from "../contexts/chat.js";
 import { useStableSignals } from "../hooks/use-stable-signals.js";
 import { CancelButton } from "./cancel-button.js";
-import { Container } from "./core/container.js";
+import { Container } from "./container.js";
 import { DeleteButton } from "./delete-button.js";
 import { ResendButton } from "./resend-button.js";
 import { SendButton } from "./send-button.js";

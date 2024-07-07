@@ -2,8 +2,8 @@ import type { FunctionComponent } from "preact";
 import { useCallback } from "preact/hooks";
 import type { AssistantMessage } from "../contexts/chat.js";
 import { tw } from "../utils/tw.js";
-import { Button } from "./core/button.js";
-import { XMarkIcon } from "./core/svg-icon.js";
+import { Button } from "./button.js";
+import { XMarkIcon } from "./svg-icon.js";
 
 export interface CancelButtonProps {
   readonly message: AssistantMessage;

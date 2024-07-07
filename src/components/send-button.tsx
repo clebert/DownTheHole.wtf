@@ -2,8 +2,8 @@ import type { FunctionComponent } from "preact";
 import { useCallback, useContext } from "preact/hooks";
 import { Chat, type UserMessage } from "../contexts/chat.js";
 import { createMessage } from "../utils/create-message.js";
-import { Button } from "./core/button.js";
-import { PaperAirplaneIcon } from "./core/svg-icon.js";
+import { Button } from "./button.js";
+import { PaperAirplaneIcon } from "./svg-icon.js";
 
 export interface SendButtonProps {
   readonly message: UserMessage;
