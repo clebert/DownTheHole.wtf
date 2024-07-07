@@ -1,4 +1,4 @@
-import { type ReadonlySignal, useSignalEffect } from "@preact/signals";
+import { type ReadonlySignal, batch, useSignalEffect } from "@preact/signals";
 import { type LanguageModel, streamText } from "ai";
 import type { Message } from "../contexts/chat.js";
 import { useStableSignals } from "./use-stable-signals.js";
@@ -35,16 +35,17 @@ export function useLastAssistantMessage({ $chat, $model }: UseLastAssistantMessa
             lastMessage.$content.value += textPart;
           }
         }
+
+        lastMessage.$finished.value = true;
       })
       .catch((error: unknown) => {
         if (!abortController.signal.aborted) {
-          lastMessage.$content.value =
-            error instanceof Error ? error.message : "Oops, something went wrong.";
-        }
-      })
-      .finally(() => {
-        if (!abortController.signal.aborted) {
-          lastMessage.$finished.value = true;
+          batch(() => {
+            lastMessage.$content.value =
+              error instanceof Error ? error.message : "Oops, something went wrong.";
+
+            lastMessage.$finished.value = true;
+          });
         }
       });
 
