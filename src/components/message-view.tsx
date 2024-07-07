@@ -42,9 +42,9 @@ export const MessageView: FunctionComponent<MessageViewProps> = ({ message }) =>
     <Container>
       <Container col={true} grow={true}>
         {message.role === "assistant" ? (
-          <TextView $content={message.$content} />
+          <TextView $content={message.$content} title="Assistant Message" />
         ) : (
-          <TextEditor $content={message.$content} />
+          <TextEditor $content={message.$content} title="User Message" />
         )}
       </Container>
 

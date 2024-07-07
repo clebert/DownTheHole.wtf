@@ -2,8 +2,8 @@ import type { FunctionComponent } from "preact";
 import { tw } from "../../utils/tw.js";
 
 export interface ContainerProps {
-  readonly col?: boolean;
-  readonly grow?: boolean;
+  readonly col?: boolean | undefined;
+  readonly grow?: boolean | undefined;
 }
 
 export const Container: FunctionComponent<ContainerProps> = ({ children, col, grow }) => {

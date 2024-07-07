@@ -1,4 +1,3 @@
-import { useSignal } from "@preact/signals";
 import type { FunctionComponent } from "preact";
 import { useCallback, useContext } from "preact/hooks";
 import { ApiKey } from "../contexts/api-key.js";
@@ -14,24 +13,12 @@ export const ApiKeyField: FunctionComponent = () => {
     [$apiKey],
   );
 
-  const $focused = useSignal(false);
-
-  const handleBlur = useCallback(() => {
-    $focused.value = false;
-  }, [$focused]);
-
-  const handleFocus = useCallback(() => {
-    $focused.value = true;
-  }, [$focused]);
-
   return (
     <TextField
       id="openai-api-key"
-      placeholder="OpenAI API Key"
-      type={$focused.value ? "text" : "password"}
+      title="OpenAI API Key"
+      type="password"
       value={$apiKey.value}
-      onBlur={handleBlur}
-      onFocus={handleFocus}
       onInput={updateApiKey}
     />
   );

@@ -5,7 +5,7 @@ import { tw } from "../../utils/tw.js";
 export interface ButtonProps {
   readonly default?: boolean | undefined;
   readonly disabled?: boolean | undefined;
-  readonly title: string | undefined;
+  readonly title: string;
   readonly onClick?: (() => void) | undefined;
 }
 

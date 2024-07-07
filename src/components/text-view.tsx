@@ -7,9 +7,10 @@ import { tw } from "../utils/tw.js";
 
 export interface TextViewProps {
   readonly $content: ReadonlySignal<string>;
+  readonly title: string;
 }
 
-export const TextView: FunctionComponent<TextViewProps> = ({ $content }) => {
+export const TextView: FunctionComponent<TextViewProps> = ({ $content, title }) => {
   const $element = useSignal<HTMLDivElement | undefined>(undefined);
 
   useAutoFocus({ $element });
@@ -24,6 +25,7 @@ export const TextView: FunctionComponent<TextViewProps> = ({ $content }) => {
       ref={(element) => {
         $element.value = element ?? undefined;
       }}
+      title={title}
     >
       {$content}
     </div>

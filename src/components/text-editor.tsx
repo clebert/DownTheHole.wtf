@@ -9,9 +9,10 @@ import { tw } from "../utils/tw.js";
 
 export interface TextEditorProps {
   readonly $content: Signal<string>;
+  readonly title: string;
 }
 
-export const TextEditor: FunctionComponent<TextEditorProps> = ({ $content }) => {
+export const TextEditor: FunctionComponent<TextEditorProps> = ({ $content, title }) => {
   const $element = useSignal<HTMLDivElement | undefined>(undefined);
 
   useAutoFocus({ $element });
@@ -33,10 +34,11 @@ export const TextEditor: FunctionComponent<TextEditorProps> = ({ $content }) => 
           $element.value = element ?? undefined;
         }}
         spellcheck={false}
+        title={title}
       >
         {$content.peek()}
       </div>
     ),
-    [$content, $element],
+    [$content, title, $element],
   );
 };
