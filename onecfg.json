@@ -11,6 +11,28 @@
     "https://raw.githubusercontent.com/clebert/onecfg-lib/main/lib/onecfg-vscode.json"
   ],
   "patches": {
+    ".github/workflows/ci.yml": [
+      {
+        "value": {
+          "jobs": {
+            "CI": {
+              "steps": [{ "uses": "actions/upload-pages-artifact@v3", "with": { "path": "dist/" } }]
+            },
+            "deploy": {
+              "needs": "CI",
+              "permissions": { "pages": "write", "id-token": "write" },
+              "environment": {
+                "name": "github-pages",
+                "url": "${{ steps.deployment.outputs.page_url }}"
+              },
+              "runs-on": "ubuntu-latest",
+              "steps": [{ "id": "deployment", "uses": "actions/deploy-pages@v4" }]
+            }
+          }
+        },
+        "priority": 2
+      }
+    ],
     ".vscode/extensions.json": [
       {
         "value": { "recommendations": ["biomejs.biome"] }
