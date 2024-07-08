@@ -1,5 +1,5 @@
 import { type Signal, useSignal, useSignalEffect } from "@preact/signals";
-import type { FunctionComponent } from "preact/compat";
+import type { FunctionComponent } from "preact";
 import { useMemo } from "preact/hooks";
 import { useContentObserver } from "../hooks/use-content-observer.js";
 import { textAreaStyle } from "../styles.js";
