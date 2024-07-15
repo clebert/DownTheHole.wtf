@@ -1,75 +1,22 @@
 {
   "extends": [
+    "https://raw.githubusercontent.com/clebert/onecfg-lib/main/lib/onecfg-biome.json",
     "https://raw.githubusercontent.com/clebert/onecfg-lib/main/lib/onecfg-git.json",
     "https://raw.githubusercontent.com/clebert/onecfg-lib/main/lib/onecfg-github-ci.json",
     "https://raw.githubusercontent.com/clebert/onecfg-lib/main/lib/onecfg-github-ci-node.json",
     "https://raw.githubusercontent.com/clebert/onecfg-lib/main/lib/onecfg-github-ci-npm.json",
+    "https://raw.githubusercontent.com/clebert/onecfg-lib/main/lib/onecfg-github-ci-pages.json",
     "https://raw.githubusercontent.com/clebert/onecfg-lib/main/lib/onecfg-ignore-dist.json",
     "https://raw.githubusercontent.com/clebert/onecfg-lib/main/lib/onecfg-node.json",
     "https://raw.githubusercontent.com/clebert/onecfg-lib/main/lib/onecfg-preact.json",
+    "https://raw.githubusercontent.com/clebert/onecfg-lib/main/lib/onecfg-tailwind.json",
     "https://raw.githubusercontent.com/clebert/onecfg-lib/main/lib/onecfg-typescript.json",
     "https://raw.githubusercontent.com/clebert/onecfg-lib/main/lib/onecfg-vscode.json"
   ],
   "patches": {
-    ".github/workflows/ci.yml": [
-      {
-        "value": {
-          "jobs": {
-            "CI": {
-              "steps": [{ "uses": "actions/upload-pages-artifact@v3", "with": { "path": "dist/" } }]
-            },
-            "deploy": {
-              "needs": "CI",
-              "permissions": { "pages": "write", "id-token": "write" },
-              "environment": {
-                "name": "github-pages",
-                "url": "${{ steps.deployment.outputs.page_url }}"
-              },
-              "runs-on": "ubuntu-latest",
-              "steps": [{ "id": "deployment", "uses": "actions/deploy-pages@v4" }]
-            }
-          }
-        },
-        "priority": 2
-      }
-    ],
-    ".vscode/extensions.json": [
-      {
-        "value": { "recommendations": ["biomejs.biome"] }
-      }
-    ],
-    ".vscode/settings.json": [
-      {
-        "value": {
-          "editor.codeActionsOnSave": {
-            "quickfix.biome": "explicit",
-            "source.addMissingImports": "explicit",
-            "source.organizeImports.biome": "explicit"
-          },
-
-          "editor.defaultFormatter": "biomejs.biome",
-          "editor.formatOnSave": true,
-          "editor.rulers": [100],
-          "javascript.preferences.importModuleSpecifierEnding": "js",
-          "typescript.preferences.importModuleSpecifierEnding": "js",
-          "typescript.preferences.preferTypeOnlyAutoImports": true
-        }
-      }
-    ],
     "ci.sh": [
       {
         "value": ["npm run build", "npm run compile:check", "npm run format:check", "npm run lint"]
-      }
-    ],
-    "tsconfig.base.json": [
-      {
-        "value": {
-          "compilerOptions": {
-            "module": "nodenext",
-            "moduleResolution": "nodenext",
-            "skipLibCheck": true
-          }
-        }
       }
     ]
   }

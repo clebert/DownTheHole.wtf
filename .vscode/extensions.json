@@ -1,6 +1,6 @@
 {
   "recommendations": [
-    "eg2.vscode-npm-script",
-    "biomejs.biome"
+    "biomejs.biome",
+    "eg2.vscode-npm-script"
   ]
 }
