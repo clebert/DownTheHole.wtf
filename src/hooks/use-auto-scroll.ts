@@ -1,6 +1,7 @@
 import { type ReadonlySignal, useSignalEffect } from "@preact/signals";
 import { useRef } from "preact/hooks";
 import { VerticalBounds } from "../utils/vertical-bounds.js";
+import { useScrollDirection } from "./use-scroll-direction.js";
 import { useStableSignals } from "./use-stable-signals.js";
 
 export interface UseAutoScrollProps {
@@ -11,6 +12,7 @@ export interface UseAutoScrollProps {
 export function useAutoScroll({ $content, $element }: UseAutoScrollProps): void {
   useStableSignals($content, $element);
 
+  const $scrollDirection = useScrollDirection();
   const prevLastLineBoundsRef = useRef<VerticalBounds | undefined>();
 
   useSignalEffect(() => {
@@ -32,10 +34,9 @@ export function useAutoScroll({ $content, $element }: UseAutoScrollProps): void 
     if (
       lastLineBounds &&
       !lastLineBounds.isFullyVisible &&
-      (!prevLastLineBounds || prevLastLineBounds.isPartlyVisible)
+      (!prevLastLineBounds || prevLastLineBounds.isPartlyVisible) &&
+      $scrollDirection.peek() !== "up"
     ) {
-      // TODO: Detect high scroll momentum when viewport width is small and text flows fast.
-      //       Allow user to scroll up and escape auto-scrolling in such cases.
       lastLineBounds.scrollIntoView();
     }
   });
