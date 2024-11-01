@@ -2,7 +2,6 @@ import { useComputed } from "@preact/signals";
 import type { FunctionComponent } from "preact";
 import { useContext } from "preact/hooks";
 import { Chat, type Message } from "../contexts/chat.js";
-import { useStableSignals } from "../hooks/use-stable-signals.js";
 import { CancelButton } from "./cancel-button.js";
 import { Container } from "./container.js";
 import { DeleteButton } from "./delete-button.js";
@@ -17,9 +16,6 @@ export interface MessageViewProps {
 
 export const MessageView: FunctionComponent<MessageViewProps> = ({ message }) => {
   const $chat = useContext(Chat);
-
-  useStableSignals($chat);
-
   const $isLastMessage = useComputed(() => $chat.value[$chat.value.length - 1] === message);
 
   const buttons =

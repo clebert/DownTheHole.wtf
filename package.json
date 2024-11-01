@@ -10,23 +10,25 @@
     "format": "biome format --write .",
     "format:check": "biome format .",
     "lint": "biome lint .",
-    "start": "tsx watch src/server.ts"
+    "start": "tsx watch src/server.ts",
+    "upgrade": "npm-check-updates --upgrade"
   },
   "dependencies": {
-    "@ai-sdk/openai": "^0.0.36",
+    "@ai-sdk/openai": "^0.0.71",
     "@preact/signals": "^1.3.0",
-    "ai": "^3.2.23",
-    "preact": "^10.22.1"
+    "ai": "^3.4.31",
+    "preact": "^10.24.3"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.8.3",
-    "@types/node": "^20.14.10",
-    "autoprefixer": "^10.4.19",
-    "esbuild": "^0.23.0",
+    "@biomejs/biome": "^1.9.4",
+    "@types/node": "^22.8.6",
+    "autoprefixer": "^10.4.20",
+    "esbuild": "^0.24.0",
     "esbuild-html-plugin": "^1.1.0",
     "esbuild-style-plugin": "^1.6.3",
-    "tailwindcss": "^3.4.4",
-    "tsx": "^4.16.2",
-    "typescript": "^5.5.3"
+    "npm-check-updates": "^17.1.9",
+    "tailwindcss": "^3.4.14",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
   }
 }

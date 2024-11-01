@@ -1,16 +1,13 @@
 import { type ReadonlySignal, batch, useSignalEffect } from "@preact/signals";
 import { type LanguageModel, streamText } from "ai";
 import type { Message } from "../contexts/chat.js";
-import { useStableSignals } from "./use-stable-signals.js";
 
-export interface UseLastAssistantMessageProps {
+export interface UseAssistantReplyProps {
   readonly $chat: ReadonlySignal<readonly Message[]>;
   readonly $model: ReadonlySignal<LanguageModel>;
 }
 
-export function useLastAssistantMessage({ $chat, $model }: UseLastAssistantMessageProps): void {
-  useStableSignals($chat, $model);
-
+export function useAssistantReply({ $chat, $model }: UseAssistantReplyProps): void {
   useSignalEffect(() => {
     const messages = $chat.value;
     const lastMessage = messages[messages.length - 1];

@@ -20,7 +20,7 @@ export const DeleteButton: FunctionComponent<DeleteButtonProps> = ({ message }) 
   }, [$chat, message]);
 
   return (
-    <Button title="Delete" onClick={deleteMessage}>
+    <Button disabled={message.$content.value.length === 0} title="Delete" onClick={deleteMessage}>
       <TrashIcon />
     </Button>
   );

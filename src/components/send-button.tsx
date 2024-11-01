@@ -20,7 +20,7 @@ export const SendButton: FunctionComponent<SendButtonProps> = ({ message }) => {
     <Button
       default={true}
       disabled={message.$content.value.length === 0}
-      title={"Send"}
+      title="Send"
       onClick={appendMessage}
     >
       <PaperAirplaneIcon />

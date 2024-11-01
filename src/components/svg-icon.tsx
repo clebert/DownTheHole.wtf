@@ -8,9 +8,9 @@ export interface SvgIconProps {
 
 export const SvgIcon: FunctionComponent<SvgIconProps> = ({ class: className, data }) => {
   return (
-    <div class={tw`inline-block h-5 align-middle`}>
+    <div class="inline-block h-5 align-middle">
       <svg
-        class={tw([className, tw`size-4`])}
+        class={tw(className, "size-4")}
         fill="none"
         stroke-width="1.5"
         stroke="currentColor"

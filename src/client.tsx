@@ -5,4 +5,8 @@ import { backgroundStyle } from "./styles.js";
 
 document.body.classList.add(...backgroundStyle.split(" "));
 
-render(<App />, document.querySelector("#app")!);
+const appElement = document.querySelector("#app");
+
+if (appElement) {
+  render(<App />, appElement);
+}

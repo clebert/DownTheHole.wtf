@@ -1,8 +1,8 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.8.2/schema.json",
+  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
   "formatter": {
     "enabled": true,
-    "ignore": ["dist/**", "tsconfig.base.json", "tsconfig.json", ".vscode/**"],
+    "ignore": ["dist/**"],
     "indentStyle": "space",
     "lineWidth": 100
   },
@@ -14,57 +14,29 @@
         "noSvgWithoutTitle": "off"
       },
       "complexity": {
+        "noUselessStringConcat": "error",
+        "noUselessUndefinedInitialization": "error",
+        "useDateNow": "error",
         "useLiteralKeys": "off"
       },
       "correctness": {
-        "noConstantMathMinMaxClamp": {
-          "fix": "safe",
-          "level": "error"
-        },
+        "noConstantMathMinMaxClamp": "error",
+        "noUndeclaredDependencies": "error",
         "noUnusedImports": "error",
-        "useArrayLiterals": {
-          "fix": "safe",
-          "level": "error"
-        },
-        "useHookAtTopLevel": "error"
+        "useArrayLiterals": "error",
+        "useHookAtTopLevel": "error",
+        "useImportExtensions": "error"
       },
       "nursery": {
-        "noDoneCallback": "error",
-        "noMisplacedAssertion": "error",
-        "noUndeclaredDependencies": "error",
-        "noUselessStringConcat": {
-          "fix": "safe",
-          "level": "error"
-        },
-        "noUselessUndefinedInitialization": "error",
-        "noYodaExpression": "error",
+        "noCommonJs": "error",
+        "noEnum": "error",
+        "noSubstr": "error",
+        "noTemplateCurlyInString": "error",
         "useAdjacentOverloadSignatures": "error",
-        "useConsistentBuiltinInstantiation": {
-          "fix": "safe",
-          "level": "error"
-        },
-        "useDateNow": {
-          "fix": "safe",
-          "level": "error"
-        },
-        "useErrorMessage": "error",
-        "useExplicitLengthCheck": {
-          "fix": "safe",
-          "level": "error"
-        },
-        "useImportExtensions": "error",
-        "useNumberToFixedDigitsArgument": {
-          "fix": "safe",
-          "level": "error"
-        },
-        "useSortedClasses": {
-          "fix": "safe",
-          "level": "error",
-          "options": {
-            "functions": ["tw"]
-          }
-        },
-        "useThrowOnlyError": "error"
+        "useCollapsedIf": "error",
+        "useConsistentCurlyBraces": "error",
+        "useSortedClasses": { "fix": "safe", "level": "error", "options": { "functions": ["tw"] } },
+        "useTrimStartEnd": "error"
       },
       "performance": {
         "noBarrelFile": "error",
@@ -72,61 +44,36 @@
       },
       "recommended": true,
       "style": {
+        "noDoneCallback": "error",
         "noDefaultExport": "error",
         "noImplicitBoolean": "error",
         "noNamespace": "error",
         "noNamespaceImport": "error",
         "noNegationElse": "error",
-        "noNonNullAssertion": "off",
-        "noUnusedTemplateLiteral": {
-          "fix": "safe",
-          "level": "error"
-        },
-        "useBlockStatements": {
-          "fix": "safe",
-          "level": "error"
-        },
+        "noYodaExpression": "error",
+        "useBlockStatements": "error",
         "useCollapsedElseIf": "error",
-        "useConsistentArrayType": {
-          "fix": "safe",
-          "level": "error",
-          "options": {
-            "syntax": "shorthand"
-          }
-        },
+        "useConsistentArrayType": { "level": "error", "options": { "syntax": "shorthand" } },
+        "useConsistentBuiltinInstantiation": "error",
+        "useExplicitLengthCheck": "error",
         "useFilenamingConvention": {
           "level": "error",
-          "options": {
-            "filenameCases": ["kebab-case"],
-            "requireAscii": true
-          }
+          "options": { "filenameCases": ["kebab-case"], "requireAscii": true }
         },
         "useForOf": "error",
-        "useFragmentSyntax": {
-          "fix": "safe",
-          "level": "error"
-        },
-        "useImportType": "error",
+        "useFragmentSyntax": "error",
         "useNodeAssertStrict": "error",
-        "useNodejsImportProtocol": {
-          "fix": "safe",
-          "level": "error"
-        },
-        "useShorthandArrayType": {
-          "fix": "safe",
-          "level": "error"
-        },
-        "useShorthandAssign": {
-          "fix": "safe",
-          "level": "error"
-        },
-        "useSingleCaseStatement": {
-          "fix": "safe",
-          "level": "error"
-        }
+        "useShorthandArrayType": "error",
+        "useShorthandAssign": "error",
+        "useSingleCaseStatement": "error",
+        "useThrowOnlyError": "error"
       },
       "suspicious": {
-        "noConfusingVoidType": "off"
+        "noConfusingVoidType": "off",
+        "noMisplacedAssertion": "error",
+        "useAwait": "error",
+        "useErrorMessage": "error",
+        "useNumberToFixedDigitsArgument": "error"
       }
     }
   },

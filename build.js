@@ -39,7 +39,6 @@ console.log(`Building in ${dev ? "DEV" : "PROD"} mode.`);
 /** @type {import('esbuild').BuildOptions} */
 const buildOptions = {
   bundle: true,
-  define: { __dev: `${dev}` },
   entryNames: "[dir]/[name]-[hash]",
   entryPoints: [{ out: "client", in: "src/client.tsx" }],
   metafile: true,
@@ -50,7 +49,7 @@ const buildOptions = {
   sourcemap: dev,
   target: "es2022",
   treeShaking: true,
-  tsconfig: "tsconfig.base.json",
+  tsconfig: "tsconfig.json",
 };
 
 if (process.argv.includes("--watch")) {
