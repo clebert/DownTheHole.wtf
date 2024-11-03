@@ -6,6 +6,6 @@ export function createMessage(role: "assistant" | "user", content: string): Mess
   const $content = signal(content);
 
   return role === "assistant"
-    ? { role, id, $content, $finished: signal(false) }
-    : { role, id, $content };
+    ? { $content, $finished: signal(false), id, role }
+    : { $content, id, role };
 }

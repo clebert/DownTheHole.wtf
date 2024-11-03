@@ -34,7 +34,7 @@ const html = htmlPlugin({
   createBodyElements: () => [`<main id="app"></main>`],
 });
 
-console.log(`Building in ${dev ? "DEV" : "PROD"} mode.`);
+console.log(`Building in ${dev ? "DEV" : "PROD"} mode`);
 
 /** @type {import('esbuild').BuildOptions} */
 const buildOptions = {

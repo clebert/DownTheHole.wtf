@@ -11,69 +11,64 @@
     "ignore": ["dist/**"],
     "rules": {
       "a11y": {
-        "noSvgWithoutTitle": "off"
+        "all": true
       },
       "complexity": {
-        "noUselessStringConcat": "error",
-        "noUselessUndefinedInitialization": "error",
-        "useDateNow": "error",
+        "all": true,
+        "noExcessiveCognitiveComplexity": "off",
+        "noVoid": "off",
         "useLiteralKeys": "off"
       },
       "correctness": {
-        "noConstantMathMinMaxClamp": "error",
-        "noUndeclaredDependencies": "error",
-        "noUnusedImports": "error",
-        "useArrayLiterals": "error",
-        "useHookAtTopLevel": "error",
-        "useImportExtensions": "error"
+        "all": true,
+        "noInvalidNewBuiltin": "off",
+        "noNewSymbol": "off",
+        "noNodejsModules": "off",
+        "noUndeclaredVariables": "off",
+        "noUnusedFunctionParameters": "off",
+        "noUnusedPrivateClassMembers": "off",
+        "noUnusedVariables": "off"
       },
       "nursery": {
-        "noCommonJs": "error",
-        "noEnum": "error",
-        "noSubstr": "error",
-        "noTemplateCurlyInString": "error",
-        "useAdjacentOverloadSignatures": "error",
-        "useCollapsedIf": "error",
-        "useConsistentCurlyBraces": "error",
+        "all": true,
+        "noNestedTernary": "off",
+        "noProcessEnv": "off",
+        "noRestrictedImports": "off",
+        "noRestrictedTypes": "off",
+        "noSecrets": "off",
+        "useAtIndex": "off",
+        "useConsistentMemberAccessibility": "off",
+        "useExplicitType": "off",
+        "useImportRestrictions": "off",
         "useSortedClasses": { "fix": "safe", "level": "error", "options": { "functions": ["tw"] } },
-        "useTrimStartEnd": "error"
+        "useStrictMode": "off"
       },
       "performance": {
-        "noBarrelFile": "error",
-        "noReExportAll": "error"
+        "all": true,
+        "useTopLevelRegex": "off"
       },
-      "recommended": true,
+      "security": {
+        "all": true
+      },
       "style": {
-        "noDoneCallback": "error",
-        "noDefaultExport": "error",
-        "noImplicitBoolean": "error",
-        "noNamespace": "error",
-        "noNamespaceImport": "error",
-        "noNegationElse": "error",
-        "noYodaExpression": "error",
-        "useBlockStatements": "error",
-        "useCollapsedElseIf": "error",
-        "useConsistentArrayType": { "level": "error", "options": { "syntax": "shorthand" } },
-        "useConsistentBuiltinInstantiation": "error",
-        "useExplicitLengthCheck": "error",
+        "all": true,
+        "noParameterProperties": "off",
+        "noRestrictedGlobals": "off",
+        "useDefaultSwitchClause": "off",
         "useFilenamingConvention": {
           "level": "error",
           "options": { "filenameCases": ["kebab-case"], "requireAscii": true }
         },
-        "useForOf": "error",
-        "useFragmentSyntax": "error",
-        "useNodeAssertStrict": "error",
-        "useShorthandArrayType": "error",
-        "useShorthandAssign": "error",
-        "useSingleCaseStatement": "error",
-        "useThrowOnlyError": "error"
+        "useNamingConvention": "off"
       },
       "suspicious": {
+        "all": true,
         "noConfusingVoidType": "off",
-        "noMisplacedAssertion": "error",
-        "useAwait": "error",
-        "useErrorMessage": "error",
-        "useNumberToFixedDigitsArgument": "error"
+        "noConsole": "off",
+        "noConsoleLog": "off",
+        "noEmptyBlockStatements": "warn",
+        "noReactSpecificProps": "off",
+        "noSkippedTests": "warn"
       }
     }
   },

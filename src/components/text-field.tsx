@@ -22,15 +22,15 @@ export const TextField: FunctionComponent<TextFieldProps> = ({
     autocorrect="off"
     class={tw("w-full rounded-none px-2 font-mono", placeholderStyle, textAreaStyle)}
     id={id}
-    placeholder={title}
-    spellcheck={false}
-    title={title}
-    type={type}
-    value={$content.peek()}
     onInput={(event: InputEvent) => {
       event.preventDefault();
 
       $content.value = (event.target as HTMLInputElement).value;
     }}
+    placeholder={title}
+    spellcheck={false}
+    title={title}
+    type={type}
+    value={$content.peek()}
   />
 );

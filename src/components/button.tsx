@@ -5,16 +5,16 @@ import { tw } from "../utils/tw.js";
 export interface ButtonProps {
   readonly default?: boolean | undefined;
   readonly disabled?: boolean | undefined;
-  readonly title: string;
   readonly onClick?: (() => void) | undefined;
+  readonly title: string;
 }
 
 export const Button: FunctionComponent<ButtonProps> = ({
   children,
   default: isDefault,
   disabled,
-  title,
   onClick,
+  title,
 }) => {
   return (
     <button
@@ -25,7 +25,7 @@ export const Button: FunctionComponent<ButtonProps> = ({
       )}
       disabled={disabled ?? !onClick}
       onClick={onClick}
-      tabindex={0 /* https://stackoverflow.com/a/78380974 */}
+      tabIndex={0 /* https://stackoverflow.com/a/78380974 */}
       title={title}
       type="button"
     >

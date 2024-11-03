@@ -9,6 +9,7 @@ export interface SvgIconProps {
 export const SvgIcon: FunctionComponent<SvgIconProps> = ({ class: className, data }) => {
   return (
     <div class="inline-block h-5 align-middle">
+      {/* biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
       <svg
         class={tw(className, "size-4")}
         fill="none"

@@ -5,16 +5,16 @@ import { createContext } from "preact";
 export type Message = AssistantMessage | UserMessage;
 
 export interface AssistantMessage {
-  readonly role: "assistant";
-  readonly id: string;
   readonly $content: Signal<string>;
   readonly $finished: Signal<boolean>;
+  readonly id: string;
+  readonly role: "assistant";
 }
 
 export interface UserMessage {
-  readonly role: "user";
-  readonly id: string;
   readonly $content: Signal<string>;
+  readonly id: string;
+  readonly role: "user";
 }
 
 export const Chat = createContext<Signal<readonly Message[]>>(signal([]));
