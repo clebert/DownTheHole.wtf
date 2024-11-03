@@ -7,9 +7,9 @@
     "build": "node build.js",
     "build:watch": "NODE_ENV=development node build.js --watch",
     "compile:check": "tsc",
-    "format": "biome format --write .",
-    "format:check": "biome format .",
-    "lint": "biome lint .",
+    "format": "biome format --write",
+    "format:check": "biome format",
+    "lint": "biome lint --error-on-warnings",
     "start": "tsx watch src/server.ts",
     "upgrade": "npm-check-updates --upgrade"
   },
