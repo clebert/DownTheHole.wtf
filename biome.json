@@ -55,7 +55,8 @@
           "level": "error",
           "options": { "filenameCases": ["kebab-case"], "requireAscii": true }
         },
-        "useNamingConvention": "off"
+        "useNamingConvention": "off",
+        "useSingleCaseStatement": "off"
       },
       "suspicious": {
         "all": true,
