@@ -2,8 +2,7 @@
   "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
   "formatter": {
     "ignore": ["dist/**"],
-    "indentStyle": "space",
-    "lineWidth": 100
+    "useEditorconfig": true
   },
   "linter": {
     "ignore": ["dist/**"],
@@ -15,7 +14,8 @@
         "all": true,
         "noExcessiveCognitiveComplexity": "off",
         "noVoid": "off",
-        "useLiteralKeys": "off"
+        "useLiteralKeys": "off",
+        "useSimplifiedLogicExpression": "off"
       },
       "correctness": {
         "all": true,
@@ -51,6 +51,7 @@
         "all": true,
         "noRestrictedGlobals": "off",
         "useDefaultSwitchClause": "off",
+        "useExplicitLengthCheck": "off",
         "useFilenamingConvention": {
           "level": "error",
           "options": { "filenameCases": ["kebab-case"], "requireAscii": true }
@@ -64,6 +65,7 @@
         "noConsole": "off",
         "noConsoleLog": "off",
         "noEmptyBlockStatements": "warn",
+        "noFallthroughSwitchClause": "off",
         "noReactSpecificProps": "off",
         "noSkippedTests": "warn"
       }
