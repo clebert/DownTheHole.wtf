@@ -15,8 +15,13 @@ export interface MessageViewProps {
 }
 
 export const MessageView: FunctionComponent<MessageViewProps> = ({ message }) => {
-  const $chat = useContext(Chat);
-  const $isLastMessage = useComputed(() => $chat.value[$chat.value.length - 1] === message);
+  const chat = useContext(Chat.Context);
+
+  const $isLastMessage = useComputed(() => {
+    const messages = chat.$messages.value;
+
+    return messages[messages.length - 1] === message;
+  });
 
   const buttons =
     message.role === "assistant" ? (

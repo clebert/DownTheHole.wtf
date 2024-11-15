@@ -10,16 +10,17 @@ export interface ResendButtonProps {
 }
 
 export const ResendButton: FunctionComponent<ResendButtonProps> = ({ message }) => {
-  const $chat = useContext(Chat);
+  const chat = useContext(Chat.Context);
 
   return (
     <Button
       onClick={() => {
-        const index = $chat.value.findIndex((otherMessage) => otherMessage.id === message.id);
+        const messages = chat.$messages.value;
+        const index = messages.findIndex((otherMessage) => otherMessage.id === message.id);
 
         if (index > -1) {
           batch(() => {
-            $chat.value = $chat.value.slice(0, index + 1);
+            chat.$messages.value = messages.slice(0, index + 1);
             message.$finished.value = false;
           });
         }

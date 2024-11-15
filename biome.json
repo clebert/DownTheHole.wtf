@@ -49,6 +49,7 @@
       },
       "style": {
         "all": true,
+        "noParameterProperties": "off",
         "noRestrictedGlobals": "off",
         "useDefaultSwitchClause": "off",
         "useExplicitLengthCheck": "off",

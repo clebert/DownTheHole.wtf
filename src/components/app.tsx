@@ -1,52 +1,44 @@
-import { createOpenAI } from "@ai-sdk/openai";
-import { useComputed, useSignal, useSignalEffect } from "@preact/signals";
 import type { FunctionComponent } from "preact";
-import { ApiKey } from "../contexts/api-key.js";
-import { Chat, type Message } from "../contexts/chat.js";
+import { useContext } from "preact/hooks";
+import { Ai } from "../contexts/ai.js";
+import { Chat } from "../contexts/chat.js";
 import { useAssistantReply } from "../hooks/use-assistant-reply.js";
 import { useUserReply } from "../hooks/use-user-reply.js";
-import { createMessage } from "../utils/create-message.js";
 import { ApiKeyField } from "./api-key-field.js";
+import { ChatModelIdField } from "./chat-model-id-field.js";
 import { Container } from "./container.js";
 import { MessageView } from "./message-view.js";
 import { Page } from "./page.js";
+import { ProviderButton } from "./provider-button.js";
 import { ResetButton } from "./reset-button.js";
+import { Topbar } from "./topbar.js";
 
 export const App: FunctionComponent = () => {
-  const $apiKey = useSignal(localStorage.getItem("openai-api-key") ?? "");
+  const ai = useContext(Ai.Context);
 
-  useSignalEffect(() => {
-    localStorage.setItem("openai-api-key", $apiKey.value);
-  });
+  ai.useSignalEffects();
+  useAssistantReply();
+  useUserReply();
 
-  const $model = useComputed(() =>
-    createOpenAI({ apiKey: $apiKey.value, compatibility: "strict" })("gpt-4o"),
-  );
-
-  const $chat = useSignal<readonly Message[]>([createMessage("user", "")]);
-
-  useAssistantReply({ $chat, $model });
-  useUserReply({ $chat });
+  const chat = useContext(Chat.Context);
 
   return (
-    <ApiKey.Provider value={$apiKey}>
-      <Chat.Provider value={$chat}>
-        <Page>
-          <Container>
-            <Container col={true} grow={true}>
-              <ApiKeyField />
-            </Container>
+    <Page>
+      <Topbar>
+        <Container grow={true}>
+          <ProviderButton />
+          <ChatModelIdField />
+        </Container>
 
-            <Container col={true}>
-              <ResetButton />
-            </Container>
-          </Container>
+        <Container grow={ai.$providerName.value !== "ollama"}>
+          {ai.$providerName.value !== "ollama" && <ApiKeyField />}
+          <ResetButton />
+        </Container>
+      </Topbar>
 
-          {$chat.value.map((message) => (
-            <MessageView key={message.id} message={message} />
-          ))}
-        </Page>
-      </Chat.Provider>
-    </ApiKey.Provider>
+      {chat.$messages.value.map((message) => (
+        <MessageView key={message.id} message={message} />
+      ))}
+    </Page>
   );
 };

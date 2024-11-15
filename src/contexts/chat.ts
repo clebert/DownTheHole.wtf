@@ -17,4 +17,12 @@ export interface UserMessage {
   readonly role: "user";
 }
 
-export const Chat = createContext<Signal<readonly Message[]>>(signal([]));
+export class Chat {
+  static readonly Context = createContext(new Chat());
+
+  readonly $messages: Signal<readonly Message[]> = signal([]);
+
+  reset(): void {
+    this.$messages.value = [];
+  }
+}

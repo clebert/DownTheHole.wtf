@@ -10,14 +10,14 @@ export interface SendButtonProps {
 }
 
 export const SendButton: FunctionComponent<SendButtonProps> = ({ message }) => {
-  const $chat = useContext(Chat);
+  const chat = useContext(Chat.Context);
 
   return (
     <Button
       default={true}
       disabled={message.$content.value.length === 0}
       onClick={() => {
-        $chat.value = [...$chat.value, createMessage("assistant", "")];
+        chat.$messages.value = [...chat.$messages.value, createMessage("assistant", "")];
       }}
       title="Send"
     >

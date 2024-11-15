@@ -3,15 +3,14 @@ import { useContext } from "preact/hooks";
 import { Ai } from "../contexts/ai.js";
 import { TextField } from "./text-field.js";
 
-export const ApiKeyField: FunctionComponent = () => {
+export const ChatModelIdField: FunctionComponent = () => {
   const ai = useContext(Ai.Context);
 
   return (
     <TextField
-      $content={ai.$apiKey}
-      id={`api-key-${ai.$providerName.value}`}
-      title="API Key"
-      type="password"
+      $content={ai.$chatModelId}
+      id={`model-id-${ai.$providerName.value}`}
+      title="Model ID"
     />
   );
 };

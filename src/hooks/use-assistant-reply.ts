@@ -1,15 +1,36 @@
-import { type ReadonlySignal, batch, useSignalEffect } from "@preact/signals";
-import { type LanguageModel, streamText } from "ai";
-import type { Message } from "../contexts/chat.js";
+import { createAnthropic } from "@ai-sdk/anthropic";
+import { createOpenAI } from "@ai-sdk/openai";
+import { batch, useComputed, useSignalEffect } from "@preact/signals";
+import { streamText } from "ai";
+import { useContext } from "preact/hooks";
+import { Ai } from "../contexts/ai.js";
+import { Chat } from "../contexts/chat.js";
 
-export interface UseAssistantReplyProps {
-  readonly $chat: ReadonlySignal<readonly Message[]>;
-  readonly $model: ReadonlySignal<LanguageModel>;
-}
+export function useAssistantReply(): void {
+  const ai = useContext(Ai.Context);
 
-export function useAssistantReply({ $chat, $model }: UseAssistantReplyProps): void {
+  const $chatModel = useComputed(() => {
+    switch (ai.$providerName.value) {
+      case "anthropic":
+        return createAnthropic({
+          apiKey: ai.$apiKey.value,
+          headers: { "anthropic-dangerous-direct-browser-access": "true" },
+        })(ai.$chatModelId.value);
+      case "ollama":
+        return createOpenAI({ apiKey: "ollama", baseURL: "http://localhost:11434/v1" })(
+          ai.$chatModelId.value,
+        );
+      case "openai":
+        return createOpenAI({ apiKey: ai.$apiKey.value, compatibility: "strict" })(
+          ai.$chatModelId.value,
+        );
+    }
+  });
+
+  const chat = useContext(Chat.Context);
+
   useSignalEffect(() => {
-    const messages = $chat.value;
+    const messages = chat.$messages.value;
     const lastMessage = messages[messages.length - 1];
 
     if (lastMessage?.role !== "assistant" || lastMessage.$finished.value) {
@@ -22,7 +43,7 @@ export function useAssistantReply({ $chat, $model }: UseAssistantReplyProps): vo
     const abortController = new AbortController();
 
     streamText({
-      model: $model.value,
+      model: $chatModel.value,
       messages: otherMessages.map(({ role, $content }) => ({ role, content: $content.peek() })),
       abortSignal: abortController.signal,
     })
