@@ -1,6 +1,7 @@
 import { useContext } from "preact/hooks";
 import type { JSX } from "preact/jsx-runtime";
 import { Ai } from "../contexts/ai.js";
+import { isLocalhost } from "../utils/is-localhost.js";
 import { Button } from "./button.js";
 
 export function ProviderButton(): JSX.Element {
@@ -13,7 +14,7 @@ export function ProviderButton(): JSX.Element {
       onClick={() => {
         switch (ai.$providerName.value) {
           case "anthropic":
-            ai.$providerName.value = "ollama";
+            ai.$providerName.value = isLocalhost() ? "ollama" : "openai";
             break;
           case "ollama":
             ai.$providerName.value = "openai";
