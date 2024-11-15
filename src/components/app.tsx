@@ -24,17 +24,25 @@ export const App: FunctionComponent = () => {
 
   return (
     <Page>
-      <Topbar>
+      {ai.$providerName.value === "ollama" ? (
         <Container grow={true}>
           <ProviderButton />
           <ChatModelIdField />
-        </Container>
-
-        <Container grow={ai.$providerName.value !== "ollama"}>
-          {ai.$providerName.value !== "ollama" && <ApiKeyField />}
           <ResetButton />
         </Container>
-      </Topbar>
+      ) : (
+        <Topbar>
+          <Container grow={true}>
+            <ProviderButton />
+            <ChatModelIdField />
+          </Container>
+
+          <Container grow={true}>
+            <ApiKeyField />
+            <ResetButton />
+          </Container>
+        </Topbar>
+      )}
 
       {chat.$messages.value.map((message) => (
         <MessageView key={message.id} message={message} />
