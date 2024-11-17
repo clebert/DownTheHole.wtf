@@ -1,18 +1,17 @@
+import type { FunctionComponent } from "preact";
 import { useContext } from "preact/hooks";
-import type { JSX } from "preact/jsx-runtime";
 import { Ai } from "../contexts/ai.js";
 import { isLocalhost } from "../utils/is-localhost.js";
 import { Button } from "./button.js";
 
-export function ProviderButton(): JSX.Element {
+export const ProviderButton: FunctionComponent = () => {
   const ai = useContext(Ai.Context);
 
   return (
     <Button
-      class="border-dashed"
       title="Provider"
       onClick={() => {
-        switch (ai.$providerName.value) {
+        switch (ai.$providerName.peek()) {
           case "anthropic":
             ai.$providerName.value = isLocalhost() ? "ollama" : "openai";
             break;
@@ -31,4 +30,4 @@ export function ProviderButton(): JSX.Element {
           : "OpenAI"}
     </Button>
   );
-}
+};
