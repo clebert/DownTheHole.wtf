@@ -31,8 +31,8 @@ export const App: FunctionComponent = () => {
       <Container col={true}>
         <Container>
           <ResetButton />
+          <ProviderButton />
           <ZenModeButton />
-          {!zenMode && <ProviderButton />}
         </Container>
 
         {!zenMode && (
