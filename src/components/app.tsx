@@ -11,7 +11,6 @@ import { MessageView } from "./message-view.js";
 import { Page } from "./page.js";
 import { ProviderButton } from "./provider-button.js";
 import { ResetButton } from "./reset-button.js";
-import { Topbar } from "./topbar.js";
 
 export const App: FunctionComponent = () => {
   const ai = useContext(Ai.Context);
@@ -24,25 +23,22 @@ export const App: FunctionComponent = () => {
 
   return (
     <Page>
-      {ai.$providerName.value === "ollama" ? (
-        <Container grow={true}>
-          <ProviderButton />
-          <ChatModelIdField />
+      <Container col={true}>
+        <Container>
           <ResetButton />
+          <ProviderButton />
         </Container>
-      ) : (
-        <Topbar>
-          <Container grow={true}>
-            <ProviderButton />
-            <ChatModelIdField />
-          </Container>
 
+        <Container grow={true}>
+          <ChatModelIdField />
+        </Container>
+
+        {ai.$providerName.value !== "ollama" ? (
           <Container grow={true}>
             <ApiKeyField />
-            <ResetButton />
           </Container>
-        </Topbar>
-      )}
+        ) : null}
+      </Container>
 
       {chat.$messages.value.map((message) => (
         <MessageView key={message.id} message={message} />
