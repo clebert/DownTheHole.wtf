@@ -31,10 +31,7 @@ export const MessageView: FunctionComponent<MessageViewProps> = ({ message }) =>
         <CancelButton message={message} />
       )
     ) : $isLastMessage.value ? (
-      <>
-        <SendButton message={message} />
-        <DeleteButton message={message} />
-      </>
+      <SendButton message={message} />
     ) : (
       <DeleteButton message={message} />
     );
