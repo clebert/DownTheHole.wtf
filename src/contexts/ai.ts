@@ -38,7 +38,7 @@ export class Ai {
         openai: "gpt-4o",
       },
 
-      defaultProviderName: "openai",
+      defaultProviderName: "anthropic",
     }),
   );
 
