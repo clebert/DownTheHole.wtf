@@ -1,7 +1,7 @@
-import { batch } from "@preact/signals";
 import type { FunctionComponent } from "preact";
 import { useContext } from "preact/hooks";
 import { type AssistantMessage, Chat } from "../contexts/chat.js";
+import { createMessage } from "../utils/create-message.js";
 import { Button } from "./button.js";
 import { ArrowPathIcon } from "./svg-icon.js";
 
@@ -19,10 +19,7 @@ export const ResendButton: FunctionComponent<ResendButtonProps> = ({ message }) 
         const index = messages.findIndex((otherMessage) => otherMessage.id === message.id);
 
         if (index > -1) {
-          batch(() => {
-            chat.$messages.value = messages.slice(0, index + 1);
-            message.$finished.value = false;
-          });
+          chat.$messages.value = [...messages.slice(0, index), createMessage("assistant", "")];
         }
       }}
       title="Resend"

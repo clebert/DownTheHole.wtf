@@ -1,5 +1,7 @@
 import type { ReadonlySignal } from "@preact/signals";
 import type { FunctionComponent } from "preact";
+import { useRef } from "preact/hooks";
+import { useAutoScrolling } from "../hooks/use-auto-scrolling.js";
 import { textAreaStyle } from "../styles.js";
 import { tw } from "../utils/tw.js";
 
@@ -14,6 +16,10 @@ export const TextView: FunctionComponent<TextViewProps> = ({
   class: className,
   title,
 }) => {
+  const elementRef = useRef<HTMLDivElement>(null);
+
+  useAutoScrolling($content, elementRef);
+
   return (
     <div
       class={tw(
@@ -21,6 +27,7 @@ export const TextView: FunctionComponent<TextViewProps> = ({
         "min-h-32 w-full whitespace-break-spaces break-words px-2 font-mono",
         textAreaStyle,
       )}
+      ref={elementRef}
       title={title}
     >
       {$content}
