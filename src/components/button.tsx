@@ -1,9 +1,7 @@
 import type { FunctionComponent } from "preact";
-import { buttonStyle, defaultButtonStyle } from "../styles.js";
-import { tw } from "../utils/tw.js";
+import { buttonStyle, buttonStyleInverted } from "../styles.js";
 
 export interface ButtonProps {
-  readonly class?: string | undefined;
   readonly default?: boolean | undefined;
   readonly disabled?: boolean | undefined;
   readonly onClick?: (() => void) | undefined;
@@ -12,7 +10,6 @@ export interface ButtonProps {
 
 export const Button: FunctionComponent<ButtonProps> = ({
   children,
-  class: className,
   default: isDefault,
   disabled,
   onClick,
@@ -21,11 +18,7 @@ export const Button: FunctionComponent<ButtonProps> = ({
   return (
     <button
       aria-label={title}
-      class={tw(
-        className,
-        "select-none whitespace-nowrap px-2 disabled:opacity-25",
-        isDefault ? defaultButtonStyle : buttonStyle,
-      )}
+      class={isDefault ? buttonStyleInverted : buttonStyle}
       disabled={disabled ?? !onClick}
       onClick={onClick}
       tabIndex={0 /* https://stackoverflow.com/a/78380974 */}

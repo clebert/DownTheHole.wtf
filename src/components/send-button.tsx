@@ -3,7 +3,7 @@ import { useContext } from "preact/hooks";
 import { Chat, type UserMessage } from "../contexts/chat.js";
 import { createMessage } from "../utils/create-message.js";
 import { Button } from "./button.js";
-import { PaperAirplaneIcon } from "./svg-icon.js";
+import { PaperAirplaneIcon } from "./icons.js";
 
 export interface SendButtonProps {
   readonly message: UserMessage;

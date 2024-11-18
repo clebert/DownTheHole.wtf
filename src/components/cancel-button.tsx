@@ -1,7 +1,7 @@
 import type { FunctionComponent } from "preact";
 import type { AssistantMessage } from "../contexts/chat.js";
 import { Button } from "./button.js";
-import { XMarkIcon } from "./svg-icon.js";
+import { XMarkIcon } from "./icons.js";
 
 export interface CancelButtonProps {
   readonly message: AssistantMessage;

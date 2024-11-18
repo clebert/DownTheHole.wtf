@@ -1,7 +1,6 @@
 import type { Signal } from "@preact/signals";
 import type { FunctionComponent } from "preact";
-import { placeholderStyle, textAreaStyle } from "../styles.js";
-import { tw } from "../utils/tw.js";
+import { textInputStyle } from "../styles.js";
 
 export interface TextFieldProps {
   readonly $content: Signal<string>;
@@ -20,7 +19,7 @@ export const TextField: FunctionComponent<TextFieldProps> = ({
     autocapitalize="off"
     autocomplete="off"
     autocorrect="off"
-    class={tw("w-full rounded-none px-2 font-mono", placeholderStyle, textAreaStyle)}
+    class={textInputStyle}
     id={id}
     onInput={(event: InputEvent) => {
       event.preventDefault();

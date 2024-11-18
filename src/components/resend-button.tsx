@@ -3,7 +3,7 @@ import { useContext } from "preact/hooks";
 import { type AssistantMessage, Chat } from "../contexts/chat.js";
 import { createMessage } from "../utils/create-message.js";
 import { Button } from "./button.js";
-import { ArrowPathIcon } from "./svg-icon.js";
+import { ArrowPathIcon } from "./icons.js";
 
 export interface ResendButtonProps {
   readonly message: AssistantMessage;

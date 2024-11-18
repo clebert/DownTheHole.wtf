@@ -4,7 +4,6 @@ import { useMemo } from "preact/hooks";
 import { useContentObserver } from "../hooks/use-content-observer.js";
 import { textAreaStyle } from "../styles.js";
 import { setCaret } from "../utils/set-caret.js";
-import { tw } from "../utils/tw.js";
 
 export interface TextEditorProps {
   readonly $content: Signal<string>;
@@ -26,10 +25,7 @@ export const TextEditor: FunctionComponent<TextEditorProps> = ({ $content, title
         autocapitalize="off"
         autocomplete="off"
         autocorrect="off"
-        class={tw(
-          "min-h-32 w-full whitespace-break-spaces break-words px-2 font-mono",
-          textAreaStyle,
-        )}
+        class={textAreaStyle}
         contenteditable="plaintext-only"
         onFocus={({ target }: FocusEvent) => setCaret("end", target as Node)}
         ref={(element) => {

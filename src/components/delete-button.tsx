@@ -2,7 +2,7 @@ import type { FunctionComponent } from "preact";
 import { useContext } from "preact/hooks";
 import { Chat, type Message } from "../contexts/chat.js";
 import { Button } from "./button.js";
-import { TrashIcon } from "./svg-icon.js";
+import { TrashIcon } from "./icons.js";
 
 export interface DeleteButtonProps {
   readonly message: Message;

@@ -5,7 +5,7 @@ import { Ai } from "../contexts/ai.js";
 import { Chat } from "../contexts/chat.js";
 import { Settings } from "../contexts/settings.js";
 import { Button } from "./button.js";
-import { PowerIcon } from "./svg-icon.js";
+import { PowerIcon } from "./icons.js";
 
 export const ResetButton: FunctionComponent = () => {
   const ai = useContext(Ai.Context);
