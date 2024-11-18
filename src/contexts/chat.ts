@@ -13,6 +13,7 @@ export interface AssistantMessage {
 
 export interface UserMessage {
   readonly $content: Signal<string>;
+  readonly $imageFileList: Signal<FileList | undefined>;
   readonly id: string;
   readonly role: "user";
 }

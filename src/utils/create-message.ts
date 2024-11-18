@@ -7,5 +7,5 @@ export function createMessage(role: "assistant" | "user", content: string): Mess
 
   return role === "assistant"
     ? { $content, $finished: signal(false), id, role }
-    : { $content, id, role };
+    : { $content, $imageFileList: signal(), id, role };
 }

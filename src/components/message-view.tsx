@@ -5,6 +5,7 @@ import { Chat, type Message } from "../contexts/chat.js";
 import { CancelButton } from "./cancel-button.js";
 import { Container } from "./container.js";
 import { DeleteButton } from "./delete-button.js";
+import { ImageInput } from "./image-input.js";
 import { ResendButton } from "./resend-button.js";
 import { SendButton } from "./send-button.js";
 import { TextEditor } from "./text-editor.js";
@@ -42,7 +43,10 @@ export const MessageView: FunctionComponent<MessageViewProps> = ({ message }) =>
         {message.role === "assistant" ? (
           <TextView $content={message.$content} title="Assistant Message" />
         ) : (
-          <TextEditor $content={message.$content} title="User Message" />
+          <>
+            <TextEditor $content={message.$content} title="User Message" />
+            <ImageInput message={message} />
+          </>
         )}
       </Container>
 

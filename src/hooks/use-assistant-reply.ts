@@ -1,10 +1,11 @@
 import { createAnthropic } from "@ai-sdk/anthropic";
 import { createOpenAI } from "@ai-sdk/openai";
 import { batch, useComputed, useSignalEffect } from "@preact/signals";
-import { streamText } from "ai";
+import { type CoreMessage, streamText } from "ai";
 import { useContext } from "preact/hooks";
 import { Ai } from "../contexts/ai.js";
-import { Chat } from "../contexts/chat.js";
+import { Chat, type Message } from "../contexts/chat.js";
+import { encodePngImage } from "../utils/encode-png-image.js";
 
 export function useAssistantReply(): void {
   const ai = useContext(Ai.Context);
@@ -39,14 +40,16 @@ export function useAssistantReply(): void {
 
     lastMessage.$content.value = "";
 
-    const otherMessages = messages.slice(0, -1);
     const abortController = new AbortController();
 
-    streamText({
-      model: $chatModel.value,
-      messages: otherMessages.map(({ role, $content }) => ({ role, content: $content.peek() })),
-      abortSignal: abortController.signal,
-    })
+    Promise.all(messages.slice(0, -1).map(createCoreMessage))
+      .then((coreMessages) =>
+        streamText({
+          model: $chatModel.value,
+          messages: coreMessages,
+          abortSignal: abortController.signal,
+        }),
+      )
       .then(async ({ textStream }) => {
         for await (const textPart of textStream) {
           if (!abortController.signal.aborted) {
@@ -69,4 +72,32 @@ export function useAssistantReply(): void {
 
     return () => abortController.abort();
   });
+}
+
+async function createCoreMessage(message: Message): Promise<CoreMessage> {
+  const content = message.$content.peek();
+
+  if (message.role !== "user") {
+    return { role: message.role, content };
+  }
+
+  const imageFileList = message.$imageFileList.peek();
+
+  if (!imageFileList) {
+    return { role: "user", content };
+  }
+
+  const images: ArrayBuffer[] = [];
+
+  for (const imageFile of imageFileList) {
+    images.push(await encodePngImage(imageFile, 1092));
+  }
+
+  return {
+    role: "user",
+    content: [
+      { type: "text", text: content },
+      ...images.map((image) => ({ type: "image", image }) as const),
+    ],
+  };
 }
