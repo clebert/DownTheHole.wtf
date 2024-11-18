@@ -10,7 +10,7 @@ export const ImageInput: FunctionComponent<ImageInputProps> = ({ message }) => {
   return (
     <input
       accept="image/*"
-      capture="user"
+      capture="environment"
       class={fileInputStyle}
       multiple={true}
       onChange={(event) => {
