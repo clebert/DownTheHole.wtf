@@ -13,10 +13,7 @@ export const DeleteButton: FunctionComponent<DeleteButtonProps> = ({ message }) 
 
   return (
     <Button
-      disabled={
-        message.$content.value.length === 0 &&
-        (message.role !== "user" || !message.$imageFileList.value)
-      }
+      disabled={message.$content.value.length === 0}
       onClick={() => {
         const messages = chat.$messages.value;
         const index = messages.findIndex((otherMessage) => otherMessage.id === message.id);

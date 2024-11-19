@@ -13,7 +13,6 @@ export interface AssistantMessage {
 
 export interface UserMessage {
   readonly $content: Signal<string>;
-  readonly $imageFileList: Signal<FileList | undefined>;
   readonly id: string;
   readonly role: "user";
 }
@@ -21,9 +20,11 @@ export interface UserMessage {
 export class Chat {
   static readonly Context = createContext(new Chat());
 
-  readonly $messages: Signal<readonly Message[]> = signal([]);
+  readonly $images = signal<readonly ArrayBuffer[]>([]);
+  readonly $messages = signal<readonly Message[]>([]);
 
   reset(): void {
+    this.$images.value = [];
     this.$messages.value = [];
   }
 }

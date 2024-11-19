@@ -1,11 +1,10 @@
 import { createAnthropic } from "@ai-sdk/anthropic";
 import { createOpenAI } from "@ai-sdk/openai";
-import { batch, useComputed, useSignalEffect } from "@preact/signals";
-import { type CoreMessage, streamText } from "ai";
+import { useComputed, useSignalEffect } from "@preact/signals";
+import { type CoreMessage, type UserContent, streamText } from "ai";
 import { useContext } from "preact/hooks";
 import { Ai } from "../contexts/ai.js";
-import { Chat, type Message } from "../contexts/chat.js";
-import { encodePngImage } from "../utils/encode-png-image.js";
+import { Chat } from "../contexts/chat.js";
 
 export function useAssistantReply(): void {
   const ai = useContext(Ai.Context);
@@ -31,8 +30,7 @@ export function useAssistantReply(): void {
   const chat = useContext(Chat.Context);
 
   useSignalEffect(() => {
-    const messages = chat.$messages.value;
-    const lastMessage = messages[messages.length - 1];
+    const lastMessage = chat.$messages.value[chat.$messages.value.length - 1];
 
     if (lastMessage?.role !== "assistant" || lastMessage.$finished.value) {
       return;
@@ -40,64 +38,54 @@ export function useAssistantReply(): void {
 
     lastMessage.$content.value = "";
 
-    const abortController = new AbortController();
+    const messages = chat.$messages.value
+      .slice(0, -1)
+      .map(({ role, $content }, index): CoreMessage => {
+        if (role === "assistant") {
+          return { role, content: $content.peek() };
+        }
 
-    Promise.all(messages.slice(0, -1).map(createCoreMessage))
-      .then((coreMessages) =>
-        streamText({
-          model: $chatModel.value,
-          messages: coreMessages,
-          abortSignal: abortController.signal,
-        }),
-      )
-      .then(async ({ textStream }) => {
-        for await (const textPart of textStream) {
-          if (!abortController.signal.aborted) {
-            lastMessage.$content.value += textPart;
+        const content: UserContent = [{ type: "text", text: $content.peek() }];
+
+        if (index === 0) {
+          for (const image of chat.$images.peek()) {
+            content.push({ type: "image", image });
           }
         }
 
-        lastMessage.$finished.value = true;
+        return { role, content };
+      });
+
+    const abortController = new AbortController();
+
+    const { textStream } = streamText({
+      model: $chatModel.value,
+      messages,
+      abortSignal: abortController.signal,
+    });
+
+    Promise.resolve()
+      .then(async () => {
+        for await (const textPart of textStream) {
+          if (abortController.signal.aborted) {
+            break;
+          }
+
+          lastMessage.$content.value += textPart;
+        }
       })
       .catch((error: unknown) => {
         if (!abortController.signal.aborted) {
-          batch(() => {
-            lastMessage.$content.value =
-              error instanceof Error ? error.message : "Oops, something went wrong.";
-
-            lastMessage.$finished.value = true;
-          });
+          lastMessage.$content.value =
+            error instanceof Error ? error.message : "Oops, something went wrong.";
+        }
+      })
+      .finally(() => {
+        if (!abortController.signal.aborted) {
+          lastMessage.$finished.value = true;
         }
       });
 
     return () => abortController.abort();
   });
-}
-
-async function createCoreMessage(message: Message): Promise<CoreMessage> {
-  const content = message.$content.peek();
-
-  if (message.role !== "user") {
-    return { role: message.role, content };
-  }
-
-  const imageFileList = message.$imageFileList.peek();
-
-  if (!imageFileList) {
-    return { role: "user", content };
-  }
-
-  const images: ArrayBuffer[] = [];
-
-  for (const imageFile of imageFileList) {
-    images.push(await encodePngImage(imageFile, 1092));
-  }
-
-  return {
-    role: "user",
-    content: [
-      { type: "text", text: content },
-      ...images.map((image) => ({ type: "image", image }) as const),
-    ],
-  };
 }
