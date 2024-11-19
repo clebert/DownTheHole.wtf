@@ -14,22 +14,24 @@ export const TextField: FunctionComponent<TextFieldProps> = ({
   id,
   title,
   type = "text",
-}) => (
-  <input
-    autocapitalize="off"
-    autocomplete="off"
-    autocorrect="off"
-    class={textInputStyle}
-    id={id}
-    onInput={(event: InputEvent) => {
-      event.preventDefault();
+}) => {
+  return (
+    <input
+      autocapitalize="off"
+      autocomplete="off"
+      autocorrect="off"
+      class={textInputStyle}
+      id={id}
+      onInput={(event: InputEvent) => {
+        event.preventDefault();
 
-      $content.value = (event.target as HTMLInputElement).value;
-    }}
-    placeholder={title}
-    spellcheck={false}
-    title={title}
-    type={type}
-    value={$content.peek()}
-  />
-);
+        $content.value = (event.target as HTMLInputElement).value;
+      }}
+      placeholder={title}
+      spellcheck={false}
+      title={title}
+      type={type}
+      value={$content.peek()}
+    />
+  );
+};
