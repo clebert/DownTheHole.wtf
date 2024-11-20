@@ -19,7 +19,7 @@ export const SendButton: FunctionComponent<SendButtonProps> = ({ message }) => {
       onClick={() => {
         chat.$messages.value = [...chat.$messages.value, createMessage("assistant", "")];
       }}
-      title="Send"
+      title="Send Message"
     >
       <PaperAirplaneIcon />
     </Button>

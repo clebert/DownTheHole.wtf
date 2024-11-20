@@ -9,7 +9,7 @@ export const ZenModeButton: FunctionComponent = () => {
 
   return (
     <Button
-      title={settings.$zenMode.value ? "Zen mode is ON" : "Zen mode is OFF"}
+      title={settings.$zenMode.value ? "Zen Mode ON" : "Zen Mode OFF"}
       onClick={() => {
         settings.$zenMode.value = !settings.$zenMode.peek();
       }}

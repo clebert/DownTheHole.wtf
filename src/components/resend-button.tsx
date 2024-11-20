@@ -22,7 +22,7 @@ export const ResendButton: FunctionComponent<ResendButtonProps> = ({ message }) 
           chat.$messages.value = [...messages.slice(0, index), createMessage("assistant", "")];
         }
       }}
-      title="Resend"
+      title="Resend Message"
     >
       <ArrowPathIcon />
     </Button>

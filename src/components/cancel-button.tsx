@@ -13,7 +13,7 @@ export const CancelButton: FunctionComponent<CancelButtonProps> = ({ message }) 
       onClick={() => {
         message.$finished.value = true;
       }}
-      title="Cancel"
+      title="Cancel Completion"
     >
       <XMarkIcon class="animate-pulse" />
     </Button>

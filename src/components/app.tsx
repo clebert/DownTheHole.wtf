@@ -5,14 +5,15 @@ import { Chat } from "../contexts/chat.js";
 import { Settings } from "../contexts/settings.js";
 import { useAssistantReply } from "../hooks/use-assistant-reply.js";
 import { useUserReply } from "../hooks/use-user-reply.js";
-import { ApiKeyField } from "./api-key-field.js";
-import { ChatModelIdField } from "./chat-model-id-field.js";
+import { Button } from "./button.js";
 import { Container } from "./container.js";
+import { BackspaceIcon } from "./icons.js";
 import { ImageInput } from "./image-input.js";
 import { MessageView } from "./message-view.js";
 import { Page } from "./page.js";
 import { ProviderButton } from "./provider-button.js";
 import { ResetButton } from "./reset-button.js";
+import { TextField } from "./text-field.js";
 import { ZenModeButton } from "./zen-mode-button.js";
 
 export const App: FunctionComponent = () => {
@@ -25,8 +26,6 @@ export const App: FunctionComponent = () => {
   useAssistantReply();
   useUserReply();
 
-  const zenMode = settings.$zenMode.value;
-
   return (
     <Page>
       <Container col={true}>
@@ -36,20 +35,49 @@ export const App: FunctionComponent = () => {
           <ZenModeButton />
         </Container>
 
-        {!zenMode && (
+        {!settings.$zenMode.value && (
           <Container grow={true}>
-            <ChatModelIdField />
+            <TextField
+              $content={ai.$chatModelId}
+              id={`model-id-${ai.$providerName.value}`}
+              title="Model ID"
+            />
+
+            <Button
+              disabled={!ai.$chatModelId.value}
+              onClick={() => {
+                ai.$chatModelId.value = "";
+              }}
+              title="Clear Model ID"
+            >
+              <BackspaceIcon />
+            </Button>
           </Container>
         )}
 
-        {!zenMode && ai.$providerName.value !== "ollama" && (
+        {!settings.$zenMode.value && ai.$providerName.value !== "ollama" && (
           <Container grow={true}>
-            <ApiKeyField />
+            <TextField
+              $content={ai.$apiKey}
+              id={`api-key-${ai.$providerName.value}`}
+              title="API Key"
+              type="password"
+            />
+
+            <Button
+              disabled={!ai.$apiKey.value}
+              onClick={() => {
+                ai.$apiKey.value = "";
+              }}
+              title="Clear API Key"
+            >
+              <BackspaceIcon />
+            </Button>
           </Container>
         )}
+
+        <ImageInput />
       </Container>
-
-      <ImageInput />
 
       {chat.$messages.value.map((message) => (
         <MessageView key={message.id} message={message} />

@@ -22,7 +22,7 @@ export const DeleteButton: FunctionComponent<DeleteButtonProps> = ({ message }) 
           chat.$messages.value = messages.slice(0, index);
         }
       }}
-      title="Delete"
+      title="Delete Message"
     >
       <TrashIcon />
     </Button>

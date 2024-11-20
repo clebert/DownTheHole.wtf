@@ -21,7 +21,7 @@ export const ResetButton: FunctionComponent = () => {
           settings.reset();
         })
       }
-      title="Reset"
+      title="Reset Data"
     >
       <PowerIcon />
     </Button>

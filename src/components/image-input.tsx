@@ -7,7 +7,7 @@ import { encodePngImage } from "../utils/encode-png-image.js";
 import { tw } from "../utils/tw.js";
 import { Button } from "./button.js";
 import { Container } from "./container.js";
-import { TrashIcon } from "./icons.js";
+import { BackspaceIcon } from "./icons.js";
 
 export const ImageInput: FunctionComponent = () => {
   const chat = useContext(Chat.Context);
@@ -53,44 +53,40 @@ export const ImageInput: FunctionComponent = () => {
   });
 
   return (
-    <Container>
-      <Container grow={true}>
-        <input
-          accept="image/*"
-          capture="environment"
-          class={tw($error.value && "border-rose-500 dark:border-rose-500", fileInputStyle)}
-          multiple={true}
-          onChange={(event) =>
-            batch(() => {
-              $error.value = false;
-              $files.value = (event.target as HTMLInputElement).files ?? undefined;
-            })
+    <Container grow={true}>
+      <input
+        accept="image/*"
+        capture="environment"
+        class={tw($error.value && "border-rose-500 dark:border-rose-500", fileInputStyle)}
+        multiple={true}
+        onChange={(event) =>
+          batch(() => {
+            $error.value = false;
+            $files.value = (event.target as HTMLInputElement).files ?? undefined;
+          })
+        }
+        ref={elementRef}
+        tabIndex={0}
+        type="file"
+      />
+
+      <Button
+        disabled={!$files.value}
+        onClick={() => {
+          if (elementRef.current) {
+            elementRef.current.value = "";
           }
-          ref={elementRef}
-          tabIndex={0}
-          type="file"
-        />
-      </Container>
 
-      <Container col={true}>
-        <Button
-          disabled={!$files.value}
-          onClick={() => {
-            if (elementRef.current) {
-              elementRef.current.value = "";
-            }
-
-            batch(() => {
-              chat.$images.value = [];
-              $error.value = false;
-              $files.value = undefined;
-            });
-          }}
-          title="Delete"
-        >
-          <TrashIcon />
-        </Button>
-      </Container>
+          batch(() => {
+            chat.$images.value = [];
+            $error.value = false;
+            $files.value = undefined;
+          });
+        }}
+        title="Clear Image"
+      >
+        <BackspaceIcon />
+      </Button>
     </Container>
   );
 };
