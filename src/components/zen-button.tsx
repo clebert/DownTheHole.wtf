@@ -4,12 +4,12 @@ import { Settings } from "../contexts/settings.js";
 import { Button } from "./button.js";
 import { CubeIcon, CubeTransparentIcon } from "./icons.js";
 
-export const ZenModeButton: FunctionComponent = () => {
+export const ZenButton: FunctionComponent = () => {
   const settings = useContext(Settings.Context);
 
   return (
     <Button
-      title={settings.$zenMode.value ? "Zen Mode ON" : "Zen Mode OFF"}
+      title={settings.$zenMode.value ? "Zen ON" : "Zen OFF"}
       onClick={() => {
         settings.$zenMode.value = !settings.$zenMode.peek();
       }}

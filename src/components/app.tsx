@@ -14,7 +14,7 @@ import { Page } from "./page.js";
 import { ProviderButton } from "./provider-button.js";
 import { ResetButton } from "./reset-button.js";
 import { TextField } from "./text-field.js";
-import { ZenModeButton } from "./zen-mode-button.js";
+import { ZenButton } from "./zen-button.js";
 
 export const App: FunctionComponent = () => {
   const ai = useContext(Ai.Context);
@@ -32,7 +32,7 @@ export const App: FunctionComponent = () => {
         <Container>
           <ResetButton />
           <ProviderButton />
-          <ZenModeButton />
+          <ZenButton />
         </Container>
 
         {!settings.$zenMode.value && (

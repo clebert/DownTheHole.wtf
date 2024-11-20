@@ -55,7 +55,6 @@ export const ImageInput: FunctionComponent = () => {
     <Container grow={true}>
       <input
         accept="image/*"
-        capture="environment"
         class={$error.value ? fileInputStyleError : fileInputStyle}
         multiple={true}
         onChange={(event) =>
