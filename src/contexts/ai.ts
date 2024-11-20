@@ -1,7 +1,4 @@
-import type { createAnthropic } from "@ai-sdk/anthropic";
-import type { OpenAIChatModelId } from "@ai-sdk/openai/internal";
 import { type Signal, batch, signal, useSignalEffect } from "@preact/signals";
-import type { LanguageModelV1 } from "ai";
 import { createContext } from "preact";
 import { type TypeOf, literal, string, union } from "zod";
 import { loadJson } from "../utils/load-json.js";
@@ -9,31 +6,32 @@ import { saveJson } from "../utils/save-json.js";
 
 export interface AiInit {
   readonly defaultChatModelIds: Readonly<{
-    anthropic: AnthropicChatModelId;
+    anthropic: string;
+    mistral: string;
     ollama: string;
-    openai: OpenAIChatModelId;
+    openai: string;
   }>;
 
   readonly defaultProviderName: ProviderName;
 }
 
-export type AnthropicChatModelId = ReturnType<typeof createAnthropic> extends (
-  modelId: infer TModelId,
-) => LanguageModelV1
-  ? TModelId
-  : never;
-
 export type ProviderName = TypeOf<typeof ProviderName>;
 
-export const ProviderName = union([literal("anthropic"), literal("ollama"), literal("openai")]);
+export const ProviderName = union([
+  literal("anthropic"),
+  literal("mistral"),
+  literal("ollama"),
+  literal("openai"),
+]);
 
-const providerNames: ProviderName[] = ["anthropic", "ollama", "openai"];
+const providerNames: ProviderName[] = ["anthropic", "mistral", "ollama", "openai"];
 
 export class Ai {
   static readonly Context = createContext(
     new Ai({
       defaultChatModelIds: {
         anthropic: "claude-3-5-sonnet-latest",
+        mistral: "pixtral-large-latest",
         ollama: "qwen2.5-coder:32b",
         openai: "gpt-4o",
       },

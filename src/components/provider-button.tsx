@@ -1,6 +1,6 @@
 import type { FunctionComponent } from "preact";
 import { useContext } from "preact/hooks";
-import { Ai } from "../contexts/ai.js";
+import { Ai, type ProviderName } from "../contexts/ai.js";
 import { isLocalhost } from "../utils/is-localhost.js";
 import { Button } from "./button.js";
 
@@ -11,23 +11,36 @@ export const ProviderButton: FunctionComponent = () => {
     <Button
       title="Provider"
       onClick={() => {
-        switch (ai.$providerName.peek()) {
-          case "anthropic":
-            ai.$providerName.value = isLocalhost() ? "ollama" : "openai";
-            break;
-          case "ollama":
-            ai.$providerName.value = "openai";
-            break;
-          case "openai":
-            ai.$providerName.value = "anthropic";
-        }
+        ai.$providerName.value = getNextProviderName(ai.$providerName.peek());
       }}
     >
-      {ai.$providerName.value === "anthropic"
-        ? "Anthropic"
-        : ai.$providerName.value === "ollama"
-          ? "Ollama"
-          : "OpenAI"}
+      {getLabel(ai.$providerName.value)}
     </Button>
   );
 };
+
+function getNextProviderName(providerName: ProviderName): ProviderName {
+  switch (providerName) {
+    case "anthropic":
+      return "mistral";
+    case "mistral":
+      return isLocalhost() ? "ollama" : "openai";
+    case "ollama":
+      return "openai";
+    case "openai":
+      return "anthropic";
+  }
+}
+
+function getLabel(providerName: ProviderName): string {
+  switch (providerName) {
+    case "anthropic":
+      return "Anthropic";
+    case "mistral":
+      return "Mistral AI";
+    case "ollama":
+      return "Ollama";
+    case "openai":
+      return "OpenAI";
+  }
+}

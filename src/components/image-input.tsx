@@ -37,8 +37,7 @@ export const ImageInput: FunctionComponent = () => {
 
     const abortController = new AbortController();
 
-    // https://docs.anthropic.com/en/docs/build-with-claude/vision
-    Promise.all([...files].map((file) => encodePngImage(file, 1092)))
+    Promise.all([...files].map((file) => encodePngImage(file, 1024)))
       .then((images) => {
         if (!abortController.signal.aborted) {
           chat.$images.value = images;

@@ -1,4 +1,5 @@
 import { createAnthropic } from "@ai-sdk/anthropic";
+import { createMistral } from "@ai-sdk/mistral";
 import { createOpenAI } from "@ai-sdk/openai";
 import { useComputed, useSignalEffect } from "@preact/signals";
 import { type CoreMessage, type UserContent, streamText } from "ai";
@@ -16,6 +17,8 @@ export function useAssistantReply(): void {
           apiKey: ai.$apiKey.value,
           headers: { "anthropic-dangerous-direct-browser-access": "true" },
         })(ai.$chatModelId.value);
+      case "mistral":
+        return createMistral({ apiKey: ai.$apiKey.value })(ai.$chatModelId.value);
       case "ollama":
         return createOpenAI({ apiKey: "ollama", baseURL: "http://localhost:11434/v1" })(
           ai.$chatModelId.value,
@@ -77,7 +80,7 @@ export function useAssistantReply(): void {
       .catch((error: unknown) => {
         if (!abortController.signal.aborted) {
           lastMessage.$content.value =
-            error instanceof Error ? error.message : "Oops, something went wrong.";
+            error instanceof Error && error.message ? error.message : "Oops, something went wrong.";
         }
       })
       .finally(() => {

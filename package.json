@@ -14,16 +14,17 @@
     "upgrade": "npm-check-updates --upgrade"
   },
   "dependencies": {
-    "@ai-sdk/anthropic": "^1.0.0",
-    "@ai-sdk/openai": "^1.0.0",
+    "@ai-sdk/anthropic": "^1.0.1",
+    "@ai-sdk/mistral": "^1.0.2",
+    "@ai-sdk/openai": "^1.0.2",
     "@preact/signals": "^1.3.0",
-    "ai": "^4.0.0",
+    "ai": "^4.0.2",
     "preact": "^10.24.3",
     "zod": "^3.23.8"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
-    "@types/node": "^22.9.0",
+    "@types/node": "^22.9.1",
     "autoprefixer": "^10.4.20",
     "esbuild": "^0.24.0",
     "esbuild-html-plugin": "^1.1.0",
