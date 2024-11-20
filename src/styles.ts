@@ -25,9 +25,11 @@ const backgroundStyleTintedInteractive = tw(
   "enabled:active:bg-slate-800 dark:enabled:active:bg-slate-100",
 );
 
-// Border Style
+// Border Styles
 
 const borderStyle = tw("border border-slate-300 dark:border-slate-700");
+
+export const borderStyleError = tw("border-rose-300 focus:outline-rose-400 dark:border-rose-700");
 
 // Caret Style
 

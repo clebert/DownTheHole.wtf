@@ -2,7 +2,7 @@ import { batch, useSignal, useSignalEffect } from "@preact/signals";
 import type { FunctionComponent } from "preact";
 import { useContext, useRef } from "preact/hooks";
 import { Chat } from "../contexts/chat.js";
-import { fileInputStyle } from "../styles.js";
+import { borderStyleError, fileInputStyle } from "../styles.js";
 import { encodePngImage } from "../utils/encode-png-image.js";
 import { tw } from "../utils/tw.js";
 import { Button } from "./button.js";
@@ -57,7 +57,7 @@ export const ImageInput: FunctionComponent = () => {
       <input
         accept="image/*"
         capture="environment"
-        class={tw($error.value && "border-rose-500 dark:border-rose-500", fileInputStyle)}
+        class={tw($error.value && borderStyleError, fileInputStyle)}
         multiple={true}
         onChange={(event) =>
           batch(() => {

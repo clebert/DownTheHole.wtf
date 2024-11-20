@@ -1,7 +1,9 @@
 import type { FunctionComponent } from "preact";
 import { buttonStyle, buttonStyleInverted } from "../styles.js";
+import { tw } from "../utils/tw.js";
 
 export interface ButtonProps {
+  readonly class?: string | undefined;
   readonly default?: boolean | undefined;
   readonly disabled?: boolean | undefined;
   readonly onClick?: (() => void) | undefined;
@@ -10,6 +12,7 @@ export interface ButtonProps {
 
 export const Button: FunctionComponent<ButtonProps> = ({
   children,
+  class: className,
   default: isDefault,
   disabled,
   onClick,
@@ -18,7 +21,7 @@ export const Button: FunctionComponent<ButtonProps> = ({
   return (
     <button
       aria-label={title}
-      class={isDefault ? buttonStyleInverted : buttonStyle}
+      class={tw(className, isDefault ? buttonStyleInverted : buttonStyle)}
       disabled={disabled ?? !onClick}
       onClick={onClick}
       tabIndex={0 /* https://stackoverflow.com/a/78380974 */}
