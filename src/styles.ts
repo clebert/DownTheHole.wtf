@@ -28,18 +28,18 @@ const backgroundStyleTintedInteractive = tw(
 // Border Styles
 
 const borderStyle = tw("border border-slate-300 dark:border-slate-700");
-
-export const borderStyleError = tw("border-rose-300 focus:outline-rose-400 dark:border-rose-700");
+const borderStyleError = tw("border border-rose-300 dark:border-rose-700");
 
 // Caret Style
 
 const caretStyle = "caret-transparent focus:caret-blue-400";
+const caretStyleError = "caret-transparent focus:caret-rose-400";
 
 // Focus Style
 
-const focusStyle = tw(
-  "focus:outline focus:outline-1 focus:outline-blue-400 focus:outline-offset-[-1px]",
-);
+const focusStyleBase = tw("focus:outline focus:outline-1 focus:outline-offset-[-1px]");
+const focusStyle = tw(focusStyleBase, "focus:outline-blue-400");
+const focusStyleError = tw(focusStyleBase, "focus:outline-rose-400");
 
 // Placeholder Style
 
@@ -63,52 +63,72 @@ const textStyleInvertedInteractive = tw(
 
 // Element Styles
 
-export const buttonStyle = tw(
-  "select-none whitespace-nowrap px-2 disabled:opacity-25",
-  backgroundStyleInteractive,
-  borderStyle,
-  focusStyle,
-  textStyleInteractive,
-);
+const createButtonStyle = (appearance?: "error") =>
+  tw(
+    "select-none whitespace-nowrap px-2 disabled:opacity-25",
+    backgroundStyleInteractive,
+    appearance === "error" ? borderStyleError : borderStyle,
+    appearance === "error" ? focusStyleError : focusStyle,
+    textStyleInteractive,
+  );
 
-export const buttonStyleInverted = tw(
-  "select-none whitespace-nowrap px-2 disabled:opacity-25",
-  backgroundStyleInvertedInteractive,
-  borderStyle,
-  focusStyle,
-  textStyleInvertedInteractive,
-);
+export const buttonStyle = createButtonStyle();
+export const buttonStyleError = createButtonStyle("error");
 
-export const fileInputStyle = tw(
-  "w-full rounded-none pr-2 font-mono",
-  backgroundStyleTintedInteractive,
-  borderStyle,
-  focusStyle,
-  textStyleInteractive,
+const createButtonStyleInverted = (appearance?: "error") =>
+  tw(
+    "select-none whitespace-nowrap px-2 disabled:opacity-25",
+    backgroundStyleInvertedInteractive,
+    appearance === "error" ? borderStyleError : borderStyle,
+    appearance === "error" ? focusStyleError : focusStyle,
+    textStyleInvertedInteractive,
+  );
 
-  "file:px-2 file:py-0 file:font-sans",
-  "file:bg-slate-100 file:dark:bg-slate-800",
-  "file:enabled:active:bg-slate-800 file:dark:enabled:active:bg-slate-100",
-  "file:border-0",
-  "file:text-black file:dark:text-white",
-  "file:enabled:active:text-white file:dark:enabled:active:text-black",
-);
+export const buttonStyleInverted = createButtonStyleInverted();
+export const buttonStyleInvertedError = createButtonStyleInverted("error");
 
-export const textAreaStyle = tw(
-  "min-h-32 w-full whitespace-break-spaces break-words px-2 font-mono",
-  backgroundStyleTinted,
-  borderStyle,
-  caretStyle,
-  focusStyle,
-  textStyle,
-);
+const createFileInputStyle = (appearance?: "error") =>
+  tw(
+    "w-full rounded-none pr-2 font-mono",
+    backgroundStyleTintedInteractive,
+    appearance === "error" ? borderStyleError : borderStyle,
+    appearance === "error" ? focusStyleError : focusStyle,
+    textStyleInteractive,
 
-export const textInputStyle = tw(
-  "w-full rounded-none px-2 font-mono",
-  backgroundStyleTinted,
-  borderStyle,
-  caretStyle,
-  focusStyle,
-  placeholderStyle,
-  textStyle,
-);
+    "file:px-2 file:py-0 file:font-sans",
+    "file:bg-slate-100 file:dark:bg-slate-800",
+    "file:enabled:active:bg-slate-800 file:dark:enabled:active:bg-slate-100",
+    "file:border-0",
+    "file:text-black file:dark:text-white",
+    "file:enabled:active:text-white file:dark:enabled:active:text-black",
+  );
+
+export const fileInputStyle = createFileInputStyle();
+export const fileInputStyleError = createFileInputStyle("error");
+
+const createTextAreaStyle = (appearance?: "error") =>
+  tw(
+    "min-h-32 w-full whitespace-break-spaces break-words px-2 font-mono",
+    backgroundStyleTinted,
+    appearance === "error" ? borderStyleError : borderStyle,
+    appearance === "error" ? caretStyleError : caretStyle,
+    appearance === "error" ? focusStyleError : focusStyle,
+    textStyle,
+  );
+
+export const textAreaStyle = createTextAreaStyle();
+export const textAreaStyleError = createTextAreaStyle("error");
+
+const createTextInputStyle = (appearance?: "error") =>
+  tw(
+    "w-full rounded-none px-2 font-mono",
+    backgroundStyleTinted,
+    appearance === "error" ? borderStyleError : borderStyle,
+    appearance === "error" ? caretStyleError : caretStyle,
+    appearance === "error" ? focusStyleError : focusStyle,
+    placeholderStyle,
+    textStyle,
+  );
+
+export const textInputStyle = createTextInputStyle();
+export const textInputStyleError = createTextInputStyle("error");

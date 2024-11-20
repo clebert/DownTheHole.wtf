@@ -2,9 +2,8 @@ import { batch, useSignal, useSignalEffect } from "@preact/signals";
 import type { FunctionComponent } from "preact";
 import { useContext, useRef } from "preact/hooks";
 import { Chat } from "../contexts/chat.js";
-import { borderStyleError, fileInputStyle } from "../styles.js";
+import { fileInputStyle, fileInputStyleError } from "../styles.js";
 import { encodePngImage } from "../utils/encode-png-image.js";
-import { tw } from "../utils/tw.js";
 import { Button } from "./button.js";
 import { Container } from "./container.js";
 import { BackspaceIcon } from "./icons.js";
@@ -57,7 +56,7 @@ export const ImageInput: FunctionComponent = () => {
       <input
         accept="image/*"
         capture="environment"
-        class={tw($error.value && borderStyleError, fileInputStyle)}
+        class={$error.value ? fileInputStyleError : fileInputStyle}
         multiple={true}
         onChange={(event) =>
           batch(() => {
