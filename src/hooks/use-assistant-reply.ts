@@ -1,35 +1,11 @@
-import { createAnthropic } from "@ai-sdk/anthropic";
-import { createMistral } from "@ai-sdk/mistral";
-import { createOpenAI } from "@ai-sdk/openai";
-import { useComputed, useSignalEffect } from "@preact/signals";
+import { useSignalEffect } from "@preact/signals";
 import { type CoreMessage, type UserContent, streamText } from "ai";
 import { useContext } from "preact/hooks";
-import { Ai } from "../contexts/ai.js";
 import { Chat } from "../contexts/chat.js";
+import { useChatModel } from "./use-chat-model.js";
 
 export function useAssistantReply(): void {
-  const ai = useContext(Ai.Context);
-
-  const $chatModel = useComputed(() => {
-    switch (ai.$providerName.value) {
-      case "anthropic":
-        return createAnthropic({
-          apiKey: ai.$apiKey.value,
-          headers: { "anthropic-dangerous-direct-browser-access": "true" },
-        })(ai.$chatModelId.value);
-      case "mistral":
-        return createMistral({ apiKey: ai.$apiKey.value })(ai.$chatModelId.value);
-      case "ollama":
-        return createOpenAI({ apiKey: "ollama", baseURL: "http://localhost:11434/v1" })(
-          ai.$chatModelId.value,
-        );
-      case "openai":
-        return createOpenAI({ apiKey: ai.$apiKey.value, compatibility: "strict" })(
-          ai.$chatModelId.value,
-        );
-    }
-  });
-
+  const $chatModel = useChatModel();
   const chat = useContext(Chat.Context);
 
   useSignalEffect(() => {
@@ -60,12 +36,8 @@ export function useAssistantReply(): void {
       });
 
     const abortController = new AbortController();
-
-    const { textStream } = streamText({
-      model: $chatModel.value,
-      messages,
-      abortSignal: abortController.signal,
-    });
+    const { signal: abortSignal } = abortController;
+    const { textStream } = streamText({ model: $chatModel.value, messages, abortSignal });
 
     Promise.resolve()
       .then(async () => {
