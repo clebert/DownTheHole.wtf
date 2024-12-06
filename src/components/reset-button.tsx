@@ -5,7 +5,7 @@ import { Ai } from "../contexts/ai.js";
 import { Chat } from "../contexts/chat.js";
 import { Settings } from "../contexts/settings.js";
 import { Button } from "./button.js";
-import { PowerIcon } from "./icons.js";
+import { SvgIcon } from "./svg-icon.js";
 
 export const ResetButton: FunctionComponent = () => {
   const ai = useContext(Ai.Context);
@@ -23,7 +23,7 @@ export const ResetButton: FunctionComponent = () => {
       }
       title="Reset Data"
     >
-      <PowerIcon />
+      <SvgIcon data={SvgIcon.powerData} />
     </Button>
   );
 };

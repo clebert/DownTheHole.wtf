@@ -7,12 +7,12 @@ import { useAssistantReply } from "../hooks/use-assistant-reply.js";
 import { useUserReply } from "../hooks/use-user-reply.js";
 import { Button } from "./button.js";
 import { Container } from "./container.js";
-import { BackspaceIcon } from "./icons.js";
 import { ImageInput } from "./image-input.js";
 import { MessageView } from "./message-view.js";
 import { Page } from "./page.js";
 import { ProviderButton } from "./provider-button.js";
 import { ResetButton } from "./reset-button.js";
+import { SvgIcon } from "./svg-icon.js";
 import { TextField } from "./text-field.js";
 import { ZenButton } from "./zen-button.js";
 
@@ -50,7 +50,7 @@ export const App: FunctionComponent = () => {
               }}
               title="Clear Model ID"
             >
-              <BackspaceIcon />
+              <SvgIcon data={SvgIcon.backspaceData} />
             </Button>
           </Container>
         )}
@@ -71,7 +71,7 @@ export const App: FunctionComponent = () => {
               }}
               title="Clear API Key"
             >
-              <BackspaceIcon />
+              <SvgIcon data={SvgIcon.backspaceData} />
             </Button>
           </Container>
         )}

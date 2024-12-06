@@ -6,7 +6,7 @@ import { fileInputStyle, fileInputStyleError } from "../styles.js";
 import { encodePngImage } from "../utils/encode-png-image.js";
 import { Button } from "./button.js";
 import { Container } from "./container.js";
-import { BackspaceIcon } from "./icons.js";
+import { SvgIcon } from "./svg-icon.js";
 
 export const ImageInput: FunctionComponent = () => {
   const chat = useContext(Chat.Context);
@@ -83,7 +83,7 @@ export const ImageInput: FunctionComponent = () => {
         }}
         title="Clear Image"
       >
-        <BackspaceIcon />
+        <SvgIcon data={SvgIcon.backspaceData} />
       </Button>
     </Container>
   );

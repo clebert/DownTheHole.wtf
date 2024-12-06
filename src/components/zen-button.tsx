@@ -2,7 +2,7 @@ import type { FunctionComponent } from "preact";
 import { useContext } from "preact/hooks";
 import { Settings } from "../contexts/settings.js";
 import { Button } from "./button.js";
-import { CubeIcon, CubeTransparentIcon } from "./icons.js";
+import { SvgIcon } from "./svg-icon.js";
 
 export const ZenButton: FunctionComponent = () => {
   const settings = useContext(Settings.Context);
@@ -14,7 +14,7 @@ export const ZenButton: FunctionComponent = () => {
         settings.$zenMode.value = !settings.$zenMode.peek();
       }}
     >
-      {settings.$zenMode.value ? <CubeTransparentIcon /> : <CubeIcon />}
+      <SvgIcon data={settings.$zenMode.value ? SvgIcon.cubeTransparentData : SvgIcon.cubeData} />
     </Button>
   );
 };

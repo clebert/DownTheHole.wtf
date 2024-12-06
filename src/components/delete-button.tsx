@@ -2,7 +2,7 @@ import type { FunctionComponent } from "preact";
 import { useContext } from "preact/hooks";
 import { Chat, type Message } from "../contexts/chat.js";
 import { Button } from "./button.js";
-import { TrashIcon } from "./icons.js";
+import { SvgIcon } from "./svg-icon.js";
 
 export interface DeleteButtonProps {
   readonly message: Message;
@@ -24,7 +24,7 @@ export const DeleteButton: FunctionComponent<DeleteButtonProps> = ({ message }) 
       }}
       title="Delete Message"
     >
-      <TrashIcon />
+      <SvgIcon data={SvgIcon.trashData} />
     </Button>
   );
 };

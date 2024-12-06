@@ -3,7 +3,7 @@ import { useContext } from "preact/hooks";
 import { type AssistantMessage, Chat } from "../contexts/chat.js";
 import { createMessage } from "../utils/create-message.js";
 import { Button } from "./button.js";
-import { ArrowPathIcon } from "./icons.js";
+import { SvgIcon } from "./svg-icon.js";
 
 export interface ResendButtonProps {
   readonly message: AssistantMessage;
@@ -24,7 +24,7 @@ export const ResendButton: FunctionComponent<ResendButtonProps> = ({ message }) 
       }}
       title="Resend Message"
     >
-      <ArrowPathIcon />
+      <SvgIcon data={SvgIcon.arrowPathData} />
     </Button>
   );
 };
