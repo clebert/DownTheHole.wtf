@@ -14,7 +14,7 @@ export const ZenButton: FunctionComponent = () => {
         settings.$zenMode.value = !settings.$zenMode.peek();
       }}
     >
-      <SvgIcon data={settings.$zenMode.value ? SvgIcon.cubeTransparentData : SvgIcon.cubeData} />
+      <SvgIcon data={settings.$zenMode.value ? SvgIcon.eyeSlashData : SvgIcon.eyeData} />
     </Button>
   );
 };
