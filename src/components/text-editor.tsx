@@ -23,7 +23,6 @@ export const TextEditor: FunctionComponent<TextEditorProps> = ({ $content, title
     () => (
       <div
         autocapitalize="off"
-        autocomplete="off"
         autocorrect="off"
         class={textAreaStyle}
         contenteditable="plaintext-only"
