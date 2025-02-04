@@ -94,13 +94,7 @@ const createFileInputStyle = (appearance?: "error") =>
     appearance === "error" ? borderStyleError : borderStyle,
     appearance === "error" ? focusStyleError : focusStyle,
     textStyleInteractive,
-
     "file:px-2 file:py-0 file:font-sans",
-    "file:bg-slate-100 file:dark:bg-slate-800",
-    "file:enabled:active:bg-slate-800 file:dark:enabled:active:bg-slate-100",
-    "file:border-0",
-    "file:text-black file:dark:text-white",
-    "file:enabled:active:text-white file:dark:enabled:active:text-black",
   );
 
 export const fileInputStyle = createFileInputStyle();

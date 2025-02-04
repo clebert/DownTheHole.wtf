@@ -4,34 +4,30 @@
   "description": "A conversational rabbit hole!",
   "type": "module",
   "scripts": {
-    "build": "node build.js",
-    "build:watch": "NODE_ENV=development node build.js --watch",
+    "build": "vite build",
     "compile:check": "tsc",
-    "format": "biome format --write",
+    "dev": "vite",
     "format:check": "biome format",
+    "format": "biome format --write",
     "lint": "biome lint --error-on-warnings",
-    "start": "tsx watch src/server.ts",
+    "preview": "vite preview",
     "upgrade": "npm-check-updates --upgrade"
   },
   "dependencies": {
-    "@ai-sdk/anthropic": "^1.0.4",
-    "@ai-sdk/mistral": "^1.0.4",
-    "@ai-sdk/openai": "^1.0.7",
-    "@preact/signals": "^1.3.1",
-    "ai": "^4.0.13",
-    "preact": "^10.25.1",
-    "zod": "^3.23.8"
+    "@ai-sdk/anthropic": "^1.1.6",
+    "@ai-sdk/mistral": "^1.1.6",
+    "@ai-sdk/openai": "^1.1.9",
+    "@preact/signals": "^2.0.1",
+    "ai": "^4.1.17",
+    "preact": "^10.25.4",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
-    "@types/node": "^22.10.1",
-    "autoprefixer": "^10.4.20",
-    "esbuild": "^0.24.0",
-    "esbuild-html-plugin": "^1.1.0",
-    "esbuild-style-plugin": "^1.6.3",
-    "npm-check-updates": "^17.1.11",
-    "tailwindcss": "^3.4.16",
-    "tsx": "^4.19.2",
-    "typescript": "^5.7.2"
+    "@tailwindcss/vite": "^4.0.3",
+    "npm-check-updates": "^17.1.14",
+    "tailwindcss": "^4.0.3",
+    "typescript": "^5.7.3",
+    "vite": "^6.0.11"
   }
 }
