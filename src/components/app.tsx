@@ -10,11 +10,11 @@ import { Container } from "./container.js";
 import { ImageInput } from "./image-input.js";
 import { MessageView } from "./message-view.js";
 import { Page } from "./page.js";
-import { ProviderButton } from "./provider-button.js";
 import { ResetButton } from "./reset-button.js";
 import { SvgIcon } from "./svg-icon.js";
 import { TextField } from "./text-field.js";
-import { ZenButton } from "./zen-button.js";
+import { ToggleProviderButton } from "./toggle-provider-button.js";
+import { ToggleProviderConfigButton } from "./toggle-provider-config-button.js";
 
 export const App: FunctionComponent = () => {
   const ai = useContext(Ai.Context);
@@ -28,56 +28,54 @@ export const App: FunctionComponent = () => {
 
   return (
     <Page>
-      <Container col={true}>
-        <Container>
-          <ResetButton />
-          <ProviderButton />
-          <ZenButton />
-        </Container>
-
-        {!settings.$zenMode.value && (
-          <Container grow={true}>
-            <TextField
-              $content={ai.$chatModelId}
-              id={`model-id-${ai.$providerName.value}`}
-              title="Model ID"
-            />
-
-            <Button
-              disabled={!ai.$chatModelId.value}
-              onClick={() => {
-                ai.$chatModelId.value = "";
-              }}
-              title="Clear Model ID"
-            >
-              <SvgIcon data={SvgIcon.backspaceData} />
-            </Button>
-          </Container>
-        )}
-
-        {!settings.$zenMode.value && ai.$providerName.value !== "ollama" && (
-          <Container grow={true}>
-            <TextField
-              $content={ai.$apiKey}
-              id={`api-key-${ai.$providerName.value}`}
-              title="API Key"
-              type="password"
-            />
-
-            <Button
-              disabled={!ai.$apiKey.value}
-              onClick={() => {
-                ai.$apiKey.value = "";
-              }}
-              title="Clear API Key"
-            >
-              <SvgIcon data={SvgIcon.backspaceData} />
-            </Button>
-          </Container>
-        )}
-
-        <ImageInput />
+      <Container>
+        <ResetButton />
+        <ToggleProviderButton />
+        <ToggleProviderConfigButton />
       </Container>
+
+      {settings.$showProviderConfig.value && (
+        <Container grow={true}>
+          <TextField
+            $content={ai.$chatModelId}
+            id={`model-id-${ai.$providerName.value}`}
+            title="Model ID"
+          />
+
+          <Button
+            disabled={!ai.$chatModelId.value}
+            onClick={() => {
+              ai.$chatModelId.value = "";
+            }}
+            title="Clear Model ID"
+          >
+            <SvgIcon data={SvgIcon.backspaceData} />
+          </Button>
+        </Container>
+      )}
+
+      {settings.$showProviderConfig.value && ai.$providerName.value !== "ollama" && (
+        <Container grow={true}>
+          <TextField
+            $content={ai.$apiKey}
+            id={`api-key-${ai.$providerName.value}`}
+            title="API Key"
+            type="password"
+          />
+
+          <Button
+            disabled={!ai.$apiKey.value}
+            onClick={() => {
+              ai.$apiKey.value = "";
+            }}
+            title="Clear API Key"
+          >
+            <SvgIcon data={SvgIcon.backspaceData} />
+          </Button>
+        </Container>
+      )}
+
+      <ImageInput />
 
       {chat.$messages.value.map((message) => (
         <MessageView key={message.id} message={message} />

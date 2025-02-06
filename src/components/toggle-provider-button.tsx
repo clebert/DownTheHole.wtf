@@ -4,7 +4,7 @@ import { Ai, type ProviderName } from "../contexts/ai.js";
 import { isLocalhost } from "../utils/is-localhost.js";
 import { Button } from "./button.js";
 
-export const ProviderButton: FunctionComponent = () => {
+export const ToggleProviderButton: FunctionComponent = () => {
   const ai = useContext(Ai.Context);
 
   return (
@@ -14,7 +14,7 @@ export const ProviderButton: FunctionComponent = () => {
           ? "error"
           : "normal"
       }
-      title="Provider"
+      title="Toggle Provider"
       onClick={() => {
         ai.$providerName.value = getNextProviderName(ai.$providerName.peek());
       }}

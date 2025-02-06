@@ -4,25 +4,29 @@ import { boolean } from "zod";
 import { loadJson } from "../utils/load-json.js";
 import { saveJson } from "../utils/save-json.js";
 
+const showProviderConfig = { defaultValue: true, key: "settings-show-provider-config" };
+
 export class Settings {
   static readonly Context = createContext(new Settings());
 
-  readonly $zenMode: Signal<boolean>;
+  readonly $showProviderConfig: Signal<boolean>;
 
   constructor() {
-    this.$zenMode = signal(loadJson(boolean(), "settings-zen-mode", false));
+    this.$showProviderConfig = signal(
+      loadJson(boolean(), showProviderConfig.key, showProviderConfig.defaultValue),
+    );
   }
 
   reset(): void {
-    this.$zenMode.value = false;
+    this.$showProviderConfig.value = showProviderConfig.defaultValue;
 
-    localStorage.removeItem("settings-zen-mode");
+    localStorage.removeItem(showProviderConfig.key);
   }
 
   useSignalEffects(): void {
     // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
     useSignalEffect(() => {
-      saveJson("settings-zen-mode", this.$zenMode.value);
+      saveJson(showProviderConfig.key, this.$showProviderConfig.value);
     });
   }
 }

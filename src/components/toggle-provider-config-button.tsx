@@ -4,17 +4,17 @@ import { Settings } from "../contexts/settings.js";
 import { Button } from "./button.js";
 import { SvgIcon } from "./svg-icon.js";
 
-export const ZenButton: FunctionComponent = () => {
+export const ToggleProviderConfigButton: FunctionComponent = () => {
   const settings = useContext(Settings.Context);
 
   return (
     <Button
-      title={settings.$zenMode.value ? "Zen ON" : "Zen OFF"}
+      title={settings.$showProviderConfig.value ? "Hide Provider Config" : "Show Provider Config"}
       onClick={() => {
-        settings.$zenMode.value = !settings.$zenMode.peek();
+        settings.$showProviderConfig.value = !settings.$showProviderConfig.peek();
       }}
     >
-      <SvgIcon data={settings.$zenMode.value ? SvgIcon.eyeSlashData : SvgIcon.eyeData} />
+      <SvgIcon data={settings.$showProviderConfig.value ? SvgIcon.eyeData : SvgIcon.eyeSlashData} />
     </Button>
   );
 };
