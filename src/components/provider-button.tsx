@@ -4,17 +4,12 @@ import { Ai, type ProviderName } from "../contexts/ai.js";
 import { isLocalhost } from "../utils/is-localhost.js";
 import { Button } from "./button.js";
 
-export const ToggleProviderButton: FunctionComponent = () => {
+export const ProviderButton: FunctionComponent = () => {
   const ai = useContext(Ai.Context);
 
   return (
     <Button
-      appearance={
-        (!ai.$apiKey.value && ai.$providerName.value !== "ollama") || !ai.$chatModelId.value
-          ? "error"
-          : "normal"
-      }
-      title="Toggle Provider"
+      title={`${getLabel(ai.$providerName.value)} Provider Selected`}
       onClick={() => {
         ai.$providerName.value = getNextProviderName(ai.$providerName.peek());
       }}
