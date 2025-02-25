@@ -14,20 +14,20 @@
     "upgrade": "npm-check-updates --upgrade"
   },
   "dependencies": {
-    "@ai-sdk/anthropic": "^1.1.6",
-    "@ai-sdk/mistral": "^1.1.6",
-    "@ai-sdk/openai": "^1.1.9",
+    "@ai-sdk/anthropic": "^1.1.10",
+    "@ai-sdk/mistral": "^1.1.13",
+    "@ai-sdk/openai": "^1.1.14",
     "@preact/signals": "^2.0.1",
-    "ai": "^4.1.17",
-    "preact": "^10.25.4",
-    "zod": "^3.24.1"
+    "ai": "^4.1.46",
+    "preact": "^10.26.2",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
-    "@tailwindcss/vite": "^4.0.3",
-    "npm-check-updates": "^17.1.14",
-    "tailwindcss": "^4.0.3",
+    "@tailwindcss/vite": "^4.0.9",
+    "npm-check-updates": "^17.1.15",
+    "tailwindcss": "^4.0.9",
     "typescript": "^5.7.3",
-    "vite": "^6.0.11"
+    "vite": "^6.2.0"
   }
 }
