@@ -1,5 +1,5 @@
 import { useSignalEffect } from "@preact/signals";
-import { type CoreMessage, type UserContent, streamText } from "ai";
+import { AISDKError, type CoreMessage, type UserContent, streamText } from "ai";
 import { useContext } from "preact/hooks";
 import { Chat } from "../contexts/chat.js";
 import { useChatModel } from "./use-chat-model.js";
@@ -36,8 +36,29 @@ export function useAssistantReply(): void {
       });
 
     const abortController = new AbortController();
+
+    const handleError = (error: unknown): void => {
+      if (abortController.signal.aborted) {
+        return;
+      }
+
+      const message = AISDKError.isInstance(error) ? error.message : "Oops, something went wrong.";
+
+      if (lastMessage.$content.peek()) {
+        lastMessage.$content.value += `\n\nError: ${message}`;
+      } else {
+        lastMessage.$content.value = `Error: ${message}`;
+      }
+    };
+
     const { signal: abortSignal } = abortController;
-    const { textStream } = streamText({ model: $chatModel.value, messages, abortSignal });
+
+    const { textStream } = streamText({
+      model: $chatModel.value,
+      messages,
+      abortSignal,
+      onError: (event) => handleError(event.error),
+    });
 
     Promise.resolve()
       .then(async () => {
@@ -49,14 +70,7 @@ export function useAssistantReply(): void {
           lastMessage.$content.value += textPart;
         }
       })
-      .catch((error: unknown) => {
-        if (!abortController.signal.aborted) {
-          lastMessage.$content.value +=
-            error instanceof Error && error.message.trim()
-              ? `\n\nError: ${error.message.trim()}`
-              : "\n\nError: Oops, something went wrong.";
-        }
-      })
+      .catch(handleError)
       .finally(() => {
         if (!abortController.signal.aborted) {
           lastMessage.$finished.value = true;
