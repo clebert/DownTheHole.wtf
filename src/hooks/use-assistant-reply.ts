@@ -51,8 +51,10 @@ export function useAssistantReply(): void {
       })
       .catch((error: unknown) => {
         if (!abortController.signal.aborted) {
-          lastMessage.$content.value =
-            error instanceof Error && error.message ? error.message : "Oops, something went wrong.";
+          lastMessage.$content.value +=
+            error instanceof Error && error.message.trim()
+              ? `\n\nError: ${error.message.trim()}`
+              : "\n\nError: Oops, something went wrong.";
         }
       })
       .finally(() => {
