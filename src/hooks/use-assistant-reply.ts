@@ -1,4 +1,4 @@
-import { useSignalEffect } from "@preact/signals";
+import { batch, useSignalEffect } from "@preact/signals";
 import { AISDKError, type CoreMessage, type UserContent, streamText } from "ai";
 import { useContext } from "preact/hooks";
 import { Chat } from "../contexts/chat.js";
@@ -44,13 +44,19 @@ export function useAssistantReply(): void {
         return;
       }
 
-      const message = AISDKError.isInstance(error) ? error.message : "Oops, something went wrong.";
+      batch(() => {
+        lastMessage.$finished.value = true;
 
-      if (lastMessage.$content.peek()) {
-        lastMessage.$content.value += `\n\nError: ${message}`;
-      } else {
-        lastMessage.$content.value = `Error: ${message}`;
-      }
+        const message = AISDKError.isInstance(error)
+          ? error.message
+          : "Oops, something went wrong.";
+
+        if (lastMessage.$content.peek()) {
+          lastMessage.$content.value += `\n\nError: ${message}`;
+        } else {
+          lastMessage.$content.value = `Error: ${message}`;
+        }
+      });
     };
 
     const { signal: abortSignal } = abortController;
@@ -83,13 +89,12 @@ export function useAssistantReply(): void {
         if (reasoning) {
           console.info("Reasoning:", reasoning);
         }
-      })
-      .catch(handleError)
-      .finally(() => {
+
         if (!abortController.signal.aborted) {
           lastMessage.$finished.value = true;
         }
-      });
+      })
+      .catch(handleError);
 
     return () => abortController.abort();
   });
