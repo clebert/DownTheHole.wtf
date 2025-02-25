@@ -2,11 +2,13 @@ import { useSignalEffect } from "@preact/signals";
 import { AISDKError, type CoreMessage, type UserContent, streamText } from "ai";
 import { useContext } from "preact/hooks";
 import { Chat } from "../contexts/chat.js";
+import { Settings } from "../contexts/settings.js";
 import { useChatModel } from "./use-chat-model.js";
 
 export function useAssistantReply(): void {
   const $chatModel = useChatModel();
   const chat = useContext(Chat.Context);
+  const settings = useContext(Settings.Context);
 
   useSignalEffect(() => {
     const lastMessage = chat.$messages.value[chat.$messages.value.length - 1];
@@ -53,11 +55,17 @@ export function useAssistantReply(): void {
 
     const { signal: abortSignal } = abortController;
 
-    const { textStream } = streamText({
+    const { textStream, reasoning: reasoningPromise } = streamText({
       model: $chatModel.value,
       messages,
       abortSignal,
       onError: (event) => handleError(event.error),
+
+      providerOptions: {
+        anthropic: settings.$thinkingEnabled.peek()
+          ? { thinking: { type: "enabled", budgetTokens: 12000 } }
+          : {},
+      },
     });
 
     Promise.resolve()
@@ -68,6 +76,12 @@ export function useAssistantReply(): void {
           }
 
           lastMessage.$content.value += textPart;
+        }
+
+        const reasoning = await reasoningPromise;
+
+        if (reasoning) {
+          console.info("Reasoning:", reasoning);
         }
       })
       .catch(handleError)

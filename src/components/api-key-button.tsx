@@ -11,7 +11,12 @@ export const ApiKeyButton: FunctionComponent = () => {
 
   return (
     <Button
-      appearance={!ai.$apiKey.value && !settings.$showApiKey.value ? "error" : "normal"}
+      appearance={
+        ai.$providerName.value !== "ollama" && !ai.$apiKey.value && !settings.$showApiKey.value
+          ? "error"
+          : "normal"
+      }
+      disabled={ai.$providerName.value === "ollama"}
       title={settings.$showApiKey.value ? "API Key Visible" : "API Key Hidden"}
       onClick={() => {
         settings.$showApiKey.value = !settings.$showApiKey.peek();

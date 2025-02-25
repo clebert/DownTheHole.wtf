@@ -15,6 +15,7 @@ import { ProviderButton } from "./provider-button.js";
 import { ResetButton } from "./reset-button.js";
 import { SvgIcon } from "./svg-icon.js";
 import { TextField } from "./text-field.js";
+import { ThinkingButton } from "./thinking-button.js";
 
 export const App: FunctionComponent = () => {
   const ai = useContext(Ai.Context);
@@ -32,7 +33,7 @@ export const App: FunctionComponent = () => {
         <Container grow={true}>
           <ResetButton />
           <ProviderButton />
-          {ai.$providerName.value !== "ollama" && <ApiKeyButton />}
+          <ApiKeyButton />
 
           <TextField
             $content={ai.$chatModelId}
@@ -41,15 +42,7 @@ export const App: FunctionComponent = () => {
           />
         </Container>
 
-        <Button
-          disabled={!ai.$chatModelId.value}
-          onClick={() => {
-            ai.$chatModelId.value = "";
-          }}
-          title="Clear Model ID"
-        >
-          <SvgIcon data={SvgIcon.backspaceData} />
-        </Button>
+        <ThinkingButton />
       </Container>
 
       {settings.$showApiKey.value && ai.$providerName.value !== "ollama" && (
