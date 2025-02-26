@@ -18,9 +18,7 @@ export const ApiKeyButton: FunctionComponent = () => {
       }
       disabled={ai.$providerName.value === "ollama"}
       title={settings.$showApiKey.value ? "API Key Visible" : "API Key Hidden"}
-      onClick={() => {
-        settings.$showApiKey.value = !settings.$showApiKey.peek();
-      }}
+      onClick={() => settings.toggleShowApiKey()}
     >
       <SvgIcon data={settings.$showApiKey.value ? SvgIcon.eyeData : SvgIcon.eyeSlashData} />
     </Button>

@@ -1,43 +1,33 @@
-import { type Signal, signal, useSignalEffect } from "@preact/signals";
+import { computed } from "@preact/signals";
 import { createContext } from "preact";
-import { boolean } from "zod";
-import { loadJson } from "../utils/load-json.js";
-import { saveJson } from "../utils/save-json.js";
+import { type TypeOf, boolean, object } from "zod";
+import { Storage } from "../utils/storage.js";
 
-const showApiKey = { defaultValue: true, key: "settings-show-api-key" };
-const thinkingEnabled = { defaultValue: false, key: "settings-thinking-enabled" };
+export type Data = TypeOf<typeof Data>;
 
-export class Settings {
-  static readonly Context = createContext(new Settings());
+const Data = object({ showApiKey: boolean(), thinkingEnabled: boolean() });
 
-  readonly $showApiKey: Signal<boolean>;
-  readonly $thinkingEnabled: Signal<boolean>;
+export class Settings extends Storage<Data> {
+  static readonly Context = createContext(
+    new Settings({ showApiKey: true, thinkingEnabled: false }),
+  );
 
-  constructor() {
-    this.$showApiKey = signal(loadJson(boolean(), showApiKey.key, showApiKey.defaultValue));
+  readonly $showApiKey = computed(() => this.$data.value.showApiKey);
+  readonly $thinkingEnabled = computed(() => this.$data.value.thinkingEnabled);
 
-    this.$thinkingEnabled = signal(
-      loadJson(boolean(), thinkingEnabled.key, thinkingEnabled.defaultValue),
-    );
+  constructor(defaultData: Data) {
+    super(Data, "settings-data", defaultData);
   }
 
-  reset(): void {
-    this.$showApiKey.value = showApiKey.defaultValue;
-    this.$thinkingEnabled.value = thinkingEnabled.defaultValue;
+  toggleShowApiKey(): void {
+    const data = this.$data.peek();
 
-    localStorage.removeItem(showApiKey.key);
-    localStorage.removeItem(thinkingEnabled.key);
+    this.setData({ ...data, showApiKey: !data.showApiKey });
   }
 
-  useSignalEffects(): void {
-    // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
-    useSignalEffect(() => {
-      saveJson(showApiKey.key, this.$showApiKey.value);
-    });
+  toggleThinkingEnabled(): void {
+    const data = this.$data.peek();
 
-    // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
-    useSignalEffect(() => {
-      saveJson(thinkingEnabled.key, this.$thinkingEnabled.value);
-    });
+    this.setData({ ...data, thinkingEnabled: !data.thinkingEnabled });
   }
 }

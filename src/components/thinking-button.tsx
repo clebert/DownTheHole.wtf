@@ -13,9 +13,7 @@ export const ThinkingButton: FunctionComponent = () => {
     <Button
       disabled={!ai.$chatModelId.value.startsWith("claude-3-7-sonnet-")}
       title={settings.$thinkingEnabled.value ? "Thinking Enabled" : "Thinking Disabled"}
-      onClick={() => {
-        settings.$thinkingEnabled.value = !settings.$thinkingEnabled.peek();
-      }}
+      onClick={() => settings.toggleThinkingEnabled()}
     >
       <SvgIcon
         data={settings.$thinkingEnabled.value ? SvgIcon.academicCapData : SvgIcon.rocketLaunch}

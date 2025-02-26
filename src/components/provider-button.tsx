@@ -10,9 +10,7 @@ export const ProviderButton: FunctionComponent = () => {
   return (
     <Button
       title={`${getLabel(ai.$providerName.value)} Provider Selected`}
-      onClick={() => {
-        ai.$providerName.value = getNextProviderName(ai.$providerName.peek());
-      }}
+      onClick={() => ai.setProviderName(getNextProviderName(ai.$providerName.peek()))}
     >
       {getLabel(ai.$providerName.value)}
     </Button>

@@ -16,9 +16,9 @@ export const ResetButton: FunctionComponent = () => {
     <Button
       onClick={() =>
         batch(() => {
-          ai.reset();
-          chat.reset();
-          settings.reset();
+          ai.resetData();
+          chat.resetData();
+          settings.resetData();
         })
       }
       title="Reset Data"

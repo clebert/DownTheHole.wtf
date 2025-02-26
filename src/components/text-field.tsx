@@ -1,19 +1,20 @@
-import type { Signal } from "@preact/signals";
 import type { FunctionComponent } from "preact";
 import { textInputStyle } from "../styles.js";
 
 export interface TextFieldProps {
-  readonly $content: Signal<string>;
   readonly id?: string;
+  readonly onInput: (value: string) => void;
   readonly title: string;
   readonly type?: string;
+  readonly value: string;
 }
 
 export const TextField: FunctionComponent<TextFieldProps> = ({
-  $content,
   id,
+  onInput,
   title,
   type = "text",
+  value,
 }) => {
   return (
     <input
@@ -24,14 +25,13 @@ export const TextField: FunctionComponent<TextFieldProps> = ({
       id={id}
       onInput={(event: InputEvent) => {
         event.preventDefault();
-
-        $content.value = (event.target as HTMLInputElement).value;
+        onInput((event.target as HTMLInputElement).value);
       }}
       placeholder={title}
       spellcheck={false}
       title={title}
       type={type}
-      value={$content.peek()}
+      value={value}
     />
   );
 };

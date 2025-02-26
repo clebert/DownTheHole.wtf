@@ -22,8 +22,6 @@ export const App: FunctionComponent = () => {
   const chat = useContext(Chat.Context);
   const settings = useContext(Settings.Context);
 
-  ai.useSignalEffects();
-  settings.useSignalEffects();
   useAssistantReply();
   useUserReply();
 
@@ -36,9 +34,9 @@ export const App: FunctionComponent = () => {
           <ApiKeyButton />
 
           <TextField
-            $content={ai.$chatModelId}
-            id={`model-id-${ai.$providerName.value}`}
+            onInput={(chatModelId) => ai.setChatModelId(chatModelId)}
             title="Model ID"
+            value={ai.$chatModelId.value}
           />
         </Container>
 
@@ -48,16 +46,14 @@ export const App: FunctionComponent = () => {
       {settings.$showApiKey.value && ai.$providerName.value !== "ollama" && (
         <Container grow={true}>
           <TextField
-            $content={ai.$apiKey}
-            id={`api-key-${ai.$providerName.value}`}
+            onInput={(apiKey) => ai.setApiKey(apiKey)}
             title="API Key"
+            value={ai.$apiKey.value}
           />
 
           <Button
             disabled={!ai.$apiKey.value}
-            onClick={() => {
-              ai.$apiKey.value = "";
-            }}
+            onClick={() => ai.setApiKey("")}
             title="Clear API Key"
           >
             <SvgIcon data={SvgIcon.backspaceData} />

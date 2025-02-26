@@ -1,108 +1,93 @@
-import { type Signal, batch, signal, useSignalEffect } from "@preact/signals";
+import { computed } from "@preact/signals";
 import { createContext } from "preact";
-import { type TypeOf, literal, string, union } from "zod";
-import { loadJson } from "../utils/load-json.js";
-import { saveJson } from "../utils/save-json.js";
+import { type TypeOf, object, string } from "zod";
+import { Storage } from "../utils/storage.js";
 
-export interface AiInit {
-  readonly defaultChatModelIds: Readonly<{
-    anthropic: string;
-    mistral: string;
-    ollama: string;
-    openai: string;
-  }>;
-
-  readonly defaultProviderName: ProviderName;
-}
-
+export type Data = TypeOf<typeof Data>;
 export type ProviderName = TypeOf<typeof ProviderName>;
 
-export const ProviderName = union([
-  literal("anthropic"),
-  literal("mistral"),
-  literal("ollama"),
-  literal("openai"),
-]);
+const ProviderConfig = object({ apiKey: string(), chatModelId: string() });
 
-const providerNames: ProviderName[] = ["anthropic", "mistral", "ollama", "openai"];
+const ProviderConfigs = object({
+  anthropic: ProviderConfig.readonly(),
+  mistral: ProviderConfig.readonly(),
+  ollama: ProviderConfig.readonly(),
+  openai: ProviderConfig.readonly(),
+});
 
-export class Ai {
+const ProviderName = ProviderConfigs.keyof();
+
+const Data = object({
+  providerConfigs: ProviderConfigs.readonly(),
+  providerName: ProviderName,
+});
+
+export class Ai extends Storage<Data> {
   static readonly Context = createContext(
     new Ai({
-      defaultChatModelIds: {
-        anthropic: "claude-3-7-sonnet-latest",
-        mistral: "pixtral-large-latest",
-        ollama: "qwen2.5-coder:32b",
-        openai: "gpt-4o",
+      providerConfigs: {
+        anthropic: { apiKey: "", chatModelId: "claude-3-7-sonnet-latest" },
+        mistral: { apiKey: "", chatModelId: "pixtral-large-latest" },
+        ollama: { apiKey: "", chatModelId: "qwen2.5-coder:32b" },
+        openai: { apiKey: "", chatModelId: "gpt-4o" },
       },
 
-      defaultProviderName: "anthropic",
+      providerName: "anthropic",
     }),
   );
 
-  readonly $apiKey: Signal<string>;
-  readonly $chatModelId: Signal<string>;
-  readonly $providerName: Signal<ProviderName>;
+  readonly $apiKey = computed(
+    () => this.$data.value.providerConfigs[this.$data.value.providerName].apiKey,
+  );
 
-  constructor(readonly init: AiInit) {
-    const { defaultChatModelIds, defaultProviderName } = init;
-    const providerName = loadJson(ProviderName, "ai-provider-name", defaultProviderName);
-    const apiKey = loadJson(string(), `ai-api-key-${providerName}`, "");
+  readonly $chatModelId = computed(
+    () => this.$data.value.providerConfigs[this.$data.value.providerName].chatModelId,
+  );
 
-    const chatModelId = loadJson(
-      string(),
-      `ai-chat-model-id-${providerName}`,
-      defaultChatModelIds[providerName],
-    );
+  readonly $providerName = computed(() => this.$data.value.providerName);
 
-    this.$apiKey = signal(apiKey);
-    this.$chatModelId = signal(chatModelId);
-    this.$providerName = signal(providerName);
+  constructor(defaultData: Data) {
+    super(Data, "ai-data", defaultData);
   }
 
-  reset(): void {
-    const { defaultChatModelIds, defaultProviderName } = this.init;
+  override resetData(): void {
+    super.resetData();
 
-    batch(() => {
-      this.$apiKey.value = "";
-      this.$chatModelId.value = defaultChatModelIds[defaultProviderName];
-      this.$providerName.value = defaultProviderName;
-    });
-
-    for (const providerName of providerNames) {
-      localStorage.removeItem(`ai-api-key-${providerName}`);
-      localStorage.removeItem(`ai-chat-model-id-${providerName}`);
-    }
-
-    localStorage.removeItem("ai-provider-name");
+    localStorage.removeItem("ai-api-key-anthropic"); // legacy
+    localStorage.removeItem("ai-api-key-mistral"); // legacy
+    localStorage.removeItem("ai-api-key-ollama"); // legacy
+    localStorage.removeItem("ai-api-key-openai"); // legacy
   }
 
-  useSignalEffects(): void {
-    // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
-    useSignalEffect(() => {
-      saveJson(`ai-api-key-${this.$providerName.peek()}`, this.$apiKey.value);
+  setApiKey(apiKey: string): void {
+    const data = this.$data.peek();
+
+    this.setData({
+      ...data,
+
+      providerConfigs: {
+        ...data.providerConfigs,
+        [data.providerName]: { ...data.providerConfigs[data.providerName], apiKey },
+      },
     });
+  }
 
-    // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
-    useSignalEffect(() => {
-      saveJson(`ai-chat-model-id-${this.$providerName.peek()}`, this.$chatModelId.value);
+  setChatModelId(chatModelId: string): void {
+    const data = this.$data.peek();
+
+    this.setData({
+      ...data,
+
+      providerConfigs: {
+        ...data.providerConfigs,
+        [data.providerName]: { ...data.providerConfigs[data.providerName], chatModelId },
+      },
     });
+  }
 
-    // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
-    useSignalEffect(() => {
-      const providerName = this.$providerName.value;
+  setProviderName(providerName: ProviderName): void {
+    const data = this.$data.peek();
 
-      saveJson("ai-provider-name", providerName);
-
-      batch(() => {
-        this.$apiKey.value = loadJson(string(), `ai-api-key-${providerName}`, "");
-
-        this.$chatModelId.value = loadJson(
-          string(),
-          `ai-chat-model-id-${providerName}`,
-          this.init.defaultChatModelIds[providerName],
-        );
-      });
-    });
+    this.setData({ ...data, providerName });
   }
 }

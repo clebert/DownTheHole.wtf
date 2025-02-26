@@ -23,7 +23,7 @@ export class Chat {
   readonly $images = signal<readonly ArrayBuffer[]>([]);
   readonly $messages = signal<readonly Message[]>([]);
 
-  reset(): void {
+  resetData(): void {
     this.$images.value = [];
     this.$messages.value = [];
   }
