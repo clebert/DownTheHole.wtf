@@ -1,4 +1,4 @@
-import { type ReadonlySignal, type Signal, computed, signal } from "@preact/signals";
+import { type Signal, computed, signal } from "@preact/signals";
 import type { Schema } from "zod";
 import { loadJson } from "./load-json.js";
 import { saveJson } from "./save-json.js";
@@ -7,13 +7,13 @@ export abstract class Storage<Data extends object> {
   readonly #dataKey: string;
   readonly #defaultData: Data;
   readonly #$data: Signal<Data>;
-  readonly $data: ReadonlySignal<Data>;
+
+  readonly $data = computed(() => this.#$data.value);
 
   constructor(dataSchema: Schema<Data>, dataKey: string, defaultData: Data) {
     this.#dataKey = dataKey;
     this.#defaultData = defaultData;
     this.#$data = signal(loadJson(dataSchema, dataKey, defaultData));
-    this.$data = computed(() => this.#$data.value);
   }
 
   resetData(): void {
