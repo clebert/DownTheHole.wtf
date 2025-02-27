@@ -1,24 +1,25 @@
 import { computed } from "@preact/signals";
 import { createContext } from "preact";
+import type { DeepReadonly } from "ts-essentials";
 import { type TypeOf, boolean, object, string } from "zod";
 import { Storage } from "../utils/storage.js";
 
-export type Data = TypeOf<typeof Data>;
+export type Data = DeepReadonly<TypeOf<typeof Data>>;
 export type ProviderName = TypeOf<typeof ProviderName>;
 
 const ProviderConfig = object({ apiKey: string(), chatModelId: string() });
 
 const ProviderConfigs = object({
-  anthropic: ProviderConfig.readonly(),
-  mistral: ProviderConfig.readonly(),
-  ollama: ProviderConfig.readonly(),
-  openai: ProviderConfig.readonly(),
+  anthropic: ProviderConfig,
+  mistral: ProviderConfig,
+  ollama: ProviderConfig,
+  openai: ProviderConfig,
 });
 
 const ProviderName = ProviderConfigs.keyof();
 
 const Data = object({
-  providerConfigs: ProviderConfigs.readonly(),
+  providerConfigs: ProviderConfigs,
   providerName: ProviderName,
   showSettings: boolean(),
   thinkingEnabled: boolean(),
