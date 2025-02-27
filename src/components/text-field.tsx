@@ -1,5 +1,7 @@
 import type { FunctionComponent } from "preact";
+import { useMemo } from "preact/hooks";
 import { textInputStyle } from "../styles.js";
+import { debounce } from "../utils/debounce.js";
 
 export interface TextFieldProps {
   readonly id?: string;
@@ -9,13 +11,10 @@ export interface TextFieldProps {
   readonly value: string;
 }
 
-export const TextField: FunctionComponent<TextFieldProps> = ({
-  id,
-  onInput,
-  title,
-  type = "text",
-  value,
-}) => {
+export const TextField: FunctionComponent<TextFieldProps> = (props) => {
+  const { id, title, type = "text", value } = props;
+  const onInput = useMemo(() => debounce(props.onInput, 300), [props.onInput]);
+
   return (
     <input
       autocapitalize="off"

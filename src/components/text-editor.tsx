@@ -13,10 +13,7 @@ export interface TextEditorProps {
 export const TextEditor: FunctionComponent<TextEditorProps> = ({ $content, title }) => {
   const $element = useSignal<HTMLDivElement | undefined>(undefined);
 
-  useSignalEffect(() => {
-    $element.value?.focus();
-  });
-
+  useSignalEffect(() => $element.value?.focus());
   useContentObserver({ $content, $element });
 
   return useMemo(
