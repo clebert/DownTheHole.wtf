@@ -53,17 +53,17 @@ export class Settings extends Storage<Data> {
   readonly $thinkingEnabled = computed(() => this.$data.value.thinkingEnabled);
 
   constructor(defaultData: Data) {
-    super(Data, "settings-data", defaultData);
+    super(localStorage, Data, "settings-data", defaultData);
   }
 
   override resetData(): void {
     super.resetData();
 
-    localStorage.removeItem("ai-api-key-anthropic"); // legacy
-    localStorage.removeItem("ai-api-key-mistral"); // legacy
-    localStorage.removeItem("ai-api-key-ollama"); // legacy
-    localStorage.removeItem("ai-api-key-openai"); // legacy
-    localStorage.removeItem("ai-data"); // legacy
+    this.backend.removeItem("ai-api-key-anthropic"); // legacy
+    this.backend.removeItem("ai-api-key-mistral"); // legacy
+    this.backend.removeItem("ai-api-key-ollama"); // legacy
+    this.backend.removeItem("ai-api-key-openai"); // legacy
+    this.backend.removeItem("ai-data"); // legacy
   }
 
   setApiKey(apiKey: string): void {

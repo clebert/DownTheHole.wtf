@@ -1,30 +1,32 @@
 import { type Signal, computed, signal } from "@preact/signals";
 import type { Schema } from "zod";
-import { loadJson } from "./load-json.js";
-import { saveJson } from "./save-json.js";
 
-export abstract class Storage<Data extends object> {
-  readonly #dataKey: string;
-  readonly #defaultData: Data;
-  readonly #$data: Signal<Data>;
+export type Backend = Pick<globalThis.Storage, "getItem" | "removeItem" | "setItem">;
 
+export abstract class Storage<TData extends object> {
   readonly $data = computed(() => this.#$data.value);
+  readonly backend: Backend;
 
-  constructor(dataSchema: Schema<Data>, dataKey: string, defaultData: Data) {
+  readonly #$data: Signal<TData>;
+  readonly #dataKey: string;
+  readonly #defaultData: TData;
+
+  constructor(backend: Backend, dataSchema: Schema<TData>, dataKey: string, defaultData: TData) {
+    this.backend = backend;
+    this.#$data = signal(this.#getData(dataSchema, dataKey, defaultData));
     this.#dataKey = dataKey;
     this.#defaultData = defaultData;
-    this.#$data = signal(loadJson(dataSchema, dataKey, defaultData));
   }
 
   resetData(): void {
-    localStorage.removeItem(this.#dataKey);
+    this.backend.removeItem(this.#dataKey);
 
     this.#$data.value = this.#defaultData;
   }
 
   #handle: number | undefined;
 
-  setData(data: Data): void {
+  setData(data: TData): void {
     this.#$data.value = data;
 
     if (this.#handle !== undefined) {
@@ -32,7 +34,21 @@ export abstract class Storage<Data extends object> {
     }
 
     this.#handle = (window.requestIdleCallback ?? setTimeout)(() =>
-      saveJson(this.#dataKey, this.#$data.peek()),
+      this.backend.setItem(this.#dataKey, JSON.stringify(this.#$data.peek())),
     );
+  }
+
+  #getData(dataSchema: Schema<TData>, dataKey: string, defaultData: TData): TData {
+    const data = this.backend.getItem(dataKey);
+
+    if (data === null) {
+      return defaultData;
+    }
+
+    try {
+      return dataSchema.parse(JSON.parse(data));
+    } catch {
+      return defaultData;
+    }
   }
 }
