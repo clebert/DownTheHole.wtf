@@ -45,6 +45,11 @@ const focusStyleError = tw(focusStyleBase, "focus:outline-rose-400");
 
 const placeholderStyle = tw("placeholder-slate-400");
 
+// Stroke Styles
+
+const strokeStyle = tw("stroke-current");
+const strokeStyleError = tw("stroke-rose-300 dark:stroke-rose-700");
+
 // Text Styles
 
 const textStyle = tw("text-black dark:text-white");
@@ -99,6 +104,12 @@ const createFileInputStyle = (appearance?: "error") =>
 
 export const fileInputStyle = createFileInputStyle();
 export const fileInputStyleError = createFileInputStyle("error");
+
+const createIconStyle = (appearance?: "error") =>
+  tw("inline-block h-5 align-middle", appearance === "error" ? strokeStyleError : strokeStyle);
+
+export const iconStyle = createIconStyle();
+export const iconStyleError = createIconStyle("error");
 
 const createTextAreaStyle = (appearance?: "error") =>
   tw(

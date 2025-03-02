@@ -1,4 +1,5 @@
 import type { FunctionComponent } from "preact";
+import { iconStyle, iconStyleError } from "../styles.js";
 import { tw } from "../utils/tw.js";
 
 // https://heroicons.com
@@ -6,6 +7,7 @@ import { tw } from "../utils/tw.js";
 
 export interface SvgIconProps {
   readonly animation?: `animate-${string}` | undefined;
+  readonly appearance?: "error" | "normal";
   readonly data: readonly string[];
 }
 
@@ -21,15 +23,18 @@ export interface SvgIconData {
   readonly xMarkData: readonly string[];
 }
 
-const SvgIconComponent: FunctionComponent<SvgIconProps> = ({ animation, data }) => {
+const SvgIconComponent: FunctionComponent<SvgIconProps> = ({
+  animation,
+  appearance = "normal",
+  data,
+}) => {
   return (
-    <div class="inline-block h-5 align-middle">
+    <div class={appearance === "error" ? iconStyleError : iconStyle}>
       {/* biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
       <svg
         class={tw("size-4", animation)}
         fill="none"
         stroke-width="1.5"
-        stroke="currentColor"
         viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"
       >

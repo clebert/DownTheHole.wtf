@@ -8,18 +8,20 @@ import { SvgIcon } from "./svg-icon.js";
 export const SettingsButton: FunctionComponent = () => {
   const apiKey = apiKeySelector.$output.value;
 
+  const appearance =
+    $providerName.value !== "ollama" && !apiKey && !$settingsVisible.value ? "error" : "normal";
+
   return (
     <Button
-      appearance={
-        $providerName.value !== "ollama" && !apiKey && !$settingsVisible.value ? "error" : "normal"
-      }
+      appearance={appearance}
+      class={$settingsVisible.value ? undefined : "border-dashed"}
       disabled={$providerName.value === "ollama"}
       title={$settingsVisible.value ? "Settings Visible" : "Settings Hidden"}
       onClick={() => {
         $settingsVisible.value = !$settingsVisible.value;
       }}
     >
-      <SvgIcon data={SvgIcon.cog6Tooth} />
+      <SvgIcon appearance={appearance} data={SvgIcon.cog6Tooth} />
     </Button>
   );
 };

@@ -46,6 +46,7 @@ export const App: FunctionComponent = () => {
       {$settingsVisible.value && $providerName.value !== "ollama" && (
         <Container grow={true}>
           <TextField
+            appearance={apiKey ? "normal" : "error"}
             onInput={(apiKey) => apiKeySelector.set(apiKey)}
             title="API Key"
             value={apiKey}

@@ -5,9 +5,11 @@ import {
   buttonStyleInverted,
   buttonStyleInvertedError,
 } from "../styles.js";
+import { tw } from "../utils/tw.js";
 
 export interface ButtonProps {
   readonly appearance?: "error" | "normal";
+  readonly class?: string | undefined;
   readonly default?: boolean | undefined;
   readonly disabled?: boolean | undefined;
   readonly onClick?: (() => void) | undefined;
@@ -17,6 +19,7 @@ export interface ButtonProps {
 export const Button: FunctionComponent<ButtonProps> = ({
   appearance = "normal",
   children,
+  class: className,
   default: isDefault,
   disabled,
   onClick,
@@ -25,15 +28,16 @@ export const Button: FunctionComponent<ButtonProps> = ({
   return (
     <button
       aria-label={title}
-      class={
+      class={tw(
+        className,
         isDefault
           ? appearance === "error"
             ? buttonStyleInvertedError
             : buttonStyleInverted
           : appearance === "error"
             ? buttonStyleError
-            : buttonStyle
-      }
+            : buttonStyle,
+      )}
       disabled={disabled ?? !onClick}
       onClick={onClick}
       tabIndex={0 /* https://stackoverflow.com/a/78380974 */}
