@@ -1,6 +1,6 @@
 import { batch, useSignal, useSignalEffect } from "@preact/signals";
 import type { FunctionComponent } from "preact";
-import { useRef } from "preact/hooks";
+import { useEffect, useRef } from "preact/hooks";
 import { $images } from "../signals/images.js";
 import { fileInputStyle, fileInputStyleError } from "../styles.js";
 import { encodePngImage } from "../utils/encode-png-image.js";
@@ -12,6 +12,13 @@ export const ImageInput: FunctionComponent = () => {
   const elementRef = useRef<HTMLInputElement>(null);
   const $error = useSignal(false);
   const $files = useSignal<FileList>();
+
+  useEffect(
+    () => () => {
+      $images.value = [];
+    },
+    [],
+  );
 
   useSignalEffect(() => {
     if ($images.value.length === 0) {

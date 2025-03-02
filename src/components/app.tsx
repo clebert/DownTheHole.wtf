@@ -4,10 +4,12 @@ import { useUserReply } from "../hooks/use-user-reply.js";
 import { apiKeySelector } from "../signals/api-key-selector.js";
 import { $chatMessages } from "../signals/chat-messages.js";
 import { chatModelIdSelector } from "../signals/chat-model-id-selector.js";
+import { $imageVisible } from "../signals/image-visible.js";
 import { $providerName } from "../signals/provider-name.js";
 import { $settingsVisible } from "../signals/settings-visible.js";
 import { Button } from "./button.js";
 import { Container } from "./container.js";
+import { ImageButton } from "./image-button.js";
 import { ImageInput } from "./image-input.js";
 import { MessageView } from "./message-view.js";
 import { Page } from "./page.js";
@@ -31,6 +33,7 @@ export const App: FunctionComponent = () => {
           <ResetButton />
           <ProviderButton />
           <SettingsButton />
+          <ImageButton />
 
           <TextField
             onInput={(chatModelId) => chatModelIdSelector.set(chatModelId)}
@@ -63,7 +66,7 @@ export const App: FunctionComponent = () => {
         </Container>
       )}
 
-      <ImageInput />
+      {$imageVisible.value && <ImageInput />}
 
       {$chatMessages.value.map((chatMessage) => (
         <MessageView key={chatMessage.id} chatMessage={chatMessage} />
