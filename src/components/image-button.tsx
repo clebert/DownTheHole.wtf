@@ -12,7 +12,7 @@ export const ImageButton: FunctionComponent = () => {
       }}
       title={$imageVisible.value ? "Image Visible" : "Image Hidden"}
     >
-      <SvgIcon data={SvgIcon.photo} />
+      <SvgIcon data={SvgIcon.photoData} />
     </Button>
   );
 };

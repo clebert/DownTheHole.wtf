@@ -8,6 +8,7 @@ export type ChatMessage = AssistantChatMessage | UserChatMessage;
 export interface AssistantChatMessage {
   readonly $content: Signal<string>;
   readonly $finished: Signal<boolean>;
+  readonly $reasoning: Signal<string | undefined>;
   readonly id: string;
   readonly role: "assistant";
 }
@@ -21,7 +22,14 @@ export interface UserChatMessage {
 const storage = new Storage({
   backend: sessionStorage,
   key: "chat-messages",
-  schema: array(object({ content: string(), role: z.enum(["assistant", "user"]) })),
+
+  schema: array(
+    object({
+      content: string(),
+      reasoning: string().optional(),
+      role: z.enum(["assistant", "user"]),
+    }),
+  ),
 });
 
 export const $chatMessages = signal<readonly ChatMessage[]>(
@@ -29,8 +37,11 @@ export const $chatMessages = signal<readonly ChatMessage[]>(
 );
 
 effect(() => {
-  storage.item = $chatMessages.value.map(({ $content, role }) => ({
-    content: $content.value,
-    role,
-  }));
+  storage.item = $chatMessages.value.map((chatMessage) => {
+    const { $content, role } = chatMessage;
+
+    return role === "assistant"
+      ? { content: $content.value, reasoning: chatMessage.$reasoning.value, role }
+      : { content: $content.value, role };
+  });
 });

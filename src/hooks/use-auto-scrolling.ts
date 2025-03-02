@@ -6,7 +6,7 @@ import { useScrollObserver } from "./use-scroll-observer.js";
 import { useTouchObserver } from "./use-touch-observer.js";
 
 export function useAutoScrolling(
-  $content: ReadonlySignal<string>,
+  $content: ReadonlySignal<string | undefined>,
   elementRef: RefObject<HTMLElement>,
 ): void {
   const $scrollEvent = useScrollObserver();

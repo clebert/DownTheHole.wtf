@@ -67,7 +67,8 @@ export function useAssistantReply(): void {
       onError: (event) => handleError(event.error),
 
       providerOptions: {
-        anthropic: thinkingEnabled ? { thinking: { type: "enabled", budgetTokens: 12000 } } : {},
+        // https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/extended-thinking-tips#technical-considerations-for-extended-thinking
+        anthropic: thinkingEnabled ? { thinking: { type: "enabled", budgetTokens: 1024 } } : {},
       },
     });
 
@@ -95,12 +96,14 @@ export function useAssistantReply(): void {
 
         const reasoning = await reasoningPromise;
 
-        if (reasoning) {
-          console.info("Reasoning:", reasoning);
-        }
-
         if (!abortController.signal.aborted) {
-          lastChatMessage.$finished.value = true;
+          batch(() => {
+            if (reasoning) {
+              lastChatMessage.$reasoning.value = reasoning;
+            }
+
+            lastChatMessage.$finished.value = true;
+          });
         }
       })
       .catch(handleError);

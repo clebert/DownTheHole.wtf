@@ -24,7 +24,7 @@ export const SettingsButton: FunctionComponent = () => {
       }}
       title={$settingsVisible.value ? "Settings Visible" : "Settings Hidden"}
     >
-      <SvgIcon appearance={appearance} data={SvgIcon.cog6Tooth} />
+      <SvgIcon appearance={appearance} data={SvgIcon.cog6ToothData} />
     </Button>
   );
 };

@@ -16,7 +16,7 @@ export const ThinkingButton: FunctionComponent = () => {
       }}
       title={$thinkingEnabled.value ? "Thinking Enabled" : "Thinking Disabled"}
     >
-      <SvgIcon data={SvgIcon.academicCapData} />
+      <SvgIcon data={$thinkingEnabled.value ? SvgIcon.boltData : SvgIcon.boltSlashData} />
     </Button>
   );
 };

@@ -5,7 +5,7 @@ import { useAutoScrolling } from "../hooks/use-auto-scrolling.js";
 import { textAreaStyle } from "../styles.js";
 
 export interface TextViewProps {
-  readonly $content: ReadonlySignal<string>;
+  readonly $content: ReadonlySignal<string | undefined>;
   readonly title: string;
 }
 
