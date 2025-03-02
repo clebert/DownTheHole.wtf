@@ -1,7 +1,5 @@
 import type { FunctionComponent } from "preact";
-import { useMemo } from "preact/hooks";
 import { textInputStyle, textInputStyleError } from "../styles.js";
-import { debounce } from "../utils/debounce.js";
 
 export interface TextFieldProps {
   readonly appearance?: "error" | "normal";
@@ -12,10 +10,14 @@ export interface TextFieldProps {
   readonly value: string;
 }
 
-export const TextField: FunctionComponent<TextFieldProps> = (props) => {
-  const { appearance = "normal", id, title, type = "text", value } = props;
-  const onInput = useMemo(() => debounce(props.onInput, 300), [props.onInput]);
-
+export const TextField: FunctionComponent<TextFieldProps> = ({
+  appearance = "normal",
+  id,
+  onInput,
+  title,
+  type = "text",
+  value,
+}) => {
   return (
     <input
       autocapitalize="off"
