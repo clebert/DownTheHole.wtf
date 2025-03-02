@@ -1,6 +1,6 @@
-import { type Signal, effect, signal, untracked } from "@preact/signals";
+import { type Signal, effect, signal } from "@preact/signals";
 import { array, object, string, z } from "zod";
-import { createChatMessage } from "../utils/create-message.js";
+import { createChatMessage } from "../utils/create-chat-message.js";
 import { Storage } from "../utils/storage.js";
 
 export type ChatMessage = AssistantChatMessage | UserChatMessage;
@@ -25,17 +25,7 @@ const storage = new Storage({
 });
 
 export const $chatMessages = signal<readonly ChatMessage[]>(
-  storage.getItem()?.map(({ content, role }) => {
-    const chatMessage = createChatMessage(content, role);
-
-    if (chatMessage.role === "assistant") {
-      untracked(() => {
-        chatMessage.$finished.value = true;
-      });
-    }
-
-    return chatMessage;
-  }) ?? [],
+  storage.getItem()?.map((item) => createChatMessage({ ...item, finished: true })) ?? [],
 );
 
 effect(() =>

@@ -1,6 +1,6 @@
 import type { FunctionComponent } from "preact";
 import { $chatMessages, type AssistantChatMessage } from "../signals/chat-messages.js";
-import { createChatMessage } from "../utils/create-message.js";
+import { createChatMessage } from "../utils/create-chat-message.js";
 import { Button } from "./button.js";
 import { SvgIcon } from "./svg-icon.js";
 
@@ -21,7 +21,7 @@ export const ResendButton: FunctionComponent<ResendButtonProps> = ({ chatMessage
         if (index > -1) {
           $chatMessages.value = [
             ...chatMessages.slice(0, index),
-            createChatMessage("", "assistant"),
+            createChatMessage({ role: "assistant" }),
           ];
         }
       }}
