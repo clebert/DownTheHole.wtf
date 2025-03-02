@@ -7,7 +7,7 @@ import { tw } from "../utils/tw.js";
 
 export interface SvgIconProps {
   readonly animation?: `animate-${string}` | undefined;
-  readonly appearance?: "error" | "normal";
+  readonly appearance?: "error" | undefined;
   readonly data: readonly string[];
 }
 
@@ -23,11 +23,7 @@ export interface SvgIconData {
   readonly xMarkData: readonly string[];
 }
 
-const SvgIconComponent: FunctionComponent<SvgIconProps> = ({
-  animation,
-  appearance = "normal",
-  data,
-}) => {
+const SvgIconComponent: FunctionComponent<SvgIconProps> = ({ animation, appearance, data }) => {
   return (
     <div class={appearance === "error" ? iconStyleError : iconStyle}>
       {/* biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}

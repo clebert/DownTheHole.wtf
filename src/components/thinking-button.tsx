@@ -9,12 +9,12 @@ export const ThinkingButton: FunctionComponent = () => {
 
   return (
     <Button
-      class={$thinkingEnabled.value ? undefined : "border-dashed focus:outline-dashed"}
+      dashed={!$thinkingEnabled.value}
       disabled={!chatModelId.startsWith("claude-3-7-sonnet-")}
-      title={$thinkingEnabled.value ? "Thinking Enabled" : "Thinking Disabled"}
       onClick={() => {
         $thinkingEnabled.value = !$thinkingEnabled.value;
       }}
+      title={$thinkingEnabled.value ? "Thinking Enabled" : "Thinking Disabled"}
     >
       <SvgIcon data={SvgIcon.academicCapData} />
     </Button>

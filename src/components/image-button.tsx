@@ -6,11 +6,11 @@ import { SvgIcon } from "./svg-icon.js";
 export const ImageButton: FunctionComponent = () => {
   return (
     <Button
-      class={$imageVisible.value ? undefined : "border-dashed focus:outline-dashed"}
-      title={$imageVisible.value ? "Image Visible" : "Image Hidden"}
+      dashed={!$imageVisible.value}
       onClick={() => {
         $imageVisible.value = !$imageVisible.value;
       }}
+      title={$imageVisible.value ? "Image Visible" : "Image Hidden"}
     >
       <SvgIcon data={SvgIcon.photo} />
     </Button>

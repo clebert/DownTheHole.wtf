@@ -2,7 +2,7 @@ import type { FunctionComponent } from "preact";
 import { textInputStyle, textInputStyleError } from "../styles.js";
 
 export interface TextFieldProps {
-  readonly appearance?: "error" | "normal";
+  readonly appearance?: "error" | undefined;
   readonly id?: string;
   readonly onInput: (value: string) => void;
   readonly title: string;
@@ -11,7 +11,7 @@ export interface TextFieldProps {
 }
 
 export const TextField: FunctionComponent<TextFieldProps> = ({
-  appearance = "normal",
+  appearance,
   id,
   onInput,
   title,

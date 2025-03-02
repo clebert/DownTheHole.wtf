@@ -40,7 +40,7 @@ export const App: FunctionComponent = () => {
       {$settingsVisible.value && (
         <Container grow={true}>
           <TextField
-            appearance={chatModelId ? "normal" : "error"}
+            appearance={chatModelId ? undefined : "error"}
             onInput={(chatModelId) => chatModelIdSelector.set(chatModelId)}
             title="Model ID"
             value={chatModelId}
@@ -59,7 +59,7 @@ export const App: FunctionComponent = () => {
       {$settingsVisible.value && $providerName.value !== "ollama" && (
         <Container grow={true}>
           <TextField
-            appearance={apiKey ? "normal" : "error"}
+            appearance={apiKey ? undefined : "error"}
             onInput={(apiKey) => apiKeySelector.set(apiKey)}
             title="API Key"
             value={apiKey}

@@ -13,16 +13,16 @@ export const SettingsButton: FunctionComponent = () => {
     (($providerName.value !== "ollama" && !apiKey) || !chatModelIdSelector.$output.value) &&
     !$settingsVisible.value
       ? "error"
-      : "normal";
+      : undefined;
 
   return (
     <Button
       appearance={appearance}
-      class={$settingsVisible.value ? undefined : "border-dashed focus:outline-dashed"}
-      title={$settingsVisible.value ? "Settings Visible" : "Settings Hidden"}
+      dashed={!$settingsVisible.value}
       onClick={() => {
         $settingsVisible.value = !$settingsVisible.value;
       }}
+      title={$settingsVisible.value ? "Settings Visible" : "Settings Hidden"}
     >
       <SvgIcon appearance={appearance} data={SvgIcon.cog6Tooth} />
     </Button>
