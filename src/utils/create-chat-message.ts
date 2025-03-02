@@ -1,13 +1,13 @@
 import { signal } from "@preact/signals";
 import type { ChatMessage } from "../signals/chat-messages.js";
 
-export interface Init {
+export interface Params {
   readonly content?: string | undefined;
   readonly role: "assistant" | "user";
   readonly finished?: boolean | undefined;
 }
 
-export function createChatMessage({ content = "", role, finished = false }: Init): ChatMessage {
+export function createChatMessage({ content = "", role, finished = false }: Params): ChatMessage {
   const id = crypto.randomUUID ? crypto.randomUUID() : String(Math.random());
   const $content = signal(content);
 
