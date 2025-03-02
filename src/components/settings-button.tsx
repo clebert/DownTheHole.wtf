@@ -1,5 +1,6 @@
 import type { FunctionComponent } from "preact";
 import { apiKeySelector } from "../signals/api-key-selector.js";
+import { chatModelIdSelector } from "../signals/chat-model-id-selector.js";
 import { $providerName } from "../signals/provider-name.js";
 import { $settingsVisible } from "../signals/settings-visible.js";
 import { Button } from "./button.js";
@@ -9,13 +10,15 @@ export const SettingsButton: FunctionComponent = () => {
   const apiKey = apiKeySelector.$output.value;
 
   const appearance =
-    $providerName.value !== "ollama" && !apiKey && !$settingsVisible.value ? "error" : "normal";
+    (($providerName.value !== "ollama" && !apiKey) || !chatModelIdSelector.$output.value) &&
+    !$settingsVisible.value
+      ? "error"
+      : "normal";
 
   return (
     <Button
       appearance={appearance}
       class={$settingsVisible.value ? undefined : "border-dashed"}
-      disabled={$providerName.value === "ollama"}
       title={$settingsVisible.value ? "Settings Visible" : "Settings Hidden"}
       onClick={() => {
         $settingsVisible.value = !$settingsVisible.value;

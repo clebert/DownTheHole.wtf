@@ -28,28 +28,31 @@ export const App: FunctionComponent = () => {
 
   return (
     <Page>
-      <Container>
-        <Container grow={true}>
-          <ResetButton />
-          <ProviderButton />
-          <SettingsButton />
-          <ImageButton />
+      <Container grow={true}>
+        <ResetButton />
+        <ProviderButton />
+        <SettingsButton />
+        <ImageButton />
+      </Container>
 
+      {$settingsVisible.value && (
+        <Container grow={true}>
           <TextField
+            appearance={chatModelId ? "normal" : "error"}
             onInput={(chatModelId) => chatModelIdSelector.set(chatModelId)}
             title="Model ID"
             value={chatModelId}
           />
-        </Container>
 
-        <Button
-          disabled={!chatModelId}
-          onClick={() => chatModelIdSelector.set("")}
-          title="Clear Model ID"
-        >
-          <SvgIcon data={SvgIcon.backspaceData} />
-        </Button>
-      </Container>
+          <Button
+            disabled={!chatModelId}
+            onClick={() => chatModelIdSelector.set("")}
+            title="Clear Model ID"
+          >
+            <SvgIcon data={SvgIcon.backspaceData} />
+          </Button>
+        </Container>
+      )}
 
       {$settingsVisible.value && $providerName.value !== "ollama" && (
         <Container grow={true}>
