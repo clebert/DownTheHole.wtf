@@ -12,7 +12,9 @@ const storage = new Storage({
 
 export const apiKeySelector = createMultiplexer(
   $providerName,
-  storage.getItem() ?? { anthropic: "", mistral: "", ollama: "", openai: "" },
+  storage.item ?? { anthropic: "", mistral: "", ollama: "", openai: "" },
 );
 
-effect(() => storage.setItem(apiKeySelector.$inputs.value));
+effect(() => {
+  storage.item = apiKeySelector.$inputs.value;
+});

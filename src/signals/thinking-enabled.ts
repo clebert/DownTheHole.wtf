@@ -4,6 +4,8 @@ import { Storage } from "../utils/storage.js";
 
 const storage = new Storage({ backend: localStorage, key: "thinking-enabled", schema: boolean() });
 
-export const $thinkingEnabled = signal(storage.getItem() ?? false);
+export const $thinkingEnabled = signal(storage.item ?? false);
 
-effect(() => storage.setItem($thinkingEnabled.value));
+effect(() => {
+  storage.item = $thinkingEnabled.value;
+});

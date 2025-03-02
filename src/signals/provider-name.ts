@@ -7,6 +7,8 @@ export type ProviderName = TypeOf<typeof schema>;
 const schema = z.enum(["anthropic", "mistral", "ollama", "openai"]);
 const storage = new Storage({ backend: localStorage, key: "provider-name", schema });
 
-export const $providerName = signal(storage.getItem() ?? "anthropic");
+export const $providerName = signal(storage.item ?? "anthropic");
 
-effect(() => storage.setItem($providerName.value));
+effect(() => {
+  storage.item = $providerName.value;
+});

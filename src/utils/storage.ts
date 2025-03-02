@@ -34,7 +34,7 @@ export class Storage<TSchema extends Schema> {
     Storage.#keys.set(backend, keys);
   }
 
-  getItem(): (TSchema extends Schema<infer TItem> ? TItem : never) | undefined {
+  get item(): (TSchema extends Schema<infer TItem> ? TItem : never) | undefined {
     const { backend, key, schema } = this.#init;
     const item = backend.getItem(key);
 
@@ -49,7 +49,7 @@ export class Storage<TSchema extends Schema> {
 
   #handle: number | undefined;
 
-  setItem(item: (TSchema extends Schema<infer TItem> ? TItem : never) | undefined): void {
+  set item(item: (TSchema extends Schema<infer TItem> ? TItem : never) | undefined) {
     if (this.#handle !== undefined) {
       (window.cancelIdleCallback ?? clearTimeout)(this.#handle);
     }

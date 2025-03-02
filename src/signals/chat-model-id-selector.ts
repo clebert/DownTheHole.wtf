@@ -13,7 +13,7 @@ const storage = new Storage({
 export const chatModelIdSelector = createMultiplexer(
   $providerName,
 
-  storage.getItem() ?? {
+  storage.item ?? {
     anthropic: "claude-3-7-sonnet-latest",
     mistral: "pixtral-large-latest",
     ollama: "qwen2.5-coder:32b",
@@ -21,4 +21,6 @@ export const chatModelIdSelector = createMultiplexer(
   },
 );
 
-effect(() => storage.setItem(chatModelIdSelector.$inputs.value));
+effect(() => {
+  storage.item = chatModelIdSelector.$inputs.value;
+});

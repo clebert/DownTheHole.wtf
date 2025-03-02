@@ -25,11 +25,12 @@ const storage = new Storage({
 });
 
 export const $chatMessages = signal<readonly ChatMessage[]>(
-  storage.getItem()?.map((item) => createChatMessage({ ...item, finished: true })) ?? [],
+  storage.item?.map((item) => createChatMessage({ ...item, finished: true })) ?? [],
 );
 
-effect(() =>
-  storage.setItem(
-    $chatMessages.value.map(({ $content, role }) => ({ content: $content.value, role })),
-  ),
-);
+effect(() => {
+  storage.item = $chatMessages.value.map(({ $content, role }) => ({
+    content: $content.value,
+    role,
+  }));
+});

@@ -4,6 +4,8 @@ import { Storage } from "../utils/storage.js";
 
 const storage = new Storage({ backend: localStorage, key: "settings-visible", schema: boolean() });
 
-export const $settingsVisible = signal(storage.getItem() ?? true);
+export const $settingsVisible = signal(storage.item ?? true);
 
-effect(() => storage.setItem($settingsVisible.value));
+effect(() => {
+  storage.item = $settingsVisible.value;
+});

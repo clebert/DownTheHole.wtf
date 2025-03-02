@@ -31,9 +31,7 @@ export function createMultiplexer<const TKey extends string, TValue>(
   const $output = computed(() => inputSignals[$key.value].value);
 
   const set: Multiplexer<TKey, TValue>["set"] = (value) => {
-    const key = $key.peek();
-
-    inputSignals[key].value = value;
+    inputSignals[$key.peek()].value = value;
   };
 
   return { $inputs, $output, set };
