@@ -8,7 +8,6 @@ import { ResendButton } from "./resend-button.js";
 import { SendButton } from "./send-button.js";
 import { TextEditor } from "./text-editor.js";
 import { TextView } from "./text-view.js";
-import { ThinkingButton } from "./thinking-button.js";
 
 export interface MessageViewProps {
   readonly chatMessage: ChatMessage;
@@ -24,18 +23,12 @@ export const MessageView: FunctionComponent<MessageViewProps> = ({ chatMessage }
   const buttons =
     chatMessage.role === "assistant" ? (
       chatMessage.$finished.value ? (
-        <>
-          <ResendButton chatMessage={chatMessage} />
-          <ThinkingButton />
-        </>
+        <ResendButton chatMessage={chatMessage} />
       ) : (
         <CancelButton chatMessage={chatMessage} />
       )
     ) : $isLastChatMessage.value ? (
-      <>
-        <SendButton chatMessage={chatMessage} />
-        <ThinkingButton />
-      </>
+      <SendButton chatMessage={chatMessage} />
     ) : (
       <DeleteButton chatMessage={chatMessage} />
     );
