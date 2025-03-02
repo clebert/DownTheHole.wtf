@@ -24,7 +24,10 @@ export const MessageView: FunctionComponent<MessageViewProps> = ({ chatMessage }
   const buttons =
     chatMessage.role === "assistant" ? (
       chatMessage.$finished.value ? (
-        <ResendButton chatMessage={chatMessage} />
+        <>
+          <ResendButton chatMessage={chatMessage} />
+          <ThinkingButton />
+        </>
       ) : (
         <CancelButton chatMessage={chatMessage} />
       )

@@ -18,7 +18,7 @@ export const SettingsButton: FunctionComponent = () => {
   return (
     <Button
       appearance={appearance}
-      class={$settingsVisible.value ? undefined : "border-dashed"}
+      class={$settingsVisible.value ? undefined : "border-dashed focus:outline-dashed"}
       title={$settingsVisible.value ? "Settings Visible" : "Settings Hidden"}
       onClick={() => {
         $settingsVisible.value = !$settingsVisible.value;
