@@ -6,6 +6,7 @@ import { Button } from "./button.js";
 export const ProviderButton: FunctionComponent = () => {
   return (
     <Button
+      class="w-23"
       title={`${getLabel($providerName.value)} Provider Selected`}
       onClick={() => {
         $providerName.value = getNextProviderName($providerName.peek());

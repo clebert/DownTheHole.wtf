@@ -9,6 +9,7 @@ import { tw } from "../utils/tw.js";
 
 export interface ButtonProps {
   readonly appearance?: "error" | undefined;
+  readonly class?: string | undefined;
   readonly dashed?: boolean | undefined;
   readonly default?: boolean | undefined;
   readonly disabled?: boolean | undefined;
@@ -19,6 +20,7 @@ export interface ButtonProps {
 export const Button: FunctionComponent<ButtonProps> = ({
   appearance,
   children,
+  class: className,
   dashed,
   default: isDefault,
   disabled,
@@ -29,6 +31,7 @@ export const Button: FunctionComponent<ButtonProps> = ({
     <button
       aria-label={title}
       class={tw(
+        className,
         dashed && "border-dashed focus:outline-dashed",
         isDefault
           ? appearance === "error"
