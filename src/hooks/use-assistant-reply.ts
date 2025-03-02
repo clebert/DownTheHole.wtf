@@ -57,6 +57,7 @@ export function useAssistantReply(): void {
       });
     };
 
+    const thinkingEnabled = $thinkingEnabled.peek();
     const { signal: abortSignal } = abortController;
 
     const { textStream, reasoning: reasoningPromise } = streamText({
@@ -66,20 +67,30 @@ export function useAssistantReply(): void {
       onError: (event) => handleError(event.error),
 
       providerOptions: {
-        anthropic: $thinkingEnabled.peek()
-          ? { thinking: { type: "enabled", budgetTokens: 12000 } }
-          : {},
+        anthropic: thinkingEnabled ? { thinking: { type: "enabled", budgetTokens: 12000 } } : {},
       },
     });
 
     Promise.resolve()
       .then(async () => {
+        if (thinkingEnabled) {
+          lastChatMessage.$content.value = "Thinking...";
+        }
+
+        let textPartReceived = false;
+
         for await (const textPart of textStream) {
           if (abortController.signal.aborted) {
             break;
           }
 
-          lastChatMessage.$content.value += textPart;
+          if (textPartReceived) {
+            lastChatMessage.$content.value += textPart;
+          } else {
+            textPartReceived = true;
+
+            lastChatMessage.$content.value = textPart;
+          }
         }
 
         const reasoning = await reasoningPromise;
