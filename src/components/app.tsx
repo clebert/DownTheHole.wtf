@@ -16,7 +16,6 @@ import { ResetButton } from "./reset-button.js";
 import { SettingsButton } from "./settings-button.js";
 import { SvgIcon } from "./svg-icon.js";
 import { TextField } from "./text-field.js";
-import { ThinkingButton } from "./thinking-button.js";
 
 export const App: FunctionComponent = () => {
   const apiKey = apiKeySelector.$output.value;
@@ -40,7 +39,13 @@ export const App: FunctionComponent = () => {
           />
         </Container>
 
-        <ThinkingButton />
+        <Button
+          disabled={!chatModelId}
+          onClick={() => chatModelIdSelector.set("")}
+          title="Clear Model ID"
+        >
+          <SvgIcon data={SvgIcon.backspaceData} />
+        </Button>
       </Container>
 
       {$settingsVisible.value && $providerName.value !== "ollama" && (
