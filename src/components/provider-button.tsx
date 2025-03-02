@@ -1,18 +1,17 @@
 import type { FunctionComponent } from "preact";
-import { useContext } from "preact/hooks";
-import { type ProviderName, Settings } from "../contexts/settings.js";
+import { $providerName, type ProviderName } from "../signals/provider-name.js";
 import { isLocalhost } from "../utils/is-localhost.js";
 import { Button } from "./button.js";
 
 export const ProviderButton: FunctionComponent = () => {
-  const settings = useContext(Settings.Context);
-
   return (
     <Button
-      title={`${getLabel(settings.$providerName.value)} Provider Selected`}
-      onClick={() => settings.setProviderName(getNextProviderName(settings.$providerName.peek()))}
+      title={`${getLabel($providerName.value)} Provider Selected`}
+      onClick={() => {
+        $providerName.value = getNextProviderName($providerName.peek());
+      }}
     >
-      {getLabel(settings.$providerName.value)}
+      {getLabel($providerName.value)}
     </Button>
   );
 };

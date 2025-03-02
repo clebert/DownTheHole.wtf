@@ -1,25 +1,25 @@
 import type { FunctionComponent } from "preact";
-import { useContext } from "preact/hooks";
-import { Chat, type Message } from "../contexts/chat.js";
+import { $chatMessages, type ChatMessage } from "../signals/chat-messages.js";
 import { Button } from "./button.js";
 import { SvgIcon } from "./svg-icon.js";
 
 export interface DeleteButtonProps {
-  readonly message: Message;
+  readonly chatMessage: ChatMessage;
 }
 
-export const DeleteButton: FunctionComponent<DeleteButtonProps> = ({ message }) => {
-  const chat = useContext(Chat.Context);
-
+export const DeleteButton: FunctionComponent<DeleteButtonProps> = ({ chatMessage }) => {
   return (
     <Button
-      disabled={message.$content.value.length === 0}
+      disabled={chatMessage.$content.value.length === 0}
       onClick={() => {
-        const messages = chat.$messages.value;
-        const index = messages.findIndex((otherMessage) => otherMessage.id === message.id);
+        const chatMessages = $chatMessages.value;
+
+        const index = chatMessages.findIndex(
+          (otherChatMessage) => otherChatMessage.id === chatMessage.id,
+        );
 
         if (index > -1) {
-          chat.$messages.value = messages.slice(0, index);
+          $chatMessages.value = chatMessages.slice(0, index);
         }
       }}
       title="Delete Message"

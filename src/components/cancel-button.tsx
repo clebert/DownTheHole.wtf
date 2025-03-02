@@ -1,17 +1,17 @@
 import type { FunctionComponent } from "preact";
-import type { AssistantMessage } from "../contexts/chat.js";
+import type { AssistantChatMessage } from "../signals/chat-messages.js";
 import { Button } from "./button.js";
 import { SvgIcon } from "./svg-icon.js";
 
 export interface CancelButtonProps {
-  readonly message: AssistantMessage;
+  readonly chatMessage: AssistantChatMessage;
 }
 
-export const CancelButton: FunctionComponent<CancelButtonProps> = ({ message }) => {
+export const CancelButton: FunctionComponent<CancelButtonProps> = ({ chatMessage }) => {
   return (
     <Button
       onClick={() => {
-        message.$finished.value = true;
+        chatMessage.$finished.value = true;
       }}
       title="Cancel Completion"
     >

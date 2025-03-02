@@ -3,29 +3,27 @@ import { createMistral } from "@ai-sdk/mistral";
 import { createOpenAI } from "@ai-sdk/openai";
 import { type ReadonlySignal, useComputed } from "@preact/signals";
 import type { LanguageModelV1 } from "ai";
-import { useContext } from "preact/hooks";
-import { Settings } from "../contexts/settings.js";
+import { apiKeySelector } from "../signals/api-key-selector.js";
+import { chatModelIdSelector } from "../signals/chat-model-id-selector.js";
+import { $providerName } from "../signals/provider-name.js";
 
 export function useChatModel(): ReadonlySignal<LanguageModelV1> {
-  const settings = useContext(Settings.Context);
-
   return useComputed(() => {
-    const chatModelId = settings.$chatModelId.value;
+    const apiKey = apiKeySelector.$output.value;
+    const chatModelId = chatModelIdSelector.$output.value;
 
-    switch (settings.$providerName.value) {
-      case "anthropic": {
-        const headers = { "anthropic-dangerous-direct-browser-access": "true" };
-
-        return createAnthropic({ apiKey: settings.$apiKey.value, headers })(chatModelId);
-      }
+    switch ($providerName.value) {
+      case "anthropic":
+        return createAnthropic({
+          apiKey,
+          headers: { "anthropic-dangerous-direct-browser-access": "true" },
+        })(chatModelId);
       case "mistral":
-        return createMistral({ apiKey: settings.$apiKey.value })(chatModelId);
+        return createMistral({ apiKey })(chatModelId);
       case "ollama":
         return createOpenAI({ apiKey: "", baseURL: "http://localhost:11434/v1" })(chatModelId);
       case "openai":
-        return createOpenAI({ apiKey: settings.$apiKey.value, compatibility: "strict" })(
-          chatModelId,
-        );
+        return createOpenAI({ apiKey, compatibility: "strict" })(chatModelId);
     }
   });
 }

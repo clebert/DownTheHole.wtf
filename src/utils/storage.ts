@@ -1,54 +1,67 @@
-import { type Signal, computed, signal } from "@preact/signals";
 import type { Schema } from "zod";
+
+export interface Init<TSchema extends Schema> {
+  readonly backend: Backend;
+  readonly key: string;
+  readonly schema: TSchema;
+}
 
 export type Backend = Pick<globalThis.Storage, "getItem" | "removeItem" | "setItem">;
 
-export abstract class Storage<TData extends object> {
-  readonly $data = computed(() => this.#$data.value);
-  readonly backend: Backend;
+export class Storage<TSchema extends Schema> {
+  static readonly #keys = new WeakMap<Backend, Set<string>>();
 
-  readonly #$data: Signal<TData>;
-  readonly #dataKey: string;
-  readonly #defaultData: TData;
+  static clear(backend: Backend): void {
+    const keys = Storage.#keys.get(backend);
 
-  constructor(backend: Backend, dataSchema: Schema<TData>, dataKey: string, defaultData: TData) {
-    this.backend = backend;
-    this.#$data = signal(this.#getData(dataSchema, dataKey, defaultData));
-    this.#dataKey = dataKey;
-    this.#defaultData = defaultData;
+    if (keys) {
+      for (const key of keys) {
+        backend.removeItem(key);
+      }
+    }
   }
 
-  resetData(): void {
-    this.backend.removeItem(this.#dataKey);
+  readonly #init: Init<TSchema>;
 
-    this.#$data.value = this.#defaultData;
+  constructor(init: Init<TSchema>) {
+    this.#init = init;
+
+    const { backend, key } = init;
+    const keys = Storage.#keys.get(backend) ?? new Set();
+
+    keys.add(key);
+
+    Storage.#keys.set(backend, keys);
+  }
+
+  getItem(): (TSchema extends Schema<infer TItem> ? TItem : never) | undefined {
+    const { backend, key, schema } = this.#init;
+    const item = backend.getItem(key);
+
+    if (item === null) {
+      return undefined;
+    }
+
+    const result = schema.safeParse(JSON.parse(item));
+
+    return result.success ? result.data : undefined;
   }
 
   #handle: number | undefined;
 
-  setData(data: TData): void {
-    this.#$data.value = data;
-
+  setItem(item: (TSchema extends Schema<infer TItem> ? TItem : never) | undefined): void {
     if (this.#handle !== undefined) {
       (window.cancelIdleCallback ?? clearTimeout)(this.#handle);
     }
 
-    this.#handle = (window.requestIdleCallback ?? setTimeout)(() =>
-      this.backend.setItem(this.#dataKey, JSON.stringify(this.#$data.peek())),
-    );
-  }
+    const { backend, key } = this.#init;
 
-  #getData(dataSchema: Schema<TData>, dataKey: string, defaultData: TData): TData {
-    const data = this.backend.getItem(dataKey);
-
-    if (data === null) {
-      return defaultData;
-    }
-
-    try {
-      return dataSchema.parse(JSON.parse(data));
-    } catch {
-      return defaultData;
-    }
+    this.#handle = (window.requestIdleCallback ?? setTimeout)(() => {
+      if (item === undefined) {
+        backend.removeItem(key);
+      } else {
+        backend.setItem(key, JSON.stringify(item));
+      }
+    });
   }
 }

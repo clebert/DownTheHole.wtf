@@ -1,22 +1,19 @@
 import { useSignalEffect } from "@preact/signals";
-import { useContext } from "preact/hooks";
-import { Chat } from "../contexts/chat.js";
-import { createMessage } from "../utils/create-message.js";
+import { $chatMessages } from "../signals/chat-messages.js";
+import { createChatMessage } from "../utils/create-message.js";
 
 export function useUserReply(): void {
-  const chat = useContext(Chat.Context);
-
   useSignalEffect(() => {
-    const messages = chat.$messages.value;
-    const lastMessage = messages[messages.length - 1];
+    const chatMessages = $chatMessages.value;
+    const lastChatMessage = chatMessages[chatMessages.length - 1];
 
-    if (!lastMessage) {
-      chat.$messages.value = [createMessage("user", "")];
-    } else if (lastMessage.role === "assistant" && lastMessage.$finished.value) {
-      if (lastMessage.$content.peek()) {
-        chat.$messages.value = [...messages, createMessage("user", "")];
+    if (!lastChatMessage) {
+      $chatMessages.value = [createChatMessage("", "user")];
+    } else if (lastChatMessage.role === "assistant" && lastChatMessage.$finished.value) {
+      if (lastChatMessage.$content.peek()) {
+        $chatMessages.value = [...chatMessages, createChatMessage("", "user")];
       } else {
-        chat.$messages.value = messages.slice(0, -1);
+        $chatMessages.value = chatMessages.slice(0, -1);
       }
     }
   });

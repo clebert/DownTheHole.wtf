@@ -1,23 +1,20 @@
 import type { FunctionComponent } from "preact";
-import { useContext } from "preact/hooks";
-import { Chat, type UserMessage } from "../contexts/chat.js";
-import { createMessage } from "../utils/create-message.js";
+import { $chatMessages, type UserChatMessage } from "../signals/chat-messages.js";
+import { createChatMessage } from "../utils/create-message.js";
 import { Button } from "./button.js";
 import { SvgIcon } from "./svg-icon.js";
 
 export interface SendButtonProps {
-  readonly message: UserMessage;
+  readonly chatMessage: UserChatMessage;
 }
 
-export const SendButton: FunctionComponent<SendButtonProps> = ({ message }) => {
-  const chat = useContext(Chat.Context);
-
+export const SendButton: FunctionComponent<SendButtonProps> = ({ chatMessage }) => {
   return (
     <Button
       default={true}
-      disabled={message.$content.value.length === 0}
+      disabled={chatMessage.$content.value.length === 0}
       onClick={() => {
-        chat.$messages.value = [...chat.$messages.value, createMessage("assistant", "")];
+        $chatMessages.value = [...$chatMessages.value, createChatMessage("", "assistant")];
       }}
       title="Send Message"
     >

@@ -1,7 +1,6 @@
 import { useComputed } from "@preact/signals";
 import type { FunctionComponent } from "preact";
-import { useContext } from "preact/hooks";
-import { Chat, type Message } from "../contexts/chat.js";
+import { $chatMessages, type ChatMessage } from "../signals/chat-messages.js";
 import { CancelButton } from "./cancel-button.js";
 import { Container } from "./container.js";
 import { DeleteButton } from "./delete-button.js";
@@ -11,38 +10,36 @@ import { TextEditor } from "./text-editor.js";
 import { TextView } from "./text-view.js";
 
 export interface MessageViewProps {
-  readonly message: Message;
+  readonly chatMessage: ChatMessage;
 }
 
-export const MessageView: FunctionComponent<MessageViewProps> = ({ message }) => {
-  const chat = useContext(Chat.Context);
+export const MessageView: FunctionComponent<MessageViewProps> = ({ chatMessage }) => {
+  const $isLastChatMessage = useComputed(() => {
+    const chatMessages = $chatMessages.value;
 
-  const $isLastMessage = useComputed(() => {
-    const messages = chat.$messages.value;
-
-    return messages[messages.length - 1] === message;
+    return chatMessages[chatMessages.length - 1] === chatMessage;
   });
 
   const buttons =
-    message.role === "assistant" ? (
-      message.$finished.value ? (
-        <ResendButton message={message} />
+    chatMessage.role === "assistant" ? (
+      chatMessage.$finished.value ? (
+        <ResendButton chatMessage={chatMessage} />
       ) : (
-        <CancelButton message={message} />
+        <CancelButton chatMessage={chatMessage} />
       )
-    ) : $isLastMessage.value ? (
-      <SendButton message={message} />
+    ) : $isLastChatMessage.value ? (
+      <SendButton chatMessage={chatMessage} />
     ) : (
-      <DeleteButton message={message} />
+      <DeleteButton chatMessage={chatMessage} />
     );
 
   return (
     <Container>
       <Container col={true} grow={true}>
-        {message.role === "assistant" ? (
-          <TextView $content={message.$content} title="Assistant Message" />
+        {chatMessage.role === "assistant" ? (
+          <TextView $content={chatMessage.$content} title="Assistant Message" />
         ) : (
-          <TextEditor $content={message.$content} title="User Message" />
+          <TextEditor $content={chatMessage.$content} title="User Message" />
         )}
       </Container>
 

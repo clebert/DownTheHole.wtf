@@ -1,25 +1,23 @@
 import { batch, useSignalEffect } from "@preact/signals";
 import { AISDKError, type CoreMessage, type UserContent, streamText } from "ai";
-import { useContext } from "preact/hooks";
-import { Chat } from "../contexts/chat.js";
-import { Settings } from "../contexts/settings.js";
+import { $chatMessages } from "../signals/chat-messages.js";
+import { $images } from "../signals/images.js";
+import { $thinkingEnabled } from "../signals/thinking-enabled.js";
 import { useChatModel } from "./use-chat-model.js";
 
 export function useAssistantReply(): void {
   const $chatModel = useChatModel();
-  const chat = useContext(Chat.Context);
-  const settings = useContext(Settings.Context);
 
   useSignalEffect(() => {
-    const lastMessage = chat.$messages.value[chat.$messages.value.length - 1];
+    const lastChatMessage = $chatMessages.value[$chatMessages.value.length - 1];
 
-    if (lastMessage?.role !== "assistant" || lastMessage.$finished.value) {
+    if (lastChatMessage?.role !== "assistant" || lastChatMessage.$finished.value) {
       return;
     }
 
-    lastMessage.$content.value = "";
+    lastChatMessage.$content.value = "";
 
-    const messages = chat.$messages.value
+    const messages = $chatMessages.value
       .slice(0, -1)
       .map(({ role, $content }, index): CoreMessage => {
         if (role === "assistant") {
@@ -29,7 +27,7 @@ export function useAssistantReply(): void {
         const content: UserContent = [{ type: "text", text: $content.peek() }];
 
         if (index === 0) {
-          for (const image of chat.$images.peek()) {
+          for (const image of $images.peek()) {
             content.push({ type: "image", image });
           }
         }
@@ -45,16 +43,16 @@ export function useAssistantReply(): void {
       }
 
       batch(() => {
-        lastMessage.$finished.value = true;
+        lastChatMessage.$finished.value = true;
 
-        const message = AISDKError.isInstance(error)
+        const errorMessage = AISDKError.isInstance(error)
           ? error.message
           : "Oops, something went wrong.";
 
-        if (lastMessage.$content.peek()) {
-          lastMessage.$content.value += `\n\nError: ${message}`;
+        if (lastChatMessage.$content.peek()) {
+          lastChatMessage.$content.value += `\n\nError: ${errorMessage}`;
         } else {
-          lastMessage.$content.value = `Error: ${message}`;
+          lastChatMessage.$content.value = `Error: ${errorMessage}`;
         }
       });
     };
@@ -68,7 +66,7 @@ export function useAssistantReply(): void {
       onError: (event) => handleError(event.error),
 
       providerOptions: {
-        anthropic: settings.$thinkingEnabled.peek()
+        anthropic: $thinkingEnabled.peek()
           ? { thinking: { type: "enabled", budgetTokens: 12000 } }
           : {},
       },
@@ -81,7 +79,7 @@ export function useAssistantReply(): void {
             break;
           }
 
-          lastMessage.$content.value += textPart;
+          lastChatMessage.$content.value += textPart;
         }
 
         const reasoning = await reasoningPromise;
@@ -91,7 +89,7 @@ export function useAssistantReply(): void {
         }
 
         if (!abortController.signal.aborted) {
-          lastMessage.$finished.value = true;
+          lastChatMessage.$finished.value = true;
         }
       })
       .catch(handleError);

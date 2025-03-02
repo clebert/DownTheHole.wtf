@@ -1,9 +1,11 @@
 import type { FunctionComponent } from "preact";
-import { useContext } from "preact/hooks";
-import { Chat } from "../contexts/chat.js";
-import { Settings } from "../contexts/settings.js";
 import { useAssistantReply } from "../hooks/use-assistant-reply.js";
 import { useUserReply } from "../hooks/use-user-reply.js";
+import { apiKeySelector } from "../signals/api-key-selector.js";
+import { $chatMessages } from "../signals/chat-messages.js";
+import { chatModelIdSelector } from "../signals/chat-model-id-selector.js";
+import { $providerName } from "../signals/provider-name.js";
+import { $settingsVisible } from "../signals/settings-visible.js";
 import { Button } from "./button.js";
 import { Container } from "./container.js";
 import { ImageInput } from "./image-input.js";
@@ -17,8 +19,8 @@ import { TextField } from "./text-field.js";
 import { ThinkingButton } from "./thinking-button.js";
 
 export const App: FunctionComponent = () => {
-  const chat = useContext(Chat.Context);
-  const settings = useContext(Settings.Context);
+  const apiKey = apiKeySelector.$output.value;
+  const chatModelId = chatModelIdSelector.$output.value;
 
   useAssistantReply();
   useUserReply();
@@ -32,28 +34,24 @@ export const App: FunctionComponent = () => {
           <SettingsButton />
 
           <TextField
-            onInput={(chatModelId) => settings.setChatModelId(chatModelId)}
+            onInput={(chatModelId) => chatModelIdSelector.set(chatModelId)}
             title="Model ID"
-            value={settings.$chatModelId.value}
+            value={chatModelId}
           />
         </Container>
 
         <ThinkingButton />
       </Container>
 
-      {settings.$showSettings.value && settings.$providerName.value !== "ollama" && (
+      {$settingsVisible.value && $providerName.value !== "ollama" && (
         <Container grow={true}>
           <TextField
-            onInput={(apiKey) => settings.setApiKey(apiKey)}
+            onInput={(apiKey) => apiKeySelector.set(apiKey)}
             title="API Key"
-            value={settings.$apiKey.value}
+            value={apiKey}
           />
 
-          <Button
-            disabled={!settings.$apiKey.value}
-            onClick={() => settings.setApiKey("")}
-            title="Clear API Key"
-          >
+          <Button disabled={!apiKey} onClick={() => apiKeySelector.set("")} title="Clear API Key">
             <SvgIcon data={SvgIcon.backspaceData} />
           </Button>
         </Container>
@@ -61,8 +59,8 @@ export const App: FunctionComponent = () => {
 
       <ImageInput />
 
-      {chat.$messages.value.map((message) => (
-        <MessageView key={message.id} message={message} />
+      {$chatMessages.value.map((chatMessage) => (
+        <MessageView key={chatMessage.id} chatMessage={chatMessage} />
       ))}
     </Page>
   );
