@@ -1,7 +1,7 @@
 import type { FunctionComponent } from "preact";
-import { $imageVisible } from "../signals/image-visible.js";
-import { Button } from "./button.js";
-import { SvgIcon } from "./svg-icon.js";
+import { Button } from "#components/button.js";
+import { SvgIcon } from "#components/svg-icon.js";
+import { $imageVisible } from "#signals/image-visible.js";
 
 export const ImageButton: FunctionComponent = () => {
   return (

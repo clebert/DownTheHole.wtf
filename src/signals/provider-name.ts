@@ -1,6 +1,6 @@
 import { effect, signal } from "@preact/signals";
 import { type TypeOf, z } from "zod";
-import { Storage } from "../utils/storage.js";
+import { Storage } from "#utils/storage.js";
 
 export type ProviderName = TypeOf<typeof schema>;
 

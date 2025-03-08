@@ -1,8 +1,8 @@
 import type { FunctionComponent } from "preact";
-import { $chatMessages, type AssistantChatMessage } from "../signals/chat-messages.js";
-import { createChatMessage } from "../utils/create-chat-message.js";
-import { Button } from "./button.js";
-import { SvgIcon } from "./svg-icon.js";
+import { Button } from "#components/button.js";
+import { SvgIcon } from "#components/svg-icon.js";
+import { $chatMessages, type AssistantChatMessage } from "#signals/chat-messages.js";
+import { createChatMessage } from "#utils/create-chat-message.js";
 
 export interface ResendButtonProps {
   readonly chatMessage: AssistantChatMessage;

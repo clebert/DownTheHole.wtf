@@ -1,6 +1,6 @@
 import { useSignalEffect } from "@preact/signals";
-import { $chatMessages } from "../signals/chat-messages.js";
-import { createChatMessage } from "../utils/create-chat-message.js";
+import { $chatMessages } from "#signals/chat-messages.js";
+import { createChatMessage } from "#utils/create-chat-message.js";
 
 export function useUserReply(): void {
   useSignalEffect(() => {

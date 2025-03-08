@@ -1,6 +1,6 @@
 import type { FunctionComponent } from "preact";
-import { iconStyle, iconStyleError } from "../styles.js";
-import { tw } from "../utils/tw.js";
+import { iconStyle, iconStyleError } from "#styles.js";
+import { tw } from "#utils/tw.js";
 
 // https://heroicons.com
 // Outline24x24, 1.5px stroke

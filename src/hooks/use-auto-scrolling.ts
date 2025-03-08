@@ -1,9 +1,9 @@
 import { type ReadonlySignal, useSignalEffect } from "@preact/signals";
 import type { RefObject } from "preact";
 import { useRef } from "preact/hooks";
-import { getLastLineBounds } from "../utils/get-last-line-bounds.js";
-import { useScrollObserver } from "./use-scroll-observer.js";
-import { useTouchObserver } from "./use-touch-observer.js";
+import { useScrollObserver } from "#hooks/use-scroll-observer.js";
+import { useTouchObserver } from "#hooks/use-touch-observer.js";
+import { getLastLineBounds } from "#utils/get-last-line-bounds.js";
 
 export function useAutoScrolling(
   $content: ReadonlySignal<string | undefined>,

@@ -1,8 +1,8 @@
 import type { FunctionComponent } from "preact";
-import { chatModelIdSelector } from "../signals/chat-model-id-selector.js";
-import { $thinkingEnabled } from "../signals/thinking-enabled.js";
-import { Button } from "./button.js";
-import { SvgIcon } from "./svg-icon.js";
+import { Button } from "#components/button.js";
+import { SvgIcon } from "#components/svg-icon.js";
+import { chatModelIdSelector } from "#signals/chat-model-id-selector.js";
+import { $thinkingEnabled } from "#signals/thinking-enabled.js";
 
 export const ThinkingButton: FunctionComponent = () => {
   const chatModelId = chatModelIdSelector.$output.value;

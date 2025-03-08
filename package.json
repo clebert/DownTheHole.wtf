@@ -3,6 +3,9 @@
   "private": true,
   "description": "A conversational rabbit hole!",
   "type": "module",
+  "imports": {
+    "#*": "./src/*"
+  },
   "scripts": {
     "build": "vite build",
     "compile:check": "tsc",

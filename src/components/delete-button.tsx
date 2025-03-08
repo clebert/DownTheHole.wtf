@@ -1,7 +1,7 @@
 import type { FunctionComponent } from "preact";
-import { $chatMessages, type ChatMessage } from "../signals/chat-messages.js";
-import { Button } from "./button.js";
-import { SvgIcon } from "./svg-icon.js";
+import { Button } from "#components/button.js";
+import { SvgIcon } from "#components/svg-icon.js";
+import { $chatMessages, type ChatMessage } from "#signals/chat-messages.js";
 
 export interface DeleteButtonProps {
   readonly chatMessage: ChatMessage;

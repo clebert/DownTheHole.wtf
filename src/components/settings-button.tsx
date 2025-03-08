@@ -1,10 +1,10 @@
 import type { FunctionComponent } from "preact";
-import { apiKeySelector } from "../signals/api-key-selector.js";
-import { chatModelIdSelector } from "../signals/chat-model-id-selector.js";
-import { $providerName } from "../signals/provider-name.js";
-import { $settingsVisible } from "../signals/settings-visible.js";
-import { Button } from "./button.js";
-import { SvgIcon } from "./svg-icon.js";
+import { Button } from "#components/button.js";
+import { SvgIcon } from "#components/svg-icon.js";
+import { apiKeySelector } from "#signals/api-key-selector.js";
+import { chatModelIdSelector } from "#signals/chat-model-id-selector.js";
+import { $providerName } from "#signals/provider-name.js";
+import { $settingsVisible } from "#signals/settings-visible.js";
 
 export const SettingsButton: FunctionComponent = () => {
   const apiKey = apiKeySelector.$output.value;

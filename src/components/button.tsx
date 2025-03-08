@@ -4,8 +4,8 @@ import {
   buttonStyleError,
   buttonStyleInverted,
   buttonStyleInvertedError,
-} from "../styles.js";
-import { tw } from "../utils/tw.js";
+} from "#styles.js";
+import { tw } from "#utils/tw.js";
 
 export interface ButtonProps {
   readonly appearance?: "error" | undefined;

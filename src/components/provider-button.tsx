@@ -1,7 +1,7 @@
 import type { FunctionComponent } from "preact";
-import { $providerName, type ProviderName } from "../signals/provider-name.js";
-import { isLocalhost } from "../utils/is-localhost.js";
-import { Button } from "./button.js";
+import { Button } from "#components/button.js";
+import { $providerName, type ProviderName } from "#signals/provider-name.js";
+import { isLocalhost } from "#utils/is-localhost.js";
 
 export const ProviderButton: FunctionComponent = () => {
   return (

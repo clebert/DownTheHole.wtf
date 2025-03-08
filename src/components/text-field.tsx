@@ -1,5 +1,5 @@
 import type { FunctionComponent } from "preact";
-import { textInputStyle, textInputStyleError } from "../styles.js";
+import { textInputStyle, textInputStyleError } from "#styles.js";
 
 export interface TextFieldProps {
   readonly appearance?: "error" | undefined;

@@ -3,9 +3,9 @@ import { createMistral } from "@ai-sdk/mistral";
 import { createOpenAI } from "@ai-sdk/openai";
 import { type ReadonlySignal, useComputed } from "@preact/signals";
 import type { LanguageModelV1 } from "ai";
-import { apiKeySelector } from "../signals/api-key-selector.js";
-import { chatModelIdSelector } from "../signals/chat-model-id-selector.js";
-import { $providerName } from "../signals/provider-name.js";
+import { apiKeySelector } from "#signals/api-key-selector.js";
+import { chatModelIdSelector } from "#signals/chat-model-id-selector.js";
+import { $providerName } from "#signals/provider-name.js";
 
 export function useChatModel(): ReadonlySignal<LanguageModelV1> {
   return useComputed(() => {

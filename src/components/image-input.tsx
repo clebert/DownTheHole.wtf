@@ -1,12 +1,12 @@
 import { batch, useSignal, useSignalEffect } from "@preact/signals";
 import type { FunctionComponent } from "preact";
 import { useEffect, useRef } from "preact/hooks";
-import { $images } from "../signals/images.js";
-import { fileInputStyle, fileInputStyleError } from "../styles.js";
-import { encodePngImage } from "../utils/encode-png-image.js";
-import { Button } from "./button.js";
-import { Container } from "./container.js";
-import { SvgIcon } from "./svg-icon.js";
+import { Button } from "#components/button.js";
+import { Container } from "#components/container.js";
+import { SvgIcon } from "#components/svg-icon.js";
+import { $images } from "#signals/images.js";
+import { fileInputStyle, fileInputStyleError } from "#styles.js";
+import { encodePngImage } from "#utils/encode-png-image.js";
 
 export const ImageInput: FunctionComponent = () => {
   const elementRef = useRef<HTMLInputElement>(null);

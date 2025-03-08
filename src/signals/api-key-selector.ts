@@ -1,8 +1,8 @@
 import { effect } from "@preact/signals";
 import { object, string } from "zod";
-import { createMultiplexer } from "../utils/create-multiplexer.js";
-import { Storage } from "../utils/storage.js";
-import { $providerName } from "./provider-name.js";
+import { $providerName } from "#signals/provider-name.js";
+import { createMultiplexer } from "#utils/create-multiplexer.js";
+import { Storage } from "#utils/storage.js";
 
 const storage = new Storage({
   backend: localStorage,

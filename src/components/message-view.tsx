@@ -1,15 +1,15 @@
 import { useComputed, useSignal } from "@preact/signals";
 import type { FunctionComponent } from "preact";
-import { $chatMessages, type ChatMessage } from "../signals/chat-messages.js";
-import { Button } from "./button.js";
-import { CancelButton } from "./cancel-button.js";
-import { Container } from "./container.js";
-import { DeleteButton } from "./delete-button.js";
-import { ResendButton } from "./resend-button.js";
-import { SendButton } from "./send-button.js";
-import { SvgIcon } from "./svg-icon.js";
-import { TextEditor } from "./text-editor.js";
-import { TextView } from "./text-view.js";
+import { Button } from "#components/button.js";
+import { CancelButton } from "#components/cancel-button.js";
+import { Container } from "#components/container.js";
+import { DeleteButton } from "#components/delete-button.js";
+import { ResendButton } from "#components/resend-button.js";
+import { SendButton } from "#components/send-button.js";
+import { SvgIcon } from "#components/svg-icon.js";
+import { TextEditor } from "#components/text-editor.js";
+import { TextView } from "#components/text-view.js";
+import { $chatMessages, type ChatMessage } from "#signals/chat-messages.js";
 
 export interface MessageViewProps {
   readonly chatMessage: ChatMessage;

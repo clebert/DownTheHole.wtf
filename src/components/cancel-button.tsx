@@ -1,7 +1,7 @@
 import type { FunctionComponent } from "preact";
-import type { AssistantChatMessage } from "../signals/chat-messages.js";
-import { Button } from "./button.js";
-import { SvgIcon } from "./svg-icon.js";
+import { Button } from "#components/button.js";
+import { SvgIcon } from "#components/svg-icon.js";
+import type { AssistantChatMessage } from "#signals/chat-messages.js";
 
 export interface CancelButtonProps {
   readonly chatMessage: AssistantChatMessage;

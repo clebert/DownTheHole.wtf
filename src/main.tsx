@@ -1,5 +1,5 @@
 import { render } from "preact";
-import { App } from "./components/app.js";
+import { App } from "#components/app.js";
 
 const appElement = document.querySelector("#app");
 

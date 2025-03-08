@@ -1,7 +1,7 @@
 import { type Signal, effect, signal } from "@preact/signals";
 import { array, object, string, z } from "zod";
-import { createChatMessage } from "../utils/create-chat-message.js";
-import { Storage } from "../utils/storage.js";
+import { createChatMessage } from "#utils/create-chat-message.js";
+import { Storage } from "#utils/storage.js";
 
 export type ChatMessage = AssistantChatMessage | UserChatMessage;
 

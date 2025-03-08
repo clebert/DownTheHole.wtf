@@ -1,9 +1,9 @@
 import { batch, useSignalEffect } from "@preact/signals";
 import { AISDKError, type CoreMessage, type UserContent, streamText } from "ai";
-import { $chatMessages } from "../signals/chat-messages.js";
-import { $images } from "../signals/images.js";
-import { $thinkingEnabled } from "../signals/thinking-enabled.js";
-import { useChatModel } from "./use-chat-model.js";
+import { useChatModel } from "#hooks/use-chat-model.js";
+import { $chatMessages } from "#signals/chat-messages.js";
+import { $images } from "#signals/images.js";
+import { $thinkingEnabled } from "#signals/thinking-enabled.js";
 
 export function useAssistantReply(): void {
   const $chatModel = useChatModel();
