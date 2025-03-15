@@ -1,7 +1,8 @@
 import type { FunctionComponent } from "preact";
+import { useContext } from "preact/hooks";
 import { Button } from "#components/button.js";
 import { SvgIcon } from "#components/svg-icon.js";
-import { $chatMessages, type AssistantChatMessage } from "#signals/chat-messages.js";
+import { AppState, type AssistantChatMessage } from "#contexts/app-state.js";
 import { createChatMessage } from "#utils/create-chat-message.js";
 
 export interface ResendButtonProps {
@@ -9,14 +10,13 @@ export interface ResendButtonProps {
 }
 
 export const ResendButton: FunctionComponent<ResendButtonProps> = ({ chatMessage }) => {
+  const { $chatMessages } = useContext(AppState);
+
   return (
     <Button
       onClick={() => {
-        const chatMessages = $chatMessages.value;
-
-        const index = chatMessages.findIndex(
-          (otherChatMessage) => otherChatMessage.id === chatMessage.id,
-        );
+        const chatMessages = $chatMessages.peek();
+        const index = chatMessages.findIndex(({ id }) => id === chatMessage.id);
 
         if (index > -1) {
           $chatMessages.value = [

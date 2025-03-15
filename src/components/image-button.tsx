@@ -1,16 +1,19 @@
 import type { FunctionComponent } from "preact";
+import { useContext } from "preact/hooks";
 import { Button } from "#components/button.js";
 import { SvgIcon } from "#components/svg-icon.js";
-import { $imageVisible } from "#signals/image-visible.js";
+import { AppState } from "#contexts/app-state.js";
 
 export const ImageButton: FunctionComponent = () => {
+  const { $imageInputVisible } = useContext(AppState);
+
   return (
     <Button
-      dashed={!$imageVisible.value}
+      dashed={!$imageInputVisible.value}
       onClick={() => {
-        $imageVisible.value = !$imageVisible.value;
+        $imageInputVisible.value = !$imageInputVisible.peek();
       }}
-      title={$imageVisible.value ? "Image Visible" : "Image Hidden"}
+      title={$imageInputVisible.value ? "Image Visible" : "Image Hidden"}
     >
       <SvgIcon data={SvgIcon.photoData} />
     </Button>

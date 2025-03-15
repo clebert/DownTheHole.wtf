@@ -1,5 +1,6 @@
 import { useComputed, useSignal } from "@preact/signals";
 import type { FunctionComponent } from "preact";
+import { useContext } from "preact/hooks";
 import { Button } from "#components/button.js";
 import { CancelButton } from "#components/cancel-button.js";
 import { Container } from "#components/container.js";
@@ -9,13 +10,16 @@ import { SendButton } from "#components/send-button.js";
 import { SvgIcon } from "#components/svg-icon.js";
 import { TextEditor } from "#components/text-editor.js";
 import { TextView } from "#components/text-view.js";
-import { $chatMessages, type ChatMessage } from "#signals/chat-messages.js";
+import { AppState, type ChatMessage } from "#contexts/app-state.js";
+import { CopyButton } from "./copy-button.js";
 
 export interface MessageViewProps {
   readonly chatMessage: ChatMessage;
 }
 
 export const MessageView: FunctionComponent<MessageViewProps> = ({ chatMessage }) => {
+  const { $chatMessages } = useContext(AppState);
+
   const $isLastChatMessage = useComputed(() => {
     const chatMessages = $chatMessages.value;
 
@@ -29,12 +33,13 @@ export const MessageView: FunctionComponent<MessageViewProps> = ({ chatMessage }
       chatMessage.$finished.value ? (
         <>
           <ResendButton chatMessage={chatMessage} />
+          <CopyButton chatMessage={chatMessage} />
 
           {chatMessage.$reasoning.value && (
             <Button
               dashed={!$reasoningVisible.value}
               onClick={() => {
-                $reasoningVisible.value = !$reasoningVisible.value;
+                $reasoningVisible.value = !$reasoningVisible.peek();
               }}
               title={$reasoningVisible.value ? "Reasoning Visible" : "Reasoning Hidden"}
             >
@@ -43,7 +48,10 @@ export const MessageView: FunctionComponent<MessageViewProps> = ({ chatMessage }
           )}
         </>
       ) : (
-        <CancelButton chatMessage={chatMessage} />
+        <>
+          <CancelButton chatMessage={chatMessage} />
+          <CopyButton chatMessage={chatMessage} />
+        </>
       )
     ) : $isLastChatMessage.value ? (
       <SendButton chatMessage={chatMessage} />

@@ -1,9 +1,13 @@
 import type { FunctionComponent } from "preact";
+import { useContext } from "preact/hooks";
 import { Button } from "#components/button.js";
-import { $providerName, type ProviderName } from "#signals/provider-name.js";
+import type { ProviderName } from "#constants/provider-names.js";
+import { AppState } from "#contexts/app-state.js";
 import { isLocalhost } from "#utils/is-localhost.js";
 
 export const ProviderButton: FunctionComponent = () => {
+  const { $providerName } = useContext(AppState);
+
   return (
     <Button
       class="w-23"

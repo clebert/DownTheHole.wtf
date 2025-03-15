@@ -4,7 +4,7 @@ import {
   buttonStyleError,
   buttonStyleInverted,
   buttonStyleInvertedError,
-} from "#styles.js";
+} from "#constants/styles.js";
 import { tw } from "#utils/tw.js";
 
 export interface ButtonProps {

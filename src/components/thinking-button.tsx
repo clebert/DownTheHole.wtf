@@ -1,18 +1,18 @@
 import type { FunctionComponent } from "preact";
+import { useContext } from "preact/hooks";
 import { Button } from "#components/button.js";
 import { SvgIcon } from "#components/svg-icon.js";
-import { chatModelIdSelector } from "#signals/chat-model-id-selector.js";
-import { $thinkingEnabled } from "#signals/thinking-enabled.js";
+import { AppState } from "#contexts/app-state.js";
 
 export const ThinkingButton: FunctionComponent = () => {
-  const chatModelId = chatModelIdSelector.$output.value;
+  const { $chatModelId, $thinkingEnabled } = useContext(AppState);
 
   return (
     <Button
       dashed={!$thinkingEnabled.value}
-      disabled={!chatModelId.startsWith("claude-3-7-sonnet-")}
+      disabled={!$chatModelId.value.startsWith("claude-3-7-sonnet-")}
       onClick={() => {
-        $thinkingEnabled.value = !$thinkingEnabled.value;
+        $thinkingEnabled.value = !$thinkingEnabled.peek();
       }}
       title={$thinkingEnabled.value ? "Thinking Enabled" : "Thinking Disabled"}
     >

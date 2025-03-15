@@ -1,4 +1,5 @@
 {
+  "biome.lspBin": "node_modules/.bin/biome",
   "editor.codeActionsOnSave": {
     "quickfix.biome": "explicit",
     "source.addMissingImports": "explicit",

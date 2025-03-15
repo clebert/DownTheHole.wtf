@@ -1,15 +1,16 @@
 import { batch, useSignalEffect } from "@preact/signals";
 import { AISDKError, type CoreMessage, type UserContent, streamText } from "ai";
+import { useContext } from "preact/hooks";
+import { AppState } from "#contexts/app-state.js";
 import { useChatModel } from "#hooks/use-chat-model.js";
-import { $chatMessages } from "#signals/chat-messages.js";
-import { $images } from "#signals/images.js";
-import { $thinkingEnabled } from "#signals/thinking-enabled.js";
 
 export function useAssistantReply(): void {
+  const { $chatMessages, $images, $thinkingEnabled } = useContext(AppState);
   const $chatModel = useChatModel();
 
   useSignalEffect(() => {
-    const lastChatMessage = $chatMessages.value[$chatMessages.value.length - 1];
+    const chatMessages = $chatMessages.value;
+    const lastChatMessage = chatMessages[chatMessages.length - 1];
 
     if (lastChatMessage?.role !== "assistant" || lastChatMessage.$finished.value) {
       return;
@@ -17,23 +18,21 @@ export function useAssistantReply(): void {
 
     lastChatMessage.$content.value = "";
 
-    const messages = $chatMessages.value
-      .slice(0, -1)
-      .map(({ role, $content }, index): CoreMessage => {
-        if (role === "assistant") {
-          return { role, content: $content.peek() };
+    const messages = chatMessages.slice(0, -1).map(({ role, $content }, index): CoreMessage => {
+      if (role === "assistant") {
+        return { role, content: $content.peek() };
+      }
+
+      const content: UserContent = [{ type: "text", text: $content.peek() }];
+
+      if (index === 0) {
+        for (const image of $images.peek()) {
+          content.push({ type: "image", image });
         }
+      }
 
-        const content: UserContent = [{ type: "text", text: $content.peek() }];
-
-        if (index === 0) {
-          for (const image of $images.peek()) {
-            content.push({ type: "image", image });
-          }
-        }
-
-        return { role, content };
-      });
+      return { role, content };
+    });
 
     const abortController = new AbortController();
 
@@ -99,7 +98,7 @@ export function useAssistantReply(): void {
         if (!abortController.signal.aborted) {
           batch(() => {
             if (reasoning) {
-              lastChatMessage.$reasoning.value = reasoning;
+              lastChatMessage.$reasoning.value = `Thoughts: ${reasoning}`;
             }
 
             lastChatMessage.$finished.value = true;

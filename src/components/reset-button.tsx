@@ -1,14 +1,15 @@
 import type { FunctionComponent } from "preact";
 import { Button } from "#components/button.js";
 import { SvgIcon } from "#components/svg-icon.js";
-import { Storage } from "#utils/storage.js";
+import { clearLocalStorage } from "#utils/clear-local-storage.js";
+import { clearSessionStorage } from "#utils/clear-session-storage.js";
 
 export const ResetButton: FunctionComponent = () => {
   return (
     <Button
       onClick={() => {
-        Storage.clear(localStorage);
-        Storage.clear(sessionStorage);
+        clearLocalStorage();
+        clearSessionStorage();
         location.reload();
       }}
       title="Reset Data"

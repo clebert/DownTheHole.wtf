@@ -1,8 +1,11 @@
 import { useSignalEffect } from "@preact/signals";
-import { $chatMessages } from "#signals/chat-messages.js";
+import { useContext } from "preact/hooks";
+import { AppState } from "#contexts/app-state.js";
 import { createChatMessage } from "#utils/create-chat-message.js";
 
 export function useUserReply(): void {
+  const { $chatMessages } = useContext(AppState);
+
   useSignalEffect(() => {
     const chatMessages = $chatMessages.value;
     const lastChatMessage = chatMessages[chatMessages.length - 1];

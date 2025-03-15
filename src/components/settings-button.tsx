@@ -1,16 +1,14 @@
 import type { FunctionComponent } from "preact";
+import { useContext } from "preact/hooks";
 import { Button } from "#components/button.js";
 import { SvgIcon } from "#components/svg-icon.js";
-import { apiKeySelector } from "#signals/api-key-selector.js";
-import { chatModelIdSelector } from "#signals/chat-model-id-selector.js";
-import { $providerName } from "#signals/provider-name.js";
-import { $settingsVisible } from "#signals/settings-visible.js";
+import { AppState } from "#contexts/app-state.js";
 
 export const SettingsButton: FunctionComponent = () => {
-  const apiKey = apiKeySelector.$output.value;
+  const { $apiKey, $chatModelId, $providerName, $settingsVisible } = useContext(AppState);
 
   const appearance =
-    (($providerName.value !== "ollama" && !apiKey) || !chatModelIdSelector.$output.value) &&
+    (($providerName.value !== "ollama" && !$apiKey.value) || !$chatModelId.value) &&
     !$settingsVisible.value
       ? "error"
       : undefined;
@@ -20,7 +18,7 @@ export const SettingsButton: FunctionComponent = () => {
       appearance={appearance}
       dashed={!$settingsVisible.value}
       onClick={() => {
-        $settingsVisible.value = !$settingsVisible.value;
+        $settingsVisible.value = !$settingsVisible.peek();
       }}
       title={$settingsVisible.value ? "Settings Visible" : "Settings Hidden"}
     >

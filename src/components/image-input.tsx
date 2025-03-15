@@ -1,14 +1,15 @@
 import { batch, useSignal, useSignalEffect } from "@preact/signals";
 import type { FunctionComponent } from "preact";
-import { useEffect, useRef } from "preact/hooks";
+import { useContext, useEffect, useRef } from "preact/hooks";
 import { Button } from "#components/button.js";
 import { Container } from "#components/container.js";
 import { SvgIcon } from "#components/svg-icon.js";
-import { $images } from "#signals/images.js";
-import { fileInputStyle, fileInputStyleError } from "#styles.js";
+import { fileInputStyle, fileInputStyleError } from "#constants/styles.js";
+import { AppState } from "#contexts/app-state.js";
 import { encodePngImage } from "#utils/encode-png-image.js";
 
 export const ImageInput: FunctionComponent = () => {
+  const { $images } = useContext(AppState);
   const elementRef = useRef<HTMLInputElement>(null);
   const $error = useSignal(false);
   const $files = useSignal<FileList>();
@@ -17,7 +18,7 @@ export const ImageInput: FunctionComponent = () => {
     () => () => {
       $images.value = [];
     },
-    [],
+    [$images],
   );
 
   useSignalEffect(() => {

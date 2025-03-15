@@ -1,5 +1,5 @@
 import { signal } from "@preact/signals";
-import type { ChatMessage } from "#signals/chat-messages.js";
+import type { ChatMessage } from "#contexts/app-state.js";
 
 export interface Params {
   readonly content?: string | undefined;
