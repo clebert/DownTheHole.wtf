@@ -4,6 +4,7 @@ import { useContext } from "preact/hooks";
 import { Button } from "#components/button.js";
 import { CancelButton } from "#components/cancel-button.js";
 import { Container } from "#components/container.js";
+import { CopyButton } from "#components/copy-button.js";
 import { DeleteButton } from "#components/delete-button.js";
 import { ResendButton } from "#components/resend-button.js";
 import { SendButton } from "#components/send-button.js";
@@ -11,7 +12,6 @@ import { SvgIcon } from "#components/svg-icon.js";
 import { TextEditor } from "#components/text-editor.js";
 import { TextView } from "#components/text-view.js";
 import { AppState, type ChatMessage } from "#contexts/app-state.js";
-import { CopyButton } from "./copy-button.js";
 
 export interface MessageViewProps {
   readonly chatMessage: ChatMessage;
