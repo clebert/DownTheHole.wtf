@@ -33,7 +33,7 @@ export const MessageView: FunctionComponent<MessageViewProps> = ({ chatMessage }
       chatMessage.$finished.value ? (
         <>
           <ResendButton chatMessage={chatMessage} />
-          <CopyButton chatMessage={chatMessage} />
+          <CopyButton chatMessage={chatMessage} reasoningVisible={$reasoningVisible.value} />
 
           {chatMessage.$reasoning.value && (
             <Button
@@ -50,7 +50,7 @@ export const MessageView: FunctionComponent<MessageViewProps> = ({ chatMessage }
       ) : (
         <>
           <CancelButton chatMessage={chatMessage} />
-          <CopyButton chatMessage={chatMessage} />
+          <CopyButton chatMessage={chatMessage} reasoningVisible={$reasoningVisible.value} />
         </>
       )
     ) : $isLastChatMessage.value ? (
