@@ -3,7 +3,7 @@ import { iconStyle, iconStyleError } from "#constants/styles.js";
 import { tw } from "#utils/tw.js";
 
 // https://heroicons.com
-// Outline24x24, 1.5px stroke
+// Outline 24x24, 1.5px stroke
 
 export interface SvgIconProps {
   readonly animation?: `animate-${string}` | undefined;

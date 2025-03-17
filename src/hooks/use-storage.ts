@@ -6,7 +6,7 @@ export type Decoder<TValue> = (data: string) => TValue | undefined;
 export type Encoder = (value: unknown) => string;
 
 export function useStorage<const TValue>(
-  storage: Pick<globalThis.Storage, "getItem" | "removeItem" | "setItem">,
+  storage: Pick<globalThis.Storage, "getItem" | "setItem">,
   decoder: Decoder<TValue>,
   encoder: Encoder,
   key: string,

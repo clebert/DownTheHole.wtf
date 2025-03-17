@@ -6,7 +6,7 @@ import { Container } from "#components/container.js";
 import { SvgIcon } from "#components/svg-icon.js";
 import { fileInputStyle, fileInputStyleError } from "#constants/styles.js";
 import { AppState } from "#contexts/app-state.js";
-import { encodePngImage } from "#utils/encode-png-image.js";
+import { createPngImage } from "#utils/create-png-image.js";
 
 export const ImageInput: FunctionComponent = () => {
   const { $images } = useContext(AppState);
@@ -43,7 +43,7 @@ export const ImageInput: FunctionComponent = () => {
 
     const abortController = new AbortController();
 
-    Promise.all([...files].map((file) => encodePngImage(file, 1024)))
+    Promise.all([...files].map((file) => createPngImage(file, 1024)))
       .then((images) => {
         if (!abortController.signal.aborted) {
           $images.value = images;

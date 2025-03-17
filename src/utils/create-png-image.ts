@@ -1,4 +1,4 @@
-export async function encodePngImage(file: File, maxSize: number): Promise<ArrayBuffer> {
+export async function createPngImage(file: File, maxSize: number): Promise<ArrayBuffer> {
   const image = new Image();
 
   image.src = URL.createObjectURL(file);
