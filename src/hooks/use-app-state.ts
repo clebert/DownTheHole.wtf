@@ -1,4 +1,4 @@
-import { useSignal } from "@preact/signals";
+import { useComputed, useSignal } from "@preact/signals";
 import { useMemo } from "preact/hooks";
 import { defaultChatModelIds, defaultProviderName } from "#constants/defaults.js";
 import type { AppState } from "#contexts/app-state.js";
@@ -11,6 +11,7 @@ import {
   decodeString,
 } from "#utils/decoders.js";
 import { encodeChatMessages, encodeJson } from "#utils/encoders.js";
+import { useGatedSignal } from "./use-gated-signal.js";
 
 export function useAppState(): AppState {
   const $providerName = useLocalStorage(
@@ -40,7 +41,11 @@ export function useAppState(): AppState {
   const $imageInputVisible = useLocalStorage(decodeBoolean, encodeJson, "imageInputVisible", true);
   const $images = useSignal<readonly ArrayBuffer[]>([]);
   const $settingsVisible = useLocalStorage(decodeBoolean, encodeJson, "settingsVisible", true);
-  const $thinkingEnabled = useLocalStorage(decodeBoolean, encodeJson, "thinkingEnabled", false);
+
+  const $thinkingEnabled = useGatedSignal(
+    useLocalStorage(decodeBoolean, encodeJson, "thinkingEnabled", false),
+    useComputed(() => $chatModelId.value.startsWith("claude-3-7-sonnet-")),
+  );
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   return useMemo(

@@ -11,7 +11,7 @@ export interface AppState {
   readonly $images: Signal<readonly ArrayBuffer[]>;
   readonly $providerName: Signal<ProviderName>;
   readonly $settingsVisible: Signal<boolean>;
-  readonly $thinkingEnabled: Signal<boolean>;
+  readonly $thinkingEnabled: Signal<boolean | undefined>;
 }
 
 export type ChatMessage = AssistantChatMessage | UserChatMessage;

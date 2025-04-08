@@ -5,18 +5,32 @@ import { SvgIcon } from "#components/svg-icon.js";
 import { AppState } from "#contexts/app-state.js";
 
 export const ThinkingButton: FunctionComponent = () => {
-  const { $chatModelId, $thinkingEnabled } = useContext(AppState);
+  const { $thinkingEnabled } = useContext(AppState);
 
   return (
     <Button
-      dashed={!$thinkingEnabled.value}
-      disabled={!$chatModelId.value.startsWith("claude-3-7-sonnet-")}
+      dashed={$thinkingEnabled.value === false}
+      disabled={$thinkingEnabled.value === undefined}
       onClick={() => {
         $thinkingEnabled.value = !$thinkingEnabled.peek();
       }}
-      title={$thinkingEnabled.value ? "Thinking Enabled" : "Thinking Disabled"}
+      title={
+        $thinkingEnabled.value === undefined
+          ? "Thinking Unavailable"
+          : $thinkingEnabled.value
+            ? "Thinking Enabled"
+            : "Thinking Disabled"
+      }
     >
-      <SvgIcon data={$thinkingEnabled.value ? SvgIcon.boltData : SvgIcon.boltSlashData} />
+      <SvgIcon
+        data={
+          $thinkingEnabled.value === undefined
+            ? SvgIcon.exclamationTriangle
+            : $thinkingEnabled.value
+              ? SvgIcon.boltData
+              : SvgIcon.boltSlashData
+        }
+      />
     </Button>
   );
 };
