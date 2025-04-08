@@ -7,11 +7,7 @@ export function createGatedSignal<TValue>(
   return new Proxy(inputSignal, {
     get(_target, key) {
       if (key === "value") {
-        if (!controlSignal.value) {
-          return undefined;
-        }
-
-        return inputSignal.value;
+        return controlSignal.value ? inputSignal.value : undefined;
       }
 
       // biome-ignore lint/suspicious/noExplicitAny: <explanation>
