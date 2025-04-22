@@ -7,11 +7,12 @@ import { Container } from "#components/container.js";
 import { CopyButton } from "#components/copy-button.js";
 import { DeleteButton } from "#components/delete-button.js";
 import { ResendButton } from "#components/resend-button.js";
+import { ScrollTextView } from "#components/scroll-text-view.js";
 import { SendButton } from "#components/send-button.js";
 import { SvgIcon } from "#components/svg-icon.js";
 import { TextEditor } from "#components/text-editor.js";
-import { TextView } from "#components/text-view.js";
 import { AppState, type ChatMessage } from "#contexts/app-state.js";
+import { TextView } from "./text-view.js";
 
 export interface MessageViewProps {
   readonly chatMessage: ChatMessage;
@@ -63,10 +64,11 @@ export const MessageView: FunctionComponent<MessageViewProps> = ({ chatMessage }
     <Container>
       <Container col={true} grow={true}>
         {chatMessage.role === "assistant" ? (
-          <TextView
-            $content={$reasoningVisible.value ? chatMessage.$reasoning : chatMessage.$contentChunks}
-            title="Assistant Message"
-          />
+          $reasoningVisible.value ? (
+            <TextView content={chatMessage.$reasoning.value} title="Assistant Message" />
+          ) : (
+            <ScrollTextView $contentChunks={chatMessage.$contentChunks} title="Assistant Message" />
+          )
         ) : (
           <TextEditor $content={chatMessage.$content} title="User Message" />
         )}

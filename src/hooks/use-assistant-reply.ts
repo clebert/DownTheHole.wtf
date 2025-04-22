@@ -92,10 +92,7 @@ export function useAssistantReply(): void {
 
         if (!abortController.signal.aborted) {
           batch(() => {
-            if (reasoning) {
-              lastChatMessage.$reasoning.value = `Thoughts: ${reasoning}`;
-            }
-
+            lastChatMessage.$reasoning.value = reasoning;
             lastChatMessage.$finished.value = true;
           });
         }
