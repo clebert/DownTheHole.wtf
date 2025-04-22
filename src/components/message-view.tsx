@@ -64,7 +64,7 @@ export const MessageView: FunctionComponent<MessageViewProps> = ({ chatMessage }
       <Container col={true} grow={true}>
         {chatMessage.role === "assistant" ? (
           <TextView
-            $content={$reasoningVisible.value ? chatMessage.$reasoning : chatMessage.$content}
+            $content={$reasoningVisible.value ? chatMessage.$reasoning : chatMessage.$contentChunks}
             title="Assistant Message"
           />
         ) : (

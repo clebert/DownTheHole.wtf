@@ -1,4 +1,4 @@
-import { signal } from "@preact/signals";
+import { computed, signal } from "@preact/signals";
 import type { ChatMessage } from "#contexts/app-state.js";
 
 export interface Params {
@@ -15,9 +15,19 @@ export function createChatMessage({
   role,
 }: Params): ChatMessage {
   const id = crypto.randomUUID ? crypto.randomUUID() : String(Math.random());
-  const $content = signal(content);
 
-  return role === "assistant"
-    ? { $content, $finished: signal(finished), $reasoning: signal(reasoning), id, role }
-    : { $content, id, role };
+  if (role === "user") {
+    return { $content: signal(content), id, role };
+  }
+
+  const $contentChunks = signal(content ? [content] : []);
+
+  return {
+    $content: computed(() => $contentChunks.value.join("")),
+    $contentChunks,
+    $finished: signal(finished),
+    $reasoning: signal(reasoning),
+    id,
+    role,
+  };
 }

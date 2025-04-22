@@ -1,4 +1,4 @@
-import type { Signal } from "@preact/signals";
+import type { ReadonlySignal, Signal } from "@preact/signals";
 import { createContext } from "preact";
 import type { ProviderName } from "#constants/provider-names.js";
 import { createFakeContextObject } from "#utils/create-fake-context-object.js";
@@ -17,7 +17,8 @@ export interface AppState {
 export type ChatMessage = AssistantChatMessage | UserChatMessage;
 
 export interface AssistantChatMessage {
-  readonly $content: Signal<string>;
+  readonly $content: ReadonlySignal<string>;
+  readonly $contentChunks: Signal<readonly string[]>;
   readonly $finished: Signal<boolean>;
   readonly $reasoning: Signal<string | undefined>;
   readonly id: string;
