@@ -22,15 +22,7 @@ export const ThinkingButton: FunctionComponent = () => {
             : "Thinking Disabled"
       }
     >
-      <SvgIcon
-        data={
-          $thinkingEnabled.value === undefined
-            ? SvgIcon.exclamationTriangle
-            : $thinkingEnabled.value
-              ? SvgIcon.boltData
-              : SvgIcon.boltSlashData
-        }
-      />
+      <SvgIcon data={$thinkingEnabled.value ? SvgIcon.boltData : SvgIcon.boltSlashData} />
     </Button>
   );
 };

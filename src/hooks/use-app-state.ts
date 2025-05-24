@@ -44,7 +44,12 @@ export function useAppState(): AppState {
 
   const $thinkingEnabled = useGatedSignal(
     useLocalStorage(decodeBoolean, encodeJson, "thinkingEnabled", false),
-    useComputed(() => $chatModelId.value.startsWith("claude-3-7-sonnet-")),
+    useComputed(
+      () =>
+        $chatModelId.value.startsWith("claude-4-opus-") ||
+        $chatModelId.value.startsWith("claude-4-sonnet-") ||
+        $chatModelId.value.startsWith("claude-3-7-sonnet-"),
+    ),
   );
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
