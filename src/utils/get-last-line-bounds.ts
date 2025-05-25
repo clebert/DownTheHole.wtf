@@ -18,7 +18,7 @@ export function getLastLineBounds(textNode: Node): VerticalBounds | undefined {
   const clientRect = range.getClientRects()[0];
 
   if (!clientRect) {
-    return undefined;
+    return;
   }
 
   const { visualViewport } = window;

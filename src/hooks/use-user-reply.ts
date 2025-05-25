@@ -8,7 +8,7 @@ export function useUserReply(): void {
 
   useSignalEffect(() => {
     const chatMessages = $chatMessages.value;
-    const lastChatMessage = chatMessages[chatMessages.length - 1];
+    const lastChatMessage = chatMessages.at(-1);
 
     if (!lastChatMessage) {
       $chatMessages.value = [createChatMessage({ role: "user" })];

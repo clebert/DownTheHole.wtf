@@ -27,7 +27,6 @@ export const TextEditor: FunctionComponent<TextEditorProps> = ({ $content, title
         ref={(element) => {
           $element.value = element ?? undefined;
         }}
-        // biome-ignore lint/a11y/useSemanticElements: <explanation>
         role="textbox"
         spellcheck={false}
         tabIndex={0}

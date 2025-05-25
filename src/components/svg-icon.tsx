@@ -31,7 +31,6 @@ export interface SvgIconData {
 const SvgIconComponent: FunctionComponent<SvgIconProps> = ({ animation, appearance, data }) => {
   return (
     <div class={appearance === "error" ? iconStyleError : iconStyle}>
-      {/* biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
       <svg
         class={tw("size-4", animation)}
         fill="none"
@@ -40,7 +39,7 @@ const SvgIconComponent: FunctionComponent<SvgIconProps> = ({ animation, appearan
         xmlns="http://www.w3.org/2000/svg"
       >
         {data.map((d, index) => (
-          // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+          // biome-ignore lint/suspicious/noArrayIndexKey: array never changes
           <path d={d} key={index} stroke-linecap="round" stroke-linejoin="round" />
         ))}
       </svg>

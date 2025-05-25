@@ -1,4 +1,3 @@
-import {} from "@preact/signals";
 import type { FunctionComponent } from "preact";
 import { Button } from "#components/button.js";
 import { SvgIcon } from "#components/svg-icon.js";

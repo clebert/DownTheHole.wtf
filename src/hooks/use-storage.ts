@@ -18,7 +18,7 @@ export function useStorage<const TValue>(
 
   const signal = useSignal(defaultValue);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: dependencies have stable refs
   useMemo(() => {
     const item = storage.getItem(key);
 

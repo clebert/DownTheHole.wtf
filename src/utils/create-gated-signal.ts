@@ -10,7 +10,7 @@ export function createGatedSignal<TValue>(
         return controlSignal.value ? inputSignal.value : undefined;
       }
 
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      // biome-ignore lint/suspicious/noExplicitAny: proxy property forwarding
       return (inputSignal as any)[key];
     },
   });

@@ -52,7 +52,7 @@ export function useAppState(): AppState {
     ),
   );
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: dependencies have stable refs
   return useMemo(
     () => ({
       $apiKey,

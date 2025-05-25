@@ -1,5 +1,5 @@
 import { batch, useSignalEffect } from "@preact/signals";
-import { AISDKError, type CoreMessage, type UserContent, streamText } from "ai";
+import { AISDKError, type CoreMessage, streamText, type UserContent } from "ai";
 import { useContext } from "preact/hooks";
 import { AppState } from "#contexts/app-state.js";
 import { useChatModel } from "#hooks/use-chat-model.js";
@@ -10,7 +10,7 @@ export function useAssistantReply(): void {
 
   useSignalEffect(() => {
     const chatMessages = $chatMessages.value;
-    const lastChatMessage = chatMessages[chatMessages.length - 1];
+    const lastChatMessage = chatMessages.at(-1);
 
     if (lastChatMessage?.role !== "assistant" || lastChatMessage.$finished.value) {
       return;

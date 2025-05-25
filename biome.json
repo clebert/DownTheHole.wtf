@@ -1,78 +1,129 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://next.biomejs.dev/schemas/2.0.0-beta.5/schema.json",
   "formatter": {
-    "ignore": ["dist/**"],
+    "lineWidth": 100,
     "useEditorconfig": true
   },
   "linter": {
-    "ignore": ["dist/**"],
     "rules": {
-      "a11y": {
-        "all": true
-      },
+      "a11y": "off",
       "complexity": {
-        "all": true,
-        "noExcessiveCognitiveComplexity": "off",
-        "noVoid": "off",
-        "useLiteralKeys": "off",
-        "useSimplifiedLogicExpression": "off"
+        "noForEach": "error",
+        "noUselessEscapeInRegex": "error",
+        "noUselessStringConcat": "error",
+        "noUselessStringRaw": "error",
+        "noUselessUndefinedInitialization": "error",
+        "useDateNow": "error",
+        "useWhile": "error"
       },
       "correctness": {
-        "all": true,
-        "noInvalidNewBuiltin": "off",
-        "noNewSymbol": "off",
-        "noNodejsModules": "off",
-        "noUndeclaredVariables": "off",
-        "noUnusedFunctionParameters": "off",
-        "noUnusedPrivateClassMembers": "off",
-        "noUnusedVariables": "off"
+        "noConstantMathMinMaxClamp": "error",
+        "noPrivateImports": "error",
+        "noRenderReturnValue": "error",
+        "noUndeclaredDependencies": "error",
+        "useExhaustiveDependencies": "error",
+        "useHookAtTopLevel": "error",
+        "useJsxKeyInIterable": "error"
       },
       "nursery": {
-        "all": true,
-        "noNestedTernary": "off",
-        "noRestrictedImports": "off",
-        "noRestrictedTypes": "off",
-        "noSecrets": "off",
-        "useAtIndex": "off",
-        "useConsistentMemberAccessibility": "off",
-        "useExplicitType": "off",
-        "useImportRestrictions": "off",
-        "useSortedClasses": { "fix": "safe", "level": "error", "options": { "functions": ["tw"] } },
-        "useStrictMode": "off"
+        "noAwaitInLoop": "error",
+        "noConstantBinaryExpression": "error",
+        "noFloatingPromises": "error",
+        "noGlobalDirnameFilename": "error",
+        "noImportCycles": "error",
+        "noNestedComponentDefinitions": "error",
+        "noProcessGlobal": "error",
+        "noShadow": "error",
+        "noTsIgnore": "error",
+        "noUselessBackrefInRegex": "error",
+        "noUselessEscapeInString": "error",
+        "noUselessUndefined": "error",
+        "useConsistentObjectDefinition": {
+          "level": "error",
+          "options": { "syntax": "shorthand" }
+        },
+        "useExhaustiveSwitchCases": "error",
+        "useNumericSeparators": "error",
+        "useSingleJsDocAsterisk": "error",
+        "useSortedClasses": { "level": "error", "options": { "functions": ["tw"] } },
+        "useSymbolDescription": "error"
       },
       "performance": {
-        "all": true,
-        "useTopLevelRegex": "off"
-      },
-      "security": {
-        "all": true
+        "noBarrelFile": "error",
+        "noDelete": "error",
+        "noNamespaceImport": "error",
+        "noReExportAll": "error"
       },
       "style": {
-        "all": true,
-        "noParameterProperties": "off",
-        "noRestrictedGlobals": "off",
-        "useDefaultSwitchClause": "off",
-        "useExplicitLengthCheck": "off",
+        "noArguments": "error",
+        "noCommaOperator": "error",
+        "noCommonJs": "error",
+        "noDefaultExport": "error",
+        "noDoneCallback": "error",
+        "noEnum": "error",
+        "noExportedImports": "error",
+        "noInferrableTypes": "error",
+        "noNamespace": "error",
+        "noNegationElse": "error",
+        "noNonNullAssertion": "error",
+        "noParameterAssign": "error",
+        "noParameterProperties": "error",
+        "noRestrictedGlobals": "error",
+        "noSubstr": "error",
+        "noUnusedTemplateLiteral": "error",
+        "noYodaExpression": "error",
+        "useArrayLiterals": "error",
+        "useAsConstAssertion": "error",
+        "useAtIndex": "error",
+        "useBlockStatements": "error",
+        "useCollapsedElseIf": "error",
+        "useCollapsedIf": "error",
+        "useComponentExportOnlyModules": "error",
+        "useConsistentArrayType": "error",
+        "useConsistentBuiltinInstantiation": "error",
+        "useConsistentCurlyBraces": "error",
+        "useConsistentMemberAccessibility": "error",
+        "useConst": "error",
+        "useDefaultParameterLast": "error",
+        "useExplicitLengthCheck": "error",
         "useFilenamingConvention": {
           "level": "error",
           "options": { "filenameCases": ["kebab-case"], "requireAscii": true }
         },
-        "useNamingConvention": "off",
-        "useSingleCaseStatement": "off"
+        "useForOf": "error",
+        "useFragmentSyntax": "error",
+        "useNodeAssertStrict": "error",
+        "useNumberNamespace": "error",
+        "useSelfClosingElements": "error",
+        "useShorthandAssign": "error",
+        "useSingleVarDeclarator": "error",
+        "useThrowNewError": "error",
+        "useThrowOnlyError": "error",
+        "useTrimStartEnd": "error"
       },
       "suspicious": {
-        "all": true,
-        "noConfusingVoidType": "off",
-        "noConsole": "off",
-        "noConsoleLog": "off",
+        "noDocumentCookie": "error",
+        "noDuplicateTestHooks": "error",
         "noEmptyBlockStatements": "warn",
-        "noFallthroughSwitchClause": "off",
-        "noReactSpecificProps": "off",
-        "noSkippedTests": "warn"
+        "noExportsInTest": "error",
+        "noFocusedTests": "warn",
+        "noIrregularWhitespace": "error",
+        "noMisplacedAssertion": "error",
+        "noOctalEscape": "error",
+        "noSkippedTests": "warn",
+        "noTemplateCurlyInString": "error",
+        "noVar": "error",
+        "useAdjacentOverloadSignatures": "error",
+        "useAwait": "error",
+        "useErrorMessage": "error",
+        "useGuardForIn": "error",
+        "useNumberToFixedDigitsArgument": "error"
       }
     }
   },
-  "organizeImports": {
-    "ignore": ["dist/**"]
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
   }
 }

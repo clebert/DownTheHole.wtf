@@ -5,7 +5,7 @@ export function useStableRef(value: unknown): void {
     return;
   }
 
-  // biome-ignore lint/correctness/useHookAtTopLevel: <explanation>
+  // biome-ignore lint/correctness/useHookAtTopLevel: false positive
   const valueRef = useRef(value);
 
   if (!Object.is(value, valueRef.current)) {

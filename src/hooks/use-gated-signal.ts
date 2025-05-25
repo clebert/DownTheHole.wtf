@@ -10,6 +10,6 @@ export function useGatedSignal<TValue>(
   useStableRef(inputSignal);
   useStableRef(controlSignal);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: dependencies have stable refs
   return useMemo(() => createGatedSignal(inputSignal, controlSignal), []);
 }

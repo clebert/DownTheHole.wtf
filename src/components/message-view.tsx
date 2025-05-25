@@ -24,7 +24,7 @@ export const MessageView: FunctionComponent<MessageViewProps> = ({ chatMessage }
   const $isLastChatMessage = useComputed(() => {
     const chatMessages = $chatMessages.value;
 
-    return chatMessages[chatMessages.length - 1] === chatMessage;
+    return chatMessages.at(-1) === chatMessage;
   });
 
   const $reasoningVisible = useSignal(false);
